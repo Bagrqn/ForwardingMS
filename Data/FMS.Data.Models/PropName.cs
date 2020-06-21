@@ -14,5 +14,7 @@ namespace FMS.Data.Models
         public ICollection<NumericProp> NumericProps { get; set; } = new HashSet<NumericProp>();
 
         public ICollection<StringProp> StringProps { get; set; } = new HashSet<StringProp>();
+
+        public int IntPropertyFromBZDeveloperVM { get; set; }
     }
 }
