@@ -15,8 +15,5 @@ namespace FMS.Data.Models
 
         public ICollection<StringProp> StringProps { get; set; } = new HashSet<StringProp>();
 
-
-        public string StringPropertyFromBZHome { get; set; }
-        public int IntPropertyFromBZDeveloperVM { get; set; }
     }
 }
