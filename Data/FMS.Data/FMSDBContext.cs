@@ -4,6 +4,7 @@
     using System.Security.Cryptography.X509Certificates;
     using FMS.Data.Models;
     using Microsoft.EntityFrameworkCore.Internal;
+    using System.Runtime.InteropServices;
 
     public class FMSDBContext : DbContext
     {
@@ -64,6 +65,25 @@
                 .WithOne(c => c.Company)
                 .HasForeignKey(c => c.CompanyId);
             });
+
+            builder.Entity<Country>(country =>
+            {
+                country.HasMany(c => c.Companies)
+                .WithOne(c => c.Country)
+                .HasForeignKey(c => c.CountryId);
+
+                country.HasMany(c => c.Cities)
+                .WithOne(c => c.Country)
+                .HasForeignKey(c => c.CountryID);
+            });
+
+            builder.Entity<City>(city =>
+            {
+                city.HasMany(c => c.Companies)
+                .WithOne(c => c.City)
+                .HasForeignKey(c => c.CityId);
+            });
+
 
             builder.Entity<CompanyType>(compType =>
             {
