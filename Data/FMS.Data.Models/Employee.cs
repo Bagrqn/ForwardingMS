@@ -29,9 +29,5 @@ namespace FMS.Data.Models
 
         public Gender Gender { get; set; }
 
-        public ICollection<StringProp> StringProps { get; set; } = new HashSet<StringProp>();
-
-        public ICollection<NumericProp> NumericProps { get; set; } = new HashSet<NumericProp>();
-
     }
 }

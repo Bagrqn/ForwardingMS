@@ -7,16 +7,6 @@ namespace FMS.ConsoleClient
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
-            var db = new FMS.Data.FMSDBContext();
-
-            var City = new City()
-            {
-                Name = "Sofia"
-            };
-
-            db.SaveChanges();
         }
     }
 }
