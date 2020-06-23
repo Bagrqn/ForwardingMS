@@ -53,6 +53,10 @@
                 employee.HasMany(e => e.NumericProps)
                 .WithOne(numProp => numProp.Employee)
                 .HasForeignKey(numProp => numProp.EmployeeId);
+
+                employee.HasOne(e => e.Gender)
+                .WithMany(e => e.Employees)
+                .HasForeignKey(e => e.GenderID);
             });
 
             builder.Entity<Company>(company =>
