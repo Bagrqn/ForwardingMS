@@ -11,6 +11,8 @@
     public class FMSDBContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeStringProp> EmployeeStringProps { get; set; }
+
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyType> CompanyTypes { get; set; }
         public DbSet<City> Cities { get; set; }
@@ -23,7 +25,7 @@
             //TO DO: Connection string musnt not be here. Must come from app.config or from other comfig. 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=FMS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=FMS;Trusted_Connection=True;");
             }
         }
 
@@ -38,10 +40,46 @@
 
             builder.Entity<Employee>(employee =>
             {
+                //Employee witn one gender
                 employee.HasOne(e => e.Gender)
                 .WithMany(e => e.Employees)
                 .HasForeignKey(e => e.GenderID);
+
+                //Employee with many employeeStringProps
+                employee.HasMany(e => e.EmployeeStringProps)
+                .WithOne(e => e.Employee)
+                .HasForeignKey(e => e.EmployeeID);
+
+                //Employee with many employeeNumericProps
+                employee.HasMany(e => e.employeeNumericProps)
+                .WithOne(e => e.Employee)
+                .HasForeignKey(e => e.EmployeeID);
+
+                //Employee with many employeeBoolProps
+                employee.HasMany(e => e.employeeBoolProps)
+                .WithOne(e => e.Employee)
+                .HasForeignKey(e => e.EmployeeID);
+
             });
+
+            builder.Entity<Company>(company =>
+               {
+                   //Company with many companyStringProps
+                   company.HasMany(c => c.companyStringProps)
+                   .WithOne(c => c.Company)
+                   .HasForeignKey(c => c.CompanyId);
+
+                   //Company with many companyNumericProps
+                   company.HasMany(c => c.companyNumericProps)
+                   .WithOne(c => c.Company)
+                   .HasForeignKey(c => c.CompanyId);
+
+                   //Company with many companyBoolProps
+                   company.HasMany(c => c.companyBoolProps)
+                   .WithOne(c => c.Company)
+                   .HasForeignKey(c => c.CompanyId);
+
+               });
 
             builder.Entity<Country>(country =>
             {
@@ -52,6 +90,7 @@
                 country.HasMany(c => c.Cities)
                 .WithOne(c => c.Country)
                 .HasForeignKey(c => c.CountryID);
+
             });
 
             builder.Entity<City>(city =>

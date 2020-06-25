@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FMS.Data.Migrations
 {
     [DbContext(typeof(FMSDBContext))]
-    [Migration("20200623180858_InitialCreateFMS-DB")]
-    partial class InitialCreateFMSDB
+    [Migration("20200625120001_CompanyAndEmployeeAditionalProperties")]
+    partial class CompanyAndEmployeeAditionalProperties
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,81 @@ namespace FMS.Data.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.CompanyBoolProp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<bool>("Value")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanyBoolProp");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.CompanyNumericProp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanyNumericProp");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.CompanyStringProp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanyStringProp");
                 });
 
             modelBuilder.Entity("FMS.Data.Models.CompanyType", b =>
@@ -161,6 +236,81 @@ namespace FMS.Data.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("FMS.Data.Models.EmployeeBoolProp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<bool>("Value")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.ToTable("EmployeeBoolProp");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.EmployeeNumericProp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.ToTable("EmployeeNumericProp");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.EmployeeStringProp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.ToTable("EmployeeStringProps");
+                });
+
             modelBuilder.Entity("FMS.Data.Models.Gender", b =>
                 {
                     b.Property<int>("Id")
@@ -206,11 +356,65 @@ namespace FMS.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FMS.Data.Models.CompanyBoolProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Company", "Company")
+                        .WithMany("companyBoolProps")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.CompanyNumericProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Company", "Company")
+                        .WithMany("companyNumericProps")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.CompanyStringProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Company", "Company")
+                        .WithMany("companyStringProps")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FMS.Data.Models.Employee", b =>
                 {
                     b.HasOne("FMS.Data.Models.Gender", "Gender")
                         .WithMany("Employees")
                         .HasForeignKey("GenderID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.EmployeeBoolProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Employee", "Employee")
+                        .WithMany("employeeBoolProps")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.EmployeeNumericProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Employee", "Employee")
+                        .WithMany("employeeNumericProps")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.EmployeeStringProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Employee", "Employee")
+                        .WithMany("EmployeeStringProps")
+                        .HasForeignKey("EmployeeID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

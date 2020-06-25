@@ -30,5 +30,12 @@
         public int CompanyTypeId { get; set; }
 
         public CompanyType companyType { get; set; }
+
+        public ICollection<CompanyStringProp> companyStringProps { get; set; } = new HashSet<CompanyStringProp>();
+
+        public ICollection<CompanyNumericProp> companyNumericProps { get; set; } = new HashSet<CompanyNumericProp>();
+
+        public ICollection<CompanyBoolProp> companyBoolProps { get; set; } = new HashSet<CompanyBoolProp>();
+
     }
 }
