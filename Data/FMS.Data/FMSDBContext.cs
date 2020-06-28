@@ -7,12 +7,16 @@
     using FMS.Data.Models.Document;
     using System.Linq;
     using FMS.Data.Models.Request;
+    using System.Security.Cryptography;
 
     public class FMSDBContext : DbContext
     {
         //Request
         public DbSet<Request> Requests { get; set; }
         public DbSet<RequestType> RequestTypes { get; set; }
+        public DbSet<RequestToCompany> RequestToCompanies { get; set; }
+        public DbSet<RequestToCompanyRelationType> RequestToCompanyRelationTypes { get; set; }
+
 
         //Employee
         public DbSet<Employee> Employees { get; set; }
@@ -57,6 +61,29 @@
             }
             base.OnModelCreating(builder);
 
+            builder.Entity<RequestToCompanyRelationType>(relation =>
+            {
+                //Таблица RequestToCompany прави връзка между зачква и компания като самата връзка има тип, който описва ваимоотношенията между заяквата и компанията 
+
+                relation.HasMany(r => r.RequestToCompanies)
+                .WithOne(r => r.RequestToCompanyRelationType)
+                .HasForeignKey(r => r.RequestToCompanyRelationTypeID);
+            });
+
+            builder.Entity<RequestToCompany>(rtc =>
+            {
+                rtc.HasKey(r => new { r.RequestID, r.CompanyID });
+
+                rtc.HasOne(rtcs => rtcs.Request)
+                .WithMany(r => r.RequestToCompanies)
+                .HasForeignKey(rtcs => rtcs.RequestID);
+
+                rtc.HasOne(rtcs => rtcs.Company)
+                .WithMany(c => c.RequestToCompanies)
+                .HasForeignKey(rtcs => rtcs.CompanyID);
+
+            });
+
             builder.Entity<Request>(request =>
             {
                 //Request has one RequestType
@@ -64,19 +91,9 @@
                 .WithMany(rt => rt.Requests)
                 .HasForeignKey(r => r.RequestTypeID);
 
-                //Request has one Company Assignor 
-                //Each Company assign many requests
-                request.HasOne(r => r.CompanyАssignor)
-                .WithMany(ca => ca.RequestsAsAssignor)
-                .HasForeignKey(r => r.CompanyAssignorID)
-                .OnDelete(DeleteBehavior.Restrict);
-                
-                //Reques has one Comapny Payer
-                //Each Company pay many requests
-                request.HasOne(r => r.CompanyPayer)
-                .WithMany(cp => cp.RequestsAsPayer)
-                .HasForeignKey(r => r.CompanyPayerID)
-                .OnDelete(DeleteBehavior.Restrict); 
+                request.HasOne(r => r.Speditor)
+                .WithMany(sp => sp.Requests)
+                .HasForeignKey(r => r.SpeditorID);
             });
 
             builder.Entity<Document>(document =>

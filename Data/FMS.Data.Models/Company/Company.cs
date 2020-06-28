@@ -38,9 +38,6 @@ namespace FMS.Data.Models.Company
 
         public ICollection<CompanyBoolProp> CompanyBoolProps { get; set; } = new HashSet<CompanyBoolProp>();
 
-        public ICollection<Request.Request> RequestsAsAssignor { get; set; } = new HashSet<Request.Request>();
-
-        public ICollection<Request.Request> RequestsAsPayer { get; set; } = new HashSet<Request.Request>();
-
+        public ICollection<Request.RequestToCompany> RequestToCompanies { get; set; } = new HashSet<Request.RequestToCompany>();
     }
 }

@@ -4,14 +4,16 @@ using FMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FMS.Data.Migrations
 {
     [DbContext(typeof(FMSDBContext))]
-    partial class FMSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200628151116_Request-Speditor")]
+    partial class RequestSpeditor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -457,6 +459,12 @@ namespace FMS.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CompanyAssignorID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompanyPayerID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -472,51 +480,15 @@ namespace FMS.Data.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("CompanyAssignorID");
+
+                    b.HasIndex("CompanyPayerID");
+
                     b.HasIndex("RequestTypeID");
 
                     b.HasIndex("SpeditorID");
 
                     b.ToTable("Requests");
-                });
-
-            modelBuilder.Entity("FMS.Data.Models.Request.RequestToCompany", b =>
-                {
-                    b.Property<int>("RequestID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CompanyID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RequestToCompanyRelationTypeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("RequestID", "CompanyID");
-
-                    b.HasIndex("CompanyID");
-
-                    b.HasIndex("RequestToCompanyRelationTypeID");
-
-                    b.ToTable("RequestToCompanies");
-                });
-
-            modelBuilder.Entity("FMS.Data.Models.Request.RequestToCompanyRelationType", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("RequestToCompanyRelationTypes");
                 });
 
             modelBuilder.Entity("FMS.Data.Models.Request.RequestType", b =>
@@ -673,6 +645,18 @@ namespace FMS.Data.Migrations
 
             modelBuilder.Entity("FMS.Data.Models.Request.Request", b =>
                 {
+                    b.HasOne("FMS.Data.Models.Company.Company", "CompanyАssignor")
+                        .WithMany("RequestsAsAssignor")
+                        .HasForeignKey("CompanyAssignorID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Company.Company", "CompanyPayer")
+                        .WithMany("RequestsAsPayer")
+                        .HasForeignKey("CompanyPayerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("FMS.Data.Models.Request.RequestType", "RequestType")
                         .WithMany("Requests")
                         .HasForeignKey("RequestTypeID")
@@ -682,27 +666,6 @@ namespace FMS.Data.Migrations
                     b.HasOne("FMS.Data.Models.Employee.Employee", "Speditor")
                         .WithMany("Requests")
                         .HasForeignKey("SpeditorID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FMS.Data.Models.Request.RequestToCompany", b =>
-                {
-                    b.HasOne("FMS.Data.Models.Company.Company", "Company")
-                        .WithMany("RequestToCompanies")
-                        .HasForeignKey("CompanyID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FMS.Data.Models.Request.Request", "Request")
-                        .WithMany("RequestToCompanies")
-                        .HasForeignKey("RequestID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FMS.Data.Models.Request.RequestToCompanyRelationType", "RequestToCompanyRelationType")
-                        .WithMany("RequestToCompanies")
-                        .HasForeignKey("RequestToCompanyRelationTypeID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

@@ -20,12 +20,10 @@ namespace FMS.Data.Models.Request
 
         public ICollection<Document.Document> Documents { get; set; } = new HashSet<Document.Document>();
 
-       public int CompanyAssignorID { get; set; }
+        public ICollection<RequestToCompany> RequestToCompanies { get; set; } = new HashSet<RequestToCompany>();
 
-        public Company.Company CompanyАssignor { get; set; }
-        
-        public int CompanyPayerID { get; set; }
+        public int SpeditorID { get; set; }
 
-        public Company.Company CompanyPayer { get; set; }
+        public Employee.Employee Speditor { get; set; }
     }
 }
