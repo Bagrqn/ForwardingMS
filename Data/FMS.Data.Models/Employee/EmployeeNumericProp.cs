@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace FMS.Data.Models
+namespace FMS.Data.Models.Employee
 {
     public class EmployeeNumericProp
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Required]
         [MaxLength(DataValidation.PropetryNameMaxLenght)]

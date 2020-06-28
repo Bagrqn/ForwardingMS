@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using FMS.Data.Models.Company;
 
 namespace FMS.Data.Models
 {
     public class Country
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(DataValidation.CountryNameMaxLenght)]
         public string Name { get; set; }
 
         public ICollection<City> Cities { get; set; } = new HashSet<City>();
 
-        public ICollection<Company> Companies { get; set; } = new HashSet<Company>();
+        public ICollection<Company.Company> Companies { get; set; } = new HashSet<Company.Company>();
     }
 }

@@ -4,14 +4,16 @@ using FMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FMS.Data.Migrations
 {
     [DbContext(typeof(FMSDBContext))]
-    partial class FMSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200628144947_Request-Assignor-DeleteRestricted")]
+    partial class RequestAssignorDeleteRestricted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -462,9 +464,6 @@ namespace FMS.Data.Migrations
 
                     b.Property<int>("CompanyPayerID")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Number")
                         .IsRequired()

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace FMS.Data.Models
+namespace FMS.Data.Models.Company
 {
     public class CompanyBoolProp
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Required]
         [MaxLength(DataValidation.PropetryNameMaxLenght)]
@@ -16,7 +13,7 @@ namespace FMS.Data.Models
         [Required]
         public bool Value { get; set; }
 
-        public int CompanyId { get; set; }
+        public int CompanyID { get; set; }
 
         public Company Company{ get; set; }
     }

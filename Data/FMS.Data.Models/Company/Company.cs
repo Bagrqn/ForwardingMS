@@ -1,41 +1,46 @@
-﻿namespace FMS.Data.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace FMS.Data.Models.Company
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     public class Company
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Required]
-        [MaxLength(80)]
+        [MaxLength(DataValidation.CompanyNameMaxLenght)]
         public string Name { get; set; }
 
-        [MaxLength(15)]
+        [MaxLength(DataValidation.CompanyBulstatMaxLenght)]
         public string Bulstat { get; set; }
 
-        [MaxLength(20)]
-        public string TaxNUmber { get; set; }
+        [MaxLength(DataValidation.CompanyTaxNumberMaxLenght)]
+        public string TaxNumber { get; set; }
 
-        public int CountryId { get; set; }
+        public int CountryID { get; set; }
 
         public Country Country { get; set; }
 
-        public int CityId { get; set; }
+        public int CityID { get; set; }
 
         public City City { get; set; }
 
-        [MaxLength(120)]
+        [MaxLength(DataValidation.CompanyAddresMaxLenght)]
         public string Addres { get; set; }
 
-        public int CompanyTypeId { get; set; }
+        public int CompanyTypeID { get; set; }
 
-        public CompanyType companyType { get; set; }
+        public CompanyType CompanyType { get; set; }
 
-        public ICollection<CompanyStringProp> companyStringProps { get; set; } = new HashSet<CompanyStringProp>();
+        public ICollection<CompanyStringProp> CompanyStringProps { get; set; } = new HashSet<CompanyStringProp>();
 
-        public ICollection<CompanyNumericProp> companyNumericProps { get; set; } = new HashSet<CompanyNumericProp>();
+        public ICollection<CompanyNumericProp> CompanyNumericProps { get; set; } = new HashSet<CompanyNumericProp>();
 
-        public ICollection<CompanyBoolProp> companyBoolProps { get; set; } = new HashSet<CompanyBoolProp>();
+        public ICollection<CompanyBoolProp> CompanyBoolProps { get; set; } = new HashSet<CompanyBoolProp>();
+
+        public ICollection<Request.Request> RequestsAsAssignor { get; set; } = new HashSet<Request.Request>();
+
+        public ICollection<Request.Request> RequestsAsPayer { get; set; } = new HashSet<Request.Request>();
 
     }
 }

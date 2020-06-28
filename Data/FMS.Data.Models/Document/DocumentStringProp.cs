@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FMS.Data.Models.Company
+namespace FMS.Data.Models.Document
 {
-    public class CompanyStringProp
+    public class DocumentStringProp
     {
         public int ID { get; set; }
 
@@ -13,8 +13,8 @@ namespace FMS.Data.Models.Company
         [Required]
         public string Value { get; set; }
 
-        public int CompanyID { get; set; }
+        public int DocumentID { get; set; }
 
-        public Company Company { get; set; }
+        public Document Document { get; set; }
     }
 }
