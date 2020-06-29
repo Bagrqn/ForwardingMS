@@ -16,6 +16,8 @@
         public DbSet<RequestType> RequestTypes { get; set; }
         public DbSet<RequestToCompany> RequestToCompanies { get; set; }
         public DbSet<RequestToCompanyRelationType> RequestToCompanyRelationTypes { get; set; }
+        public DbSet<RequestToEmployee> RequestToEmployees { get; set; }
+        public DbSet<RequestToEmployeeRelationType> RequestToEmployeeRelationTypes { get; set; }
 
 
         //Employee
@@ -61,26 +63,43 @@
             }
             base.OnModelCreating(builder);
 
-            builder.Entity<RequestToCompanyRelationType>(relation =>
+            builder.Entity<RequestToEmployee>(requestToEmployees =>
             {
-                //Таблица RequestToCompany прави връзка между зачква и компания като самата връзка има тип, който описва ваимоотношенията между заяквата и компанията 
+                //Request to Employee is many to many relation table with additional ingformation Relation type.
+                //Relation type explain business sense of the relationship.
+                requestToEmployees.HasKey(r => new { r.RequestID, r.EmployeeID });
 
-                relation.HasMany(r => r.RequestToCompanies)
-                .WithOne(r => r.RequestToCompanyRelationType)
-                .HasForeignKey(r => r.RequestToCompanyRelationTypeID);
+                requestToEmployees.HasOne(r => r.Request)
+                .WithMany(r => r.RequestToEmployees)
+                .HasForeignKey(r => r.RequestID);
+
+                requestToEmployees.HasOne(r => r.Employee)
+                .WithMany(e => e.RequestToEmployees)
+                .HasForeignKey(r => r.EmployeeID);
+
+                requestToEmployees.HasOne(r => r.RequestToEmployeeRelationType)
+                .WithMany(rt => rt.RequestToEmployees)
+                .HasForeignKey(r => r.RequestToEmployeeRelationTypeID);
             });
 
-            builder.Entity<RequestToCompany>(rtc =>
+            builder.Entity<RequestToCompany>(requestToCompany =>
             {
-                rtc.HasKey(r => new { r.RequestID, r.CompanyID });
+                //Request to Company is many to many relation table with additional ingformation Relation type.
+                //Relation type explain business sense of the relationship.
+                //In this case, we have Company who is a asignor and other or same who is payer. RelationType explane this relationships.
+                requestToCompany.HasKey(r => new { r.RequestID, r.CompanyID });
 
-                rtc.HasOne(rtcs => rtcs.Request)
+                requestToCompany.HasOne(rtcs => rtcs.Request)
                 .WithMany(r => r.RequestToCompanies)
                 .HasForeignKey(rtcs => rtcs.RequestID);
 
-                rtc.HasOne(rtcs => rtcs.Company)
+                requestToCompany.HasOne(rtcs => rtcs.Company)
                 .WithMany(c => c.RequestToCompanies)
                 .HasForeignKey(rtcs => rtcs.CompanyID);
+
+                requestToCompany.HasOne(rtc => rtc.RequestToCompanyRelationType)
+                .WithMany(rt => rt.RequestToCompanies)
+                .HasForeignKey(rtc => rtc.RequestToCompanyRelationTypeID);
 
             });
 
@@ -90,10 +109,6 @@
                 request.HasOne(r => r.RequestType)
                 .WithMany(rt => rt.Requests)
                 .HasForeignKey(r => r.RequestTypeID);
-
-                request.HasOne(r => r.Speditor)
-                .WithMany(sp => sp.Requests)
-                .HasForeignKey(r => r.SpeditorID);
             });
 
             builder.Entity<Document>(document =>

@@ -31,11 +31,11 @@ namespace FMS.Data.Models.Employee
         public Gender Gender { get; set; }
 
         public ICollection<EmployeeStringProp> EmployeeStringProps { get; set; } = new HashSet<EmployeeStringProp>();
-        
+
         public ICollection<EmployeeNumericProp> EmployeeNumericProps { get; set; } = new HashSet<EmployeeNumericProp>();
-        
+
         public ICollection<EmployeeBoolProp> EmployeeBoolProps { get; set; } = new HashSet<EmployeeBoolProp>();
-        
-        public ICollection<Request.Request> Requests { get; set; } = new HashSet<Request.Request>();
+
+        public ICollection<Request.RequestToEmployee> RequestToEmployees { get; set; } = new HashSet<Request.RequestToEmployee>();
     }
 }

@@ -22,8 +22,7 @@ namespace FMS.Data.Models.Request
 
         public ICollection<RequestToCompany> RequestToCompanies { get; set; } = new HashSet<RequestToCompany>();
 
-        public int SpeditorID { get; set; }
+        public ICollection<RequestToEmployee> RequestToEmployees { get; set; } = new HashSet<RequestToEmployee>();
 
-        public Employee.Employee Speditor { get; set; }
     }
 }
