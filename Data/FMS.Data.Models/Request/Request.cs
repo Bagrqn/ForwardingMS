@@ -1,6 +1,4 @@
-﻿using FMS.Data.Models.Document;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FMS.Data.Models.Request
@@ -18,11 +16,17 @@ namespace FMS.Data.Models.Request
 
         public RequestType RequestType { get; set; }
 
+        public int RequestStatusID { get; set; }
+
+        public RequestStatus RequestStatus { get; set; }
+
         public ICollection<Document.Document> Documents { get; set; } = new HashSet<Document.Document>();
 
         public ICollection<RequestToCompany> RequestToCompanies { get; set; } = new HashSet<RequestToCompany>();
 
         public ICollection<RequestToEmployee> RequestToEmployees { get; set; } = new HashSet<RequestToEmployee>();
+
+        public ICollection<RequestStatusHistory> RequestStatusHistories { get; set; } = new HashSet<RequestStatusHistory>();
 
     }
 }

@@ -11,6 +11,8 @@ namespace FMS.Data.Models.Request
         [MaxLength(DataValidation.RequestTypeNameMaxLenght)]
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public ICollection<Request> Requests { get; set; }
     }
 }

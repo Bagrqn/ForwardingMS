@@ -18,6 +18,8 @@
         public DbSet<RequestToCompanyRelationType> RequestToCompanyRelationTypes { get; set; }
         public DbSet<RequestToEmployee> RequestToEmployees { get; set; }
         public DbSet<RequestToEmployeeRelationType> RequestToEmployeeRelationTypes { get; set; }
+        public DbSet<RequestStatus> RequestStatuses { get; set; }
+        public DbSet<RequestStatusHistory> RequestStatusHistories { get; set; }
 
 
         //Employee
@@ -62,6 +64,24 @@
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
             base.OnModelCreating(builder);
+
+            builder.Entity<RequestStatusHistory>(requestStatusHistories =>
+            {
+                requestStatusHistories.HasOne(rh => rh.Request)
+                .WithMany(r => r.RequestStatusHistories)
+                .HasForeignKey(r => r.RequestID);
+
+                requestStatusHistories.HasOne(rh => rh.OldRequestStatus)
+                .WithMany(os => os.OldRequestStatusHistories)
+                .HasForeignKey(rh => rh.OldStatusID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                requestStatusHistories.HasOne(rh => rh.NewRequestStatus)
+                .WithMany(ns => ns.NewRequestStatusHistories)
+                .HasForeignKey(rh => rh.NewStatusID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            });
 
             builder.Entity<RequestToEmployee>(requestToEmployees =>
             {
@@ -109,6 +129,10 @@
                 request.HasOne(r => r.RequestType)
                 .WithMany(rt => rt.Requests)
                 .HasForeignKey(r => r.RequestTypeID);
+
+                request.HasOne(r => r.RequestStatus)
+                .WithMany(rs => rs.Requests)
+                .HasForeignKey(r => r.RequestStatusID);
             });
 
             builder.Entity<Document>(document =>

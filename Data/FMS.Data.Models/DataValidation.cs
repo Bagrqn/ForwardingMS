@@ -16,6 +16,9 @@
         public const int RequestToCompanyRelationTypeNameMaxLenght = 30;
         public const int RequestToEmployeeRelationTypeNameMaxLenght = 30;
 
+        public const int RequestStatusNameMaxLenght = 30;
+
+
         //Company
         public const int CompanyNameMaxLenght = 80;
         public const int CompanyBulstatMaxLenght = 15;
