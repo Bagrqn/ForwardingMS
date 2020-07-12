@@ -7,7 +7,6 @@
     using FMS.Data.Models.Document;
     using System.Linq;
     using FMS.Data.Models.Request;
-    using System.Security.Cryptography;
 
     public class FMSDBContext : DbContext
     {
@@ -20,7 +19,12 @@
         public DbSet<RequestToEmployeeRelationType> RequestToEmployeeRelationTypes { get; set; }
         public DbSet<RequestStatus> RequestStatuses { get; set; }
         public DbSet<RequestStatusHistory> RequestStatusHistories { get; set; }
-
+        public DbSet<Load> Loads { get; set; }
+        public DbSet<PackageType> PackageTypes { get; set; }
+        public DbSet<LoadNumericProps> LoadNumericProps { get; set; }
+        public DbSet<LoadStringProp> LoadStringProps { get; set; }
+        public DbSet<LoadingUnloadingPoint> LoadingUnloadingPoints { get; set; }
+        public DbSet<LoadToLUPoint> LoadToLUPoints { get; set; }
 
         //Employee
         public DbSet<Employee> Employees { get; set; }
@@ -46,6 +50,7 @@
 
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Postcode> Postcodes { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -65,6 +70,43 @@
             }
             base.OnModelCreating(builder);
 
+            //LoadingUnloadingPoint
+            builder.Entity<LoadingUnloadingPoint>(lupoint =>
+            {
+                lupoint.HasOne(lup => lup.SenderReciever)
+                .WithMany(lup => lup.LoadingUnloadingPoints)
+                .HasForeignKey(lup => lup.SenderRecieverID);
+
+                lupoint.HasOne(lup => lup.City)
+                .WithMany(c => c.LoadingUnloadingPoints)
+                .HasForeignKey(lup => lup.CityID);
+
+                lupoint.HasOne(lup => lup.Postcode)
+                .WithMany(pc => pc.LoadingUnloadingPoints)
+                .HasForeignKey(lup => lup.PostcodeID);
+
+                lupoint.HasOne(lup => lup.Request)
+                .WithMany(r => r.LoadingUnloadingPoints)
+                .HasForeignKey(lup => lup.RequestID);
+            });
+
+            //Load
+            builder.Entity<Load>(load =>
+            {
+                load.HasOne(l => l.PackageType)
+                .WithMany(pt => pt.Loads)
+                .HasForeignKey(l => l.PackageTypeID);
+
+                load.HasMany(l => l.LoadNumericProps)
+                .WithOne(np => np.Load)
+                .HasForeignKey(np => np.LoadID);
+
+                load.HasMany(l => l.LoadStringProps)
+                .WithOne(np => np.Load)
+                .HasForeignKey(np => np.LoadID);
+            });
+
+            //RequestStatusHistory
             builder.Entity<RequestStatusHistory>(requestStatusHistories =>
             {
                 requestStatusHistories.HasOne(rh => rh.Request)
@@ -83,6 +125,21 @@
 
             });
 
+            //LoadToLUPoint
+            builder.Entity<LoadToLUPoint>(loadToLUPoint =>
+            {
+                loadToLUPoint.HasKey(ltp => new { ltp.LoadID, ltp.LoadingUnloadingPointID });
+
+                loadToLUPoint.HasOne(ltp => ltp.Load)
+                .WithMany(l => l.loadToLUPoints)
+                .HasForeignKey(ltp => ltp.LoadID);
+
+                loadToLUPoint.HasOne(ltp => ltp.LoadingUnloadingPoint)
+                .WithMany(ltp => ltp.LoadToLUPoints)
+                .HasForeignKey(ltp => ltp.LoadingUnloadingPointID);
+            });
+
+            //RequestToEmployee
             builder.Entity<RequestToEmployee>(requestToEmployees =>
             {
                 //Request to Employee is many to many relation table with additional ingformation Relation type.
@@ -102,6 +159,7 @@
                 .HasForeignKey(r => r.RequestToEmployeeRelationTypeID);
             });
 
+            //RequestToCompany
             builder.Entity<RequestToCompany>(requestToCompany =>
             {
                 //Request to Company is many to many relation table with additional ingformation Relation type.
@@ -123,6 +181,7 @@
 
             });
 
+            //Request
             builder.Entity<Request>(request =>
             {
                 //Request has one RequestType
@@ -133,8 +192,19 @@
                 request.HasOne(r => r.RequestStatus)
                 .WithMany(rs => rs.Requests)
                 .HasForeignKey(r => r.RequestStatusID);
+
+                //Request HasMany Loads
+                request.HasMany(r => r.Loads)
+                .WithOne(l => l.Request)
+                .HasForeignKey(l => l.RequestID);
+
+                //Request has many LoadingUnloadingPoints
+                request.HasMany(r => r.LoadingUnloadingPoints)
+                .WithOne(r => r.Request)
+                .HasForeignKey(r => r.RequestID);
             });
 
+            //Document
             builder.Entity<Document>(document =>
             {
                 //Document with one DocumentType
@@ -159,6 +229,7 @@
 
             });
 
+            //Employee
             builder.Entity<Employee>(employee =>
             {
                 //Employee witn one gender
@@ -183,6 +254,7 @@
 
             });
 
+            //Company
             builder.Entity<Company>(company =>
                {
                    //Company has one Country
@@ -215,8 +287,10 @@
                    .WithOne(c => c.Company)
                    .HasForeignKey(c => c.CompanyID);
 
+
                });
 
+            //Country
             builder.Entity<Country>(country =>
             {
                 //Country has many Companies
@@ -231,14 +305,21 @@
 
             });
 
+            //City  
             builder.Entity<City>(city =>
             {
                 //City has many Companies
                 city.HasMany(c => c.Companies)
                 .WithOne(c => c.City)
                 .HasForeignKey(c => c.CityID);
+
+                //City has many Postcodes
+                city.HasMany(c => c.Postcodes)
+                .WithOne(p => p.City)
+                .HasForeignKey(p => p.CityID);
             });
 
+            //CompanyType
             builder.Entity<CompanyType>(compType =>
             {
                 //CompanyType has many companies

@@ -6,10 +6,11 @@
         /// Validation for every propery table. 
         /// </summary>
         public const int PropetryNameMaxLenght = 30;
+        public const int NameMaxLenght = 30;
 
         public const int CountryNameMaxLenght = 50;
         public const int CityNameMaxLenght = 50;
-
+        public const int AddressMaxLenght = 100;
         //Request
         public const int RequestTypeNameMaxLenght = 30;
 

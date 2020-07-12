@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using FMS.Data.Models.Request;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using FMS.Data.Models.Company;
+using System.Runtime.CompilerServices;
 
 namespace FMS.Data.Models
 {
@@ -17,5 +18,9 @@ namespace FMS.Data.Models
         public Country Country { get; set; }
 
         public ICollection<Company.Company> Companies { get; set; } = new HashSet<Company.Company>();
+
+        public ICollection<Postcode> Postcodes { get; set; } = new HashSet<Postcode>();
+
+        public ICollection<LoadingUnloadingPoint> LoadingUnloadingPoints { get; set; } = new HashSet<LoadingUnloadingPoint>();
     }
 }

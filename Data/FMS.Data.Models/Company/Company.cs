@@ -39,5 +39,7 @@ namespace FMS.Data.Models.Company
         public ICollection<CompanyBoolProp> CompanyBoolProps { get; set; } = new HashSet<CompanyBoolProp>();
 
         public ICollection<Request.RequestToCompany> RequestToCompanies { get; set; } = new HashSet<Request.RequestToCompany>();
+
+        public ICollection<Request.LoadingUnloadingPoint> LoadingUnloadingPoints { get; set; } = new HashSet<Request.LoadingUnloadingPoint>();
     }
 }

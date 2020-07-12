@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FMS.Data.Models.Request
@@ -9,6 +10,8 @@ namespace FMS.Data.Models.Request
 
         [Required]
         public string Number { get; set; }
+
+        public DateTime DateCreate { get; set; }
 
         public bool IsDeleted { get; set; }
 
@@ -28,5 +31,8 @@ namespace FMS.Data.Models.Request
 
         public ICollection<RequestStatusHistory> RequestStatusHistories { get; set; } = new HashSet<RequestStatusHistory>();
 
+        public ICollection<Load> Loads { get; set; } = new HashSet<Load>();
+
+        public ICollection<LoadingUnloadingPoint> LoadingUnloadingPoints { get; set; } = new HashSet<LoadingUnloadingPoint>();
     }
 }
