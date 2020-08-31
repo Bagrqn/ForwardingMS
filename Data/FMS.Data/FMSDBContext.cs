@@ -131,7 +131,7 @@
                 loadToLUPoint.HasKey(ltp => new { ltp.LoadID, ltp.LoadingUnloadingPointID });
 
                 loadToLUPoint.HasOne(ltp => ltp.Load)
-                .WithMany(l => l.loadToLUPoints)
+                .WithMany(l => l.LoadToLUPoints)
                 .HasForeignKey(ltp => ltp.LoadID);
 
                 loadToLUPoint.HasOne(ltp => ltp.LoadingUnloadingPoint)

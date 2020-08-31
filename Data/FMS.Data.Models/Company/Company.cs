@@ -26,7 +26,7 @@ namespace FMS.Data.Models.Company
         public City City { get; set; }
 
         [MaxLength(DataValidation.CompanyAddresMaxLenght)]
-        public string Addres { get; set; }
+        public string Address { get; set; }
 
         public int CompanyTypeID { get; set; }
 

@@ -27,6 +27,6 @@ namespace FMS.Data.Models.Request
 
         public ICollection<LoadStringProp> LoadStringProps { get; set; } = new HashSet<LoadStringProp>();
 
-        public ICollection<LoadToLUPoint> loadToLUPoints { get; set; } = new HashSet<LoadToLUPoint>();
+        public ICollection<LoadToLUPoint> LoadToLUPoints { get; set; } = new HashSet<LoadToLUPoint>();
     }
 }

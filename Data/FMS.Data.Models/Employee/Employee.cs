@@ -24,7 +24,7 @@ namespace FMS.Data.Models.Employee
         [MaxLength(DataValidation.EmployeeEGNMaxLenght)]
         public string EGN { get; set; }
 
-        public DateTime BirhtDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         public int GenderID { get; set; }
 
