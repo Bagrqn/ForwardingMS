@@ -11,6 +11,7 @@
         public const int CountryNameMaxLenght = 50;
         public const int CityNameMaxLenght = 50;
         public const int AddressMaxLenght = 100;
+        public const int PostcodeMaxLenght = 16;
         //Request
         public const int RequestTypeNameMaxLenght = 30;
 

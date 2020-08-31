@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\FMS.Data.Models\FMS.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\FMS.Data\FMS.Data.csproj" />
+    <ProjectReference Include="..\FMS.Services.Models\FMS.Services.Models.csproj" />
+  </ItemGroup>
+
+</Project>
