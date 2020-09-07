@@ -32,7 +32,7 @@ namespace FMS.Services.Implementations
         public IEnumerable<PostcodeListingServiceModel> SearchByName(string name)
         {
             return data.Postcodes
-                .Where(p => p.Code == name)
+                .Where(p => p.Code.ToLower().Contains(name.ToLower()))
                 .Select(p => new PostcodeListingServiceModel()
                 {
                     ID = p.ID,

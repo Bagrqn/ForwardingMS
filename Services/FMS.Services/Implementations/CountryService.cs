@@ -9,7 +9,7 @@ namespace FMS.Services.Implementations
 {
     public class CountryService : ICountryService
     {
-        private FMSDBContext data;
+        private readonly FMSDBContext data;
 
         //Constructor - Dependency Inversion Principle
         public CountryService(FMSDBContext data)

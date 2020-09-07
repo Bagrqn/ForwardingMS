@@ -10,7 +10,7 @@ namespace FMS.Services.Implementations
 {
     public class CityService : ICityService
     {
-        private FMSDBContext data;
+        private readonly FMSDBContext data;
 
         public CityService(FMSDBContext data)
         {
@@ -43,7 +43,7 @@ namespace FMS.Services.Implementations
         public IEnumerable<CityListingServiceModel> SearchByName(string name)
         {
             return data.Cities
-                .Where(c => c.Name.ToLower() == name.ToLower())
+                .Where(c => c.Name.ToLower().Contains(name.ToLower()))
                 .Select(c => new CityListingServiceModel
                 {
                     ID = c.ID,

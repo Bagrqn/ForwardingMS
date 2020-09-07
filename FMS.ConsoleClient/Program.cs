@@ -12,9 +12,10 @@ namespace FMS.ConsoleClient
         {
             using var data = new FMSDBContext();
 
-            var countryService = new CountryService(data);
+            var cityService = new CityService(data);
 
-            var a = countryService.SearchByName("bul");
+
+            var a = cityService.SearchByName("sof");
 
 
             ;
