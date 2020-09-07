@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\FMS.Data.Models\FMS.Data.Models.csproj" />
     <ProjectReference Include="..\Data\FMS.Data\FMS.Data.csproj" />
+    <ProjectReference Include="..\Services\FMS.Services\FMS.Services.csproj" />
   </ItemGroup>
 
 </Project>

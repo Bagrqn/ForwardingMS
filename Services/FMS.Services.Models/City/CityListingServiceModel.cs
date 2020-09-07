@@ -1,6 +1,6 @@
-﻿namespace FMS.Services.Models.Country
+﻿namespace FMS.Services.Models.City
 {
-    public class CountryListingServiceModel
+    public class CityListingServiceModel
     {
         public int ID { get; set; }
 
