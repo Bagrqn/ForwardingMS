@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FMS.Services
 {
-    interface ICompanyType
+    interface ICompanyTypeService
     {
         void Create(string name, string description);
 

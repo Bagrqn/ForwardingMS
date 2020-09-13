@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace FMS.Services.Implementations
 {
-    public class CompanyTypeService : ICompanyType
+    public class CompanyTypeService : ICompanyTypeService
     {
         private readonly FMSDBContext data;
 
