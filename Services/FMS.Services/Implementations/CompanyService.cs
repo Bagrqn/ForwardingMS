@@ -50,5 +50,10 @@ namespace FMS.Services.Implementations
             this.data.Companies.Add(company);
             this.data.SaveChanges();
         }
+
+        //To do..
+        //Delete
+        //Search by name 
+        //Listing with page 
     }
 }

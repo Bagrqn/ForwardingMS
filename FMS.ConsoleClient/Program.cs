@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace FMS.ConsoleClient
+﻿namespace FMS.ConsoleClient
 {
-    using Data.Models;
     using FMS.Data;
     using FMS.Services.Implementations;
+    using System.Linq;
 
     class Program
     {
@@ -15,7 +13,7 @@ namespace FMS.ConsoleClient
             var cityService = new CityService(data);
 
 
-            var a = cityService.SearchByName("sof");
+            var a = cityService.SearchByName("sof").ToList();
 
 
             ;
