@@ -461,7 +461,9 @@ namespace FMS.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(16)")
+                        .HasMaxLength(16);
 
                     b.HasKey("ID");
 

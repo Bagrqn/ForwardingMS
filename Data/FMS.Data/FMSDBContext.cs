@@ -59,7 +59,7 @@ namespace FMS.Data
             //TO DO: Connection string musnt not be here. Must come from app.config or from other comfig. 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=FMS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=FMS;Trusted_Connection=True;");
             }
         }
 

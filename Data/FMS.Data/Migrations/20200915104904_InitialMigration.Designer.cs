@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FMS.Data.Migrations
 {
     [DbContext(typeof(FMSDBContext))]
-    [Migration("20200629213439_Request-To-Employee-To-RelationType-Many-To-Many")]
-    partial class RequestToEmployeeToRelationTypeManyToMany
+    [Migration("20200915104904_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,7 @@ namespace FMS.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Addres")
+                    b.Property<string>("Address")
                         .HasColumnType("nvarchar(120)")
                         .HasMaxLength(120);
 
@@ -327,7 +327,7 @@ namespace FMS.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("BirhtDate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EGN")
@@ -452,12 +452,196 @@ namespace FMS.Data.Migrations
                     b.ToTable("Genders");
                 });
 
+            modelBuilder.Entity("FMS.Data.Models.Postcode", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CityID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(16)")
+                        .HasMaxLength(16);
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CityID");
+
+                    b.ToTable("Postcodes");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.Load", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<int>("PackageCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PackageTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequestID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PackageTypeID");
+
+                    b.HasIndex("RequestID");
+
+                    b.ToTable("Loads");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadNumericProps", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LoadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("LoadID");
+
+                    b.ToTable("LoadNumericProps");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadStringProp", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LoadID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("LoadID");
+
+                    b.ToTable("LoadStringProps");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadToLUPoint", b =>
+                {
+                    b.Property<int>("LoadID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoadingUnloadingPointID")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoadID", "LoadingUnloadingPointID");
+
+                    b.HasIndex("LoadingUnloadingPointID");
+
+                    b.ToTable("LoadToLUPoints");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadingUnloadingPoint", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("CityID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostcodeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequestID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderRecieverID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CityID");
+
+                    b.HasIndex("PostcodeID");
+
+                    b.HasIndex("RequestID");
+
+                    b.HasIndex("SenderRecieverID");
+
+                    b.ToTable("LoadingUnloadingPoints");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.PackageType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PackageTypes");
+                });
+
             modelBuilder.Entity("FMS.Data.Models.Request.Request", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -466,14 +650,72 @@ namespace FMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RequestStatusID")
+                        .HasColumnType("int");
+
                     b.Property<int>("RequestTypeID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
+                    b.HasIndex("RequestStatusID");
+
                     b.HasIndex("RequestTypeID");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.RequestStatus", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("RequestStatuses");
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.RequestStatusHistory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateChange")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NewStatusID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OldStatusID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequestID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("NewStatusID");
+
+                    b.HasIndex("OldStatusID");
+
+                    b.HasIndex("RequestID");
+
+                    b.ToTable("RequestStatusHistories");
                 });
 
             modelBuilder.Entity("FMS.Data.Models.Request.RequestToCompany", b =>
@@ -562,6 +804,9 @@ namespace FMS.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -708,11 +953,122 @@ namespace FMS.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FMS.Data.Models.Postcode", b =>
+                {
+                    b.HasOne("FMS.Data.Models.City", "City")
+                        .WithMany("Postcodes")
+                        .HasForeignKey("CityID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.Load", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Request.PackageType", "PackageType")
+                        .WithMany("Loads")
+                        .HasForeignKey("PackageTypeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Request.Request", "Request")
+                        .WithMany("Loads")
+                        .HasForeignKey("RequestID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadNumericProps", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Request.Load", "Load")
+                        .WithMany("LoadNumericProps")
+                        .HasForeignKey("LoadID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadStringProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Request.Load", "Load")
+                        .WithMany("LoadStringProps")
+                        .HasForeignKey("LoadID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadToLUPoint", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Request.Load", "Load")
+                        .WithMany("LoadToLUPoints")
+                        .HasForeignKey("LoadID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Request.LoadingUnloadingPoint", "LoadingUnloadingPoint")
+                        .WithMany("LoadToLUPoints")
+                        .HasForeignKey("LoadingUnloadingPointID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.LoadingUnloadingPoint", b =>
+                {
+                    b.HasOne("FMS.Data.Models.City", "City")
+                        .WithMany("LoadingUnloadingPoints")
+                        .HasForeignKey("CityID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Postcode", "Postcode")
+                        .WithMany("LoadingUnloadingPoints")
+                        .HasForeignKey("PostcodeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Request.Request", "Request")
+                        .WithMany("LoadingUnloadingPoints")
+                        .HasForeignKey("RequestID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Company.Company", "SenderReciever")
+                        .WithMany("LoadingUnloadingPoints")
+                        .HasForeignKey("SenderRecieverID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FMS.Data.Models.Request.Request", b =>
                 {
+                    b.HasOne("FMS.Data.Models.Request.RequestStatus", "RequestStatus")
+                        .WithMany("Requests")
+                        .HasForeignKey("RequestStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("FMS.Data.Models.Request.RequestType", "RequestType")
                         .WithMany("Requests")
                         .HasForeignKey("RequestTypeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.RequestStatusHistory", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Request.RequestStatus", "NewRequestStatus")
+                        .WithMany("NewRequestStatusHistories")
+                        .HasForeignKey("NewStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Request.RequestStatus", "OldRequestStatus")
+                        .WithMany("OldRequestStatusHistories")
+                        .HasForeignKey("OldStatusID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FMS.Data.Models.Request.Request", "Request")
+                        .WithMany("RequestStatusHistories")
+                        .HasForeignKey("RequestID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

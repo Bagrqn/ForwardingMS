@@ -8,8 +8,11 @@
     {
         static void Main(string[] args)
         {
+            
+            
             using var data = new FMSDBContext();
 
+            
             var cityService = new CityService(data);
 
 
