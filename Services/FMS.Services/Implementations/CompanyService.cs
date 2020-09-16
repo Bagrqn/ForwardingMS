@@ -1,7 +1,9 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Company;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
+using System.Linq;
 
 namespace FMS.Services.Implementations
 {
@@ -51,8 +53,29 @@ namespace FMS.Services.Implementations
             this.data.SaveChanges();
         }
 
+        public void Delete(int id)
+        {
+            if (!data.Companies.Any(c => c.ID == id))
+            {
+                throw new InvalidOperationException($"Company did not exist. ");
+            }
+
+            var company = data.Companies.First(c => c.ID == id);
+            var deletedProp = new CompanyBoolProp
+            {
+                Name = "Deleted",
+                Value = true,
+                CompanyID = id
+            };
+
+            company.CompanyBoolProps.Add(deletedProp);
+            this.data.SaveChanges();
+        }
+
+        
+
+
         //To do..
-        //Delete
         //Search by name 
         //Listing with page 
     }

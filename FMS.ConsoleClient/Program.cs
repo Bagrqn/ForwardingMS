@@ -12,11 +12,16 @@
             
             using var data = new FMSDBContext();
 
+
+            var companyService = new CompanyService(data);
+
             
             var cityService = new CityService(data);
 
 
-            var a = cityService.SearchByName("sof").ToList();
+            companyService.Delete(1);
+
+            //var a = cityService.SearchByName("sof").ToList();
 
 
             ;

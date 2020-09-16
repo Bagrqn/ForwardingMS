@@ -4,5 +4,6 @@
     {
         void Create(string name, string bulstat, string taxnumber, int countryID, int cityID, int companyTypeID, string address);
 
+        void Delete(int id);
     }
 }
