@@ -61,18 +61,14 @@ namespace FMS.Services.Implementations
             }
 
             var company = data.Companies.First(c => c.ID == id);
-            var deletedProp = new CompanyBoolProp
-            {
-                Name = "Deleted",
-                Value = true,
-                CompanyID = id
-            };
+            //Factory ??? Interface? Best way to do this? 
+            var deletedProp = Factory.BooleanPropFactory.CreateCompanyBooleanPropetry("Deleted", true, id);
 
             company.CompanyBoolProps.Add(deletedProp);
             this.data.SaveChanges();
         }
 
-        
+
 
 
         //To do..

@@ -27,6 +27,11 @@ namespace FMS.Data.Configurations
             document.HasMany(d => d.DocumentBoolProps)
             .WithOne(dbp => dbp.Document)
             .HasForeignKey(dbp => dbp.DocumentID);
+
+            //Document has many rows
+            document.HasMany(d => d.DocumentRows)
+                .WithOne(dr => dr.Document)
+                .HasForeignKey(dr => dr.DocumentID);
         }
     }
 }

@@ -47,6 +47,10 @@ namespace FMS.Data
         public DbSet<DocumentBoolProp> DocumentBoolProps { get; set; }
         public DbSet<DocumentStringProp> DocumentStringProps { get; set; }
         public DbSet<DocumentNumericProp> DocumentNumericProps { get; set; }
+        public DbSet<DocumentRow> DocumentRows { get; set; }
+        public DbSet<DocumentRowStringProp> DocumentRowStringProps { get; set; }
+        public DbSet<DocumentRowBooleanProp> DocumentRowBooleanProps { get; set; }
+        public DbSet<DocumentRowNumericProp> DocumentRowNumericProps { get; set; }
 
 
         public DbSet<City> Cities { get; set; }
