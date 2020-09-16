@@ -10,10 +10,11 @@
         {
             using var data = new FMSDBContext();
 
-            var cityService = new CityService(data);
+            var companyService = new CompanyService(data);
 
+            companyService.Delete(1);
 
-            var a = cityService.SearchByName("sof").ToList();
+            //var a = cityService.SearchByName("sof").ToList();
 
 
             ;
