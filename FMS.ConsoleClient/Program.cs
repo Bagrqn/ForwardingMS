@@ -9,20 +9,20 @@
         static void Main(string[] args)
         {
             
-            
             using var data = new FMSDBContext();
 
-
-            var companyService = new CompanyService(data);
-
+            new DataSeeder(data).Seed();
             
+            /*
+            
+            var companyService = new CompanyService(data);
+                        
             var cityService = new CityService(data);
-
 
             companyService.Delete(1);
 
             //var a = cityService.SearchByName("sof").ToList();
-
+            */
 
             ;
         }

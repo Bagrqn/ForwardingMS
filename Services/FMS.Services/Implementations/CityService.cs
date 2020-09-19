@@ -1,5 +1,6 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
+using FMS.Data.Models.Request;
 using FMS.Services.Models.City;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -40,6 +41,13 @@ namespace FMS.Services.Implementations
             this.data.SaveChanges();
         }
 
+        public ICollection<int> GetAllIDsByCountry(int countryID)
+        {
+            return this.data.Cities
+                .Where(c => c.CountryID == countryID).ToList()
+                .Select(c => c.ID).ToList();
+        }
+
         public IEnumerable<CityListingServiceModel> SearchByName(string name)
         {
             return data.Cities
@@ -49,6 +57,11 @@ namespace FMS.Services.Implementations
                     ID = c.ID,
                     Name = c.Name
                 });
+        }
+
+        public ICollection<int> GetAllIDs()
+        {
+            return this.data.Cities.Select(city => city.ID).ToList();
         }
     }
 }

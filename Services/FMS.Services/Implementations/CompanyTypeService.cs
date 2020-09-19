@@ -42,6 +42,11 @@ namespace FMS.Services.Implementations
             this.data.SaveChanges();
         }
 
+        public ICollection<int> GetIDs()
+        {
+            return this.data.CompanyTypes.Select(ct => ct.ID).ToList();
+        }
+
         public IEnumerable<CompanyTypeListingModel> FindByName(string name)
         {
             return data.CompanyTypes

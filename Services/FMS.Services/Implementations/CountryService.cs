@@ -36,6 +36,17 @@ namespace FMS.Services.Implementations
             this.data.Countries.Add(country);
             this.data.SaveChanges();
         }
+
+        public ICollection<int> GetAllIDs()
+        {
+            return data.Countries.Select(c => c.ID).ToList();
+        }
+
+        public int Count()
+        {
+            return this.data.Countries.Count();
+        }
+
         public IEnumerable<CountryListingServiceModel> SearchByName(string name)
         {
             return data.Countries
