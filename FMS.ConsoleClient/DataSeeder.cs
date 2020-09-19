@@ -27,6 +27,10 @@ namespace FMS.ConsoleClient
             //CompanyTypeSeeder(); //Done
             //CompanySeeder(); //Done
 
+            //GenderSeed(); //Done
+
+            EmployeeSeed();
+
 
         }
 
@@ -172,6 +176,34 @@ namespace FMS.ConsoleClient
             }
         }
 
+        private void GenderSeed()
+        {
+            var service = new GenderService(data);
+
+            service.Create("Male");
+            service.Create("Female");
+        }
+
+        /// <summary>
+        ///  Before this must have: Gender
+        /// </summary>
+        private void EmployeeSeed()
+        {
+            string FirstNamesFilePath = @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.ConsoleClient\DataFiles\FirstNames.json";
+            string FirstNamesFileText = File.ReadAllText(FirstNamesFilePath);
+            var FirstNamesList = JObject.Parse(FirstNamesFileText).GetValue("firstNames").ToList().Select(fn => fn.ToString()).ToList();
+
+            string MiddleNamesFilePath = @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.ConsoleClient\DataFiles\MiddleNames.json";
+            string MiddleNamesFileText = File.ReadAllText(MiddleNamesFilePath);
+            var MiddleNamesList = JObject.Parse(MiddleNamesFileText).GetValue("middleNames").ToList().Select(fn => fn.ToString()).ToList();
+
+            string LastNamesFilePath = @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.ConsoleClient\DataFiles\LastNames.json";
+            string LatsNamesFileText = File.ReadAllText(LastNamesFilePath);
+            var LastNamesList = JObject.Parse(LatsNamesFileText).GetValue("lastNames").ToList().Select(fn => fn.ToString()).ToList();
+
+
+
+        }
         private string randomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
