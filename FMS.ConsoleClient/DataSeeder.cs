@@ -1,12 +1,9 @@
 ﻿using FMS.Data;
 using FMS.Services.Implementations;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
 namespace FMS.ConsoleClient
 {
@@ -22,14 +19,15 @@ namespace FMS.ConsoleClient
         {
             //CountrySeeder(); //Done
             //CitySeeder(); //Take too much time - 84k rows // Done
-            //PostCodeSeeder(); // From 5 to 10 rows foreach city 
+            
+            //ToDo...//PostCodeSeeder(); // From 5 to 10 rows foreach city 
 
             //CompanyTypeSeeder(); //Done
             //CompanySeeder(); //Done
 
             //GenderSeed(); //Done
+            //EmployeeSeed(); //Done
 
-            EmployeeSeed();
 
 
         }
@@ -53,7 +51,7 @@ namespace FMS.ConsoleClient
 
             foreach (var companyName in companiesList)
             {
-                string bulstat = "BG0" + randomString(12);
+                string bulstat = "BG0" + RandomString(12);
                 int countryIDPositionInList = random.Next(0, countriesIDList.Count - 1);
                 int countryID = countriesIDList[countryIDPositionInList];
 
@@ -76,7 +74,7 @@ namespace FMS.ConsoleClient
                         , countryID
                         , cityID
                         , typeID
-                        , randomString(random.Next(15, 50))
+                        , RandomString(random.Next(15, 50))
                         );
                 }
                 catch (Exception ex)
@@ -170,7 +168,7 @@ namespace FMS.ConsoleClient
             {
                 for (int i = 0; i < random.Next(5, 10); i++)
                 {
-                    string code = randomString(4);
+                    string code = RandomString(4);
                     service.Create(code, cityID);
                 }
             }
@@ -201,19 +199,40 @@ namespace FMS.ConsoleClient
             string LatsNamesFileText = File.ReadAllText(LastNamesFilePath);
             var LastNamesList = JObject.Parse(LatsNamesFileText).GetValue("lastNames").ToList().Select(fn => fn.ToString()).ToList();
 
+            var service = new EmployeeService(data);
 
+
+            for (int i = 0; i < 1000; i++)
+            {
+                service.Create(
+                    FirstNamesList[random.Next(0, FirstNamesList.Count - 1)],
+                    MiddleNamesList[random.Next(0, MiddleNamesList.Count - 1)],
+                    LastNamesList[random.Next(0, LastNamesList.Count - 1)],
+                    RandomNumericString(10),
+                    RandomDay(),
+                    random.Next(1, 3)
+                    );
+            }
 
         }
-        private string randomString(int length)
+
+        private string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        private string randomNumericString(int length)
+        private string RandomNumericString(int length)
         {
             const string chars = "0123456789";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        private DateTime RandomDay()
+        {
+            DateTime start = new DateTime(1955, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(random.Next(range));
         }
     }
 }
