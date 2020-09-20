@@ -4,14 +4,16 @@ using FMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FMS.Data.Migrations
 {
     [DbContext(typeof(FMSDBContext))]
-    partial class FMSDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200920044449_RequestStatusCode-Double")]
+    partial class RequestStatusCodeDouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

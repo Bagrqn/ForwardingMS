@@ -2,7 +2,7 @@
 {
     public interface IRequest
     {
-        void Create();
+        void Create(string number, int requestTypeID);
 
         void NextStatus();
 

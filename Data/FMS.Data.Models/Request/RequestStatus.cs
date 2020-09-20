@@ -7,7 +7,7 @@ namespace FMS.Data.Models.Request
     {
         public int ID { get; set; }
 
-        public int Code { get; set; }
+        public double Code { get; set; }
 
         [Required]
         [MaxLength(DataValidation.RequestStatusNameMaxLenght)]
