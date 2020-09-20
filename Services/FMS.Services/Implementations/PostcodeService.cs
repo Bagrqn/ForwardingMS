@@ -39,5 +39,10 @@ namespace FMS.Services.Implementations
                     Code = p.Code
                 });
         }
+
+        public bool AnyCodeForCity(int cityID)
+        {
+            return data.Postcodes.Any(p => p.CityID == cityID);
+        }
     }
 }

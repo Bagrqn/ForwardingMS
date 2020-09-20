@@ -13,6 +13,8 @@ namespace FMS.Data.Models.Request
 
         public string Description { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public ICollection<Request> Requests { get; set; }
     }
 }

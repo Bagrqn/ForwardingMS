@@ -1,4 +1,5 @@
 ﻿using FMS.Data;
+using FMS.Data.Models;
 using FMS.Services.Implementations;
 using Newtonsoft.Json.Linq;
 using System;
@@ -20,7 +21,7 @@ namespace FMS.ConsoleClient
             //CountrySeeder(); //Done
             //CitySeeder(); //Take too much time - 84k rows // Done
             
-            //ToDo...//PostCodeSeeder(); // From 5 to 10 rows foreach city 
+           //PostCodeSeeder(); // From 5 to 10 rows foreach city //Done
 
             //CompanyTypeSeeder(); //Done
             //CompanySeeder(); //Done
@@ -164,13 +165,21 @@ namespace FMS.ConsoleClient
             var service = new PostcodeService(data);
             var cityIDList = new CityService(data).GetAllIDs();
 
+            
             foreach (var cityID in cityIDList)
             {
-                for (int i = 0; i < random.Next(5, 10); i++)
+                if (service.AnyCodeForCity(cityID))
+                {
+                    Console.WriteLine(cityID);
+                    continue;
+                }
+                int a = random.Next(5, 10);
+                for (int i = 0; i < a; i++)
                 {
                     string code = RandomString(4);
                     service.Create(code, cityID);
                 }
+                Console.WriteLine(cityID);
             }
         }
 
