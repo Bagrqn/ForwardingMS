@@ -1,0 +1,13 @@
+{
+  "RequestTypes": 
+  [
+    {
+      "RequestType": 1,
+      "StatusSequence": [ 0, 1.1, 1.3 ]
+    },
+    {
+      "RequestType": 2,
+      "StatusSequence": [ 0, 3, 4 ]
+    }
+  ]
+}

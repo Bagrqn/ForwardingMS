@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Request;
+using FMS.Services.Models.Request;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Linq;
@@ -41,7 +42,6 @@ namespace FMS.Services.Implementations.Request
             data.SaveChanges();
         }
 
-
         public int GetDefaultStatusID()
         {
             if (!data.RequestStatuses.Any(s => s.Code == 0))
@@ -49,6 +49,35 @@ namespace FMS.Services.Implementations.Request
                 CreateDefaultStatus();
             }
             return data.RequestStatuses.FirstOrDefault(s => s.Code == 0).ID;
+        }
+
+        public RequestStatusServiceModel GetRequestStatus(int requestID)
+        {
+            var request = data.Requests.FirstOrDefault(r => r.ID == requestID);
+            var status = data.RequestStatuses.FirstOrDefault(s => s.ID == request.RequestStatusID);
+            return new RequestStatusServiceModel()
+            {
+                ID = status.ID,
+                Code = status.Code,
+                Name = status.Name,
+                Description = status.Description
+            };
+        }
+
+        public RequestStatusServiceModel GetStatus(double code)
+        {
+            if (!data.RequestStatuses.Any(s => s.Code == code))
+            {
+                throw new InvalidOperationException($"Request status code {code} doesen't exist. ");
+            }
+            var status = data.RequestStatuses.FirstOrDefault(s => s.Code == code);
+            return new RequestStatusServiceModel()
+            {
+                ID = status.ID,
+                Code = status.Code,
+                Name = status.Name,
+                Description = status.Description
+            };
         }
 
         public int GetStatusIDByCode(double code)
@@ -59,6 +88,7 @@ namespace FMS.Services.Implementations.Request
             }
             return data.RequestStatuses.FirstOrDefault(s => s.Code == code).ID;
         }
+
         private void CreateDefaultStatus()
         {
             data.RequestStatuses.Add(new RequestStatus()

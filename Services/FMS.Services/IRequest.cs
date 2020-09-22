@@ -1,11 +1,17 @@
-﻿namespace FMS.Services
+﻿using FMS.Services.Models.Request;
+
+namespace FMS.Services
 {
     public interface IRequest
     {
         void Create(string number, int requestTypeID);
 
-        void NextStatus();
+        void NextStatus(int requestID);
 
-        void Delete();
+        void Delete(int requestID);
+
+        RequestStatusServiceModel GetStatus(int requestID);
+
+        RequestTypeServiceModel GetType(int requestID);
     }
 }

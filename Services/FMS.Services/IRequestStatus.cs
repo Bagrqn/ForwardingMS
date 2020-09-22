@@ -1,4 +1,6 @@
-﻿namespace FMS.Services.Implementations
+﻿using FMS.Services.Models.Request;
+
+namespace FMS.Services
 {
     public interface IRequestStatus
     {
@@ -11,6 +13,10 @@
         int GetDefaultStatusID();
 
         int GetStatusIDByCode(double code);
+
+        RequestStatusServiceModel GetRequestStatus(int requestID);
+
+        RequestStatusServiceModel GetStatus(double code);
 
     }
 }

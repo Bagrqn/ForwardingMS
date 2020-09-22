@@ -52,10 +52,11 @@ namespace FMS.Data
         public DbSet<DocumentRowBooleanProp> DocumentRowBooleanProps { get; set; }
         public DbSet<DocumentRowNumericProp> DocumentRowNumericProps { get; set; }
 
-
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Postcode> Postcodes { get; set; }
+
+        public DbSet<Models.Settings.Setting> Settings { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
