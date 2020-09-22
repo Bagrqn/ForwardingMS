@@ -13,6 +13,7 @@ namespace FMS.Services.Implementations.Request
 
         public RequestService(FMSDBContext data)
             => this.data = data;
+
         public void Create(string number, int requestTypeID)
         {
             if (string.IsNullOrEmpty(number))
@@ -75,7 +76,7 @@ namespace FMS.Services.Implementations.Request
             request.RequestStatusID = nextStatus.ID;
 
             //Log event in status history
-            data.RequestStatusHistories.Add(new Data.Models.Request.RequestStatusHistory 
+            data.RequestStatusHistories.Add(new Data.Models.Request.RequestStatusHistory
             {
                 RequestID = requestID,
                 NewStatusID = nextStatus.ID,
@@ -85,7 +86,6 @@ namespace FMS.Services.Implementations.Request
 
             data.SaveChanges();
         }
-
 
         public RequestStatusServiceModel GetStatus(int requestID)
         {
@@ -113,5 +113,100 @@ namespace FMS.Services.Implementations.Request
                 Description = type.Description
             };
         }
+
+        public void AddAssignor(int requestID, int companyID)
+        {
+            if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Assignor"))
+            {
+                AddRequestToCompanyRelationType("Assignor", "Възложител на заявката");
+            }
+            var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Assignor");
+            data.RequestToCompanies.Add(new Data.Models.Request.RequestToCompany
+            {
+                RequestID = requestID,
+                CompanyID = companyID,
+                RequestToCompanyRelationTypeID = relationType.ID
+            });
+            data.SaveChanges();
+        }
+
+        public void AddSupplyer(int requestID, int companyID)
+        {
+            if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Supplyer"))
+            {
+                AddRequestToCompanyRelationType("Supplyer", "Изпълнител на заявката");
+            }
+            var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Supplyer");
+            data.RequestToCompanies.Add(new Data.Models.Request.RequestToCompany
+            {
+                RequestID = requestID,
+                CompanyID = companyID,
+                RequestToCompanyRelationTypeID = relationType.ID
+            });
+            data.SaveChanges();
+        }
+
+        public void AddPayer(int requestID, int companyID)
+        {
+            if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Payer"))
+            {
+                AddRequestToCompanyRelationType("Payer", "Платец на заявката");
+            }
+            var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Payer");
+            data.RequestToCompanies.Add(new Data.Models.Request.RequestToCompany
+            {
+                RequestID = requestID,
+                CompanyID = companyID,
+                RequestToCompanyRelationTypeID = relationType.ID
+            });
+            data.SaveChanges();
+        }
+
+        public void AddEmployee(int requestID, int employeeID, int relationTypeID)
+        {
+            data.RequestToEmployees.Add(new Data.Models.Request.RequestToEmployee()
+            {
+                RequestID = requestID,
+                EmployeeID = employeeID,
+                RequestToEmployeeRelationTypeID = relationTypeID
+            });
+        }
+
+        private void AddRequestToCompanyRelationType(string name, string description)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new InvalidOperationException("Relation type name can not be null");
+            }
+            if (data.RequestToCompanyRelationTypes.Any(t => t.Name == name))
+            {
+                throw new InvalidOperationException($"Relation type {name} alredy exist. ");
+            }
+            data.RequestToCompanyRelationTypes.Add(new Data.Models.Request.RequestToCompanyRelationType()
+            {
+                Name = name,
+                Description = description
+            });
+            data.SaveChanges();
+        }
+
+        private void AddRequestToEmployeeRelationType(string name, string description)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new InvalidOperationException("Relation type name can not be null");
+            }
+            if (data.RequestToEmployeeRelationTypes.Any(t => t.Name == name))
+            {
+                throw new InvalidOperationException($"Relation type {name} alredy exist. ");
+            }
+            data.RequestToEmployeeRelationTypes.Add(new Data.Models.Request.RequestToEmployeeRelationType()
+            {
+                Name = name,
+                Description = description
+            });
+            data.SaveChanges();
+        }
+
     }
 }
