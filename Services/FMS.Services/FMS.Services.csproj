@@ -14,8 +14,4 @@
     <ProjectReference Include="..\FMS.Services.Models\FMS.Services.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Implementations\Load\" />
-  </ItemGroup>
-
 </Project>
