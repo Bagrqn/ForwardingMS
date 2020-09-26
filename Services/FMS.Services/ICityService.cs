@@ -1,5 +1,4 @@
 ﻿using FMS.Services.Models.City;
-using FMS.Services.Models.Postcode;
 using System.Collections.Generic;
 
 namespace FMS.Services
@@ -9,7 +8,5 @@ namespace FMS.Services
         void Create(string name, int countryID);
 
         IEnumerable<CityListingServiceModel> SearchByName(string name);
-
-        IEnumerable<PostcodeListingServiceModel> GetPostcodes(int cityID);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
+using FMS.Data.Models.Request;
 using FMS.Services.Models.City;
-using FMS.Services.Models.Postcode;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
@@ -62,18 +62,6 @@ namespace FMS.Services.Implementations
         public ICollection<int> GetAllIDs()
         {
             return this.data.Cities.Select(city => city.ID).ToList();
-        }
-
-        public IEnumerable<PostcodeListingServiceModel> GetPostcodes(int cityID)
-        {
-            return data.Postcodes
-                .Where(p => p.CityID == cityID)
-                .Select(p => new PostcodeListingServiceModel()
-                {
-                    ID = p.ID,
-                    Code = p.Code
-                })
-                .ToList();
         }
     }
 }

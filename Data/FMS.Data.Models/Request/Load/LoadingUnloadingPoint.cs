@@ -8,7 +8,7 @@ namespace FMS.Data.Models.Request
     {
         public int ID { get; set; }
 
-        public LoadingUnloadingPointTypeEnum Type { get; set; }
+        public LoadingUnloadingPointsTypeEnum Type { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
@@ -36,7 +36,7 @@ namespace FMS.Data.Models.Request
         public Request Request { get; set; }
     }
 
-    public enum LoadingUnloadingPointTypeEnum
+    public enum LoadingUnloadingPointsTypeEnum
     {
         Loading = 0,
         Unloading = 1,
