@@ -89,8 +89,10 @@ namespace FMS.Services.Implementations.Request
 
         public RequestStatusServiceModel GetStatus(int requestID)
         {
-            int requestStatusID = data.Requests.FirstOrDefault(r => r.ID == requestID).RequestStatusID;
-            var status = data.RequestStatuses.FirstOrDefault(rs => rs.ID == requestStatusID);
+            var status = data.Requests
+                .Where(r => r.ID == requestID)
+                .Select(r => r.RequestStatus)
+                .FirstOrDefault();
 
             return new RequestStatusServiceModel()
             {
@@ -103,8 +105,10 @@ namespace FMS.Services.Implementations.Request
 
         public RequestTypeServiceModel GetType(int requestID)
         {
-            int typeID = data.Requests.FirstOrDefault(r => r.ID == requestID).RequestTypeID;
-            var type = data.RequestTypes.FirstOrDefault(t => t.ID == typeID);
+            var type = data.Requests
+                  .Where(r => r.ID == requestID)
+                  .Select(r => r.RequestType)
+                  .FirstOrDefault();
 
             return new RequestTypeServiceModel()
             {

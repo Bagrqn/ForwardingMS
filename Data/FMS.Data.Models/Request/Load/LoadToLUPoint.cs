@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-namespace FMS.Data.Models.Request
+﻿namespace FMS.Data.Models.Request
 {
     public class LoadToLUPoint
     {
@@ -12,6 +9,5 @@ namespace FMS.Data.Models.Request
         public int LoadingUnloadingPointID { get; set; }
 
         public LoadingUnloadingPoint LoadingUnloadingPoint { get; set; }
-
     }
 }
