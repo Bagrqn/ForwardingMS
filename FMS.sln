@@ -18,9 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		Documentation\Data structure.docx = Documentation\Data structure.docx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMS.Services", "Services\FMS.Services\FMS.Services.csproj", "{C671D5CC-C225-46F2-9843-E20119172D7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMS.Services", "Services\FMS.Services\FMS.Services.csproj", "{C671D5CC-C225-46F2-9843-E20119172D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMS.Services.Models", "Services\FMS.Services.Models\FMS.Services.Models.csproj", "{F11AC2D3-5FED-4B5A-B3A9-FD19DE8C9B52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMS.Services.Models", "Services\FMS.Services.Models\FMS.Services.Models.csproj", "{F11AC2D3-5FED-4B5A-B3A9-FD19DE8C9B52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMS.WebClient", "FMS.WebClient\FMS.WebClient.csproj", "{3110D35D-E432-4EED-91DE-3E3AB9C47183}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{F11AC2D3-5FED-4B5A-B3A9-FD19DE8C9B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F11AC2D3-5FED-4B5A-B3A9-FD19DE8C9B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F11AC2D3-5FED-4B5A-B3A9-FD19DE8C9B52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3110D35D-E432-4EED-91DE-3E3AB9C47183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3110D35D-E432-4EED-91DE-3E3AB9C47183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3110D35D-E432-4EED-91DE-3E3AB9C47183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3110D35D-E432-4EED-91DE-3E3AB9C47183}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

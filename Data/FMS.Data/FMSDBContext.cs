@@ -3,14 +3,16 @@ using FMS.Data.Models.Company;
 using FMS.Data.Models.Document;
 using FMS.Data.Models.Employee;
 using FMS.Data.Models.Request;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Reflection;
 
 namespace FMS.Data
 {
-    public class FMSDBContext : DbContext
+    public class FMSDBContext : IdentityDbContext
     {
+        #region DbSet
         //Request
         public DbSet<Request> Requests { get; set; }
         public DbSet<RequestType> RequestTypes { get; set; }
@@ -57,8 +59,15 @@ namespace FMS.Data
         public DbSet<Postcode> Postcodes { get; set; }
 
         public DbSet<Models.Settings.Setting> Settings { get; set; }
+        #endregion
 
-
+        public FMSDBContext()
+        {
+        }
+        public FMSDBContext(DbContextOptions<FMSDBContext> options)
+            : base(options)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //TO DO: Connection string musnt not be here. Must come from app.config or from other comfig. 
