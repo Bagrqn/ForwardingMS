@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace FMS.ConsoleClient
 {
@@ -18,18 +19,15 @@ namespace FMS.ConsoleClient
 
         public void Seed()
         {
-            //CountrySeeder(); //Done
-            //CitySeeder(); //Take too much time - 84k rows // Done
-            
-           //PostCodeSeeder(); // From 5 to 10 rows foreach city //Done
+            CountrySeeder(); //Done
+            CitySeeder(); //Take too much time - 84k rows // Done
+            PostCodeSeeder(); // From 5 to 10 rows foreach city //Done
 
-            //CompanyTypeSeeder(); //Done
-            //CompanySeeder(); //Done
+            CompanyTypeSeeder(); //Done
+            CompanySeeder(); //Done
 
-            //GenderSeed(); //Done
-            //EmployeeSeed(); //Done
-
-
+            GenderSeed(); //Done
+            EmployeeSeed(); //Done
 
         }
 
@@ -88,12 +86,18 @@ namespace FMS.ConsoleClient
         private void CompanyTypeSeeder()
         {
             var service = new CompanyTypeService(data);
+            try
+            {
+                service.Create("Counterparty", "Контрагент: лице или дружество, което поема определени задължения по договор.");
+                service.Create("Client", "Клиент");
+                service.Create("Supplyer", "Доставчик");
+                service.Create("Distributor", "Дистрибутор");
+                service.Create("Carrier", "Превозвач");
+            }
+            catch (Exception)
+            {
 
-            service.Create("Counterparty", "Контрагент: лице или дружество, което поема определени задължения по договор.");
-            service.Create("Client", "Клиент");
-            service.Create("Supplyer", "Доставчик");
-            service.Create("Distributor", "Дистрибутор");
-            service.Create("Carrier", "Превозвач");
+            }
         }
 
         private void CountrySeeder()
@@ -110,7 +114,14 @@ namespace FMS.ConsoleClient
 
             foreach (var country in countriesList)
             {
-                service.Create(country);
+                try
+                {
+                    service.Create(country);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
             }
         }
 
@@ -131,6 +142,11 @@ namespace FMS.ConsoleClient
             var countryService = new CountryService(data);
             foreach (var country in countriesList)
             {
+                //If country is not one of this, seeder will not inset city for it.
+                if (!(country == "Bulgaria" || country == "Italy" || country == "Greece" || country == "Spain"))
+                {
+                    continue;
+                }
                 int countryID = countryService.SearchByName(country).FirstOrDefault().ID;
                 int citiesCount = 0;
                 try
@@ -165,7 +181,7 @@ namespace FMS.ConsoleClient
             var service = new PostcodeService(data);
             var cityIDList = new CityService(data).GetAllIDs();
 
-            
+
             foreach (var cityID in cityIDList)
             {
                 if (service.AnyCodeForCity(cityID))
@@ -186,9 +202,15 @@ namespace FMS.ConsoleClient
         private void GenderSeed()
         {
             var service = new GenderService(data);
+            try
+            {
+                service.Create("Male");
+                service.Create("Female");
+            }
+            catch (Exception)
+            {
 
-            service.Create("Male");
-            service.Create("Female");
+            }
         }
 
         /// <summary>
@@ -213,7 +235,9 @@ namespace FMS.ConsoleClient
 
             for (int i = 0; i < 1000; i++)
             {
-                service.Create(
+                try
+                {
+                    service.Create(
                     FirstNamesList[random.Next(0, FirstNamesList.Count - 1)],
                     MiddleNamesList[random.Next(0, MiddleNamesList.Count - 1)],
                     LastNamesList[random.Next(0, LastNamesList.Count - 1)],
@@ -221,6 +245,12 @@ namespace FMS.ConsoleClient
                     RandomDay(),
                     random.Next(1, 3)
                     );
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+                
             }
 
         }

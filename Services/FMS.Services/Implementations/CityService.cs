@@ -17,6 +17,7 @@ namespace FMS.Services.Implementations
         {
             this.data = data;
         }
+
         public void Create(string name, int countryID)
         {
             if (name.Length > DataValidation.CityNameMaxLenght)
@@ -74,6 +75,17 @@ namespace FMS.Services.Implementations
                     Code = p.Code
                 })
                 .ToList();
+        }
+
+        public IEnumerable<CityListingServiceModel> GetAllByCountry(int countryID)
+        {
+            return this.data.Cities
+                .Where(c => c.CountryID == countryID)
+                .Select(c => new CityListingServiceModel
+                {
+                    ID = c.ID,
+                    Name = c.Name
+                }).ToList();
         }
     }
 }

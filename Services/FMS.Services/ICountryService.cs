@@ -8,5 +8,7 @@ namespace FMS.Services
         void Create(string name);
 
         IEnumerable<CountryListingServiceModel> SearchByName(string name);
+
+        IEnumerable<CountryListingServiceModel> GetAll();
     }
 }

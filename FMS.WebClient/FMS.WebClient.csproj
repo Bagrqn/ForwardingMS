@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\FMS.Data\FMS.Data.csproj" />
+    <ProjectReference Include="..\Services\FMS.Services.Models\FMS.Services.Models.csproj" />
+    <ProjectReference Include="..\Services\FMS.Services\FMS.Services.csproj" />
   </ItemGroup>
 
 </Project>

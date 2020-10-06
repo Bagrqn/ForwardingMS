@@ -8,6 +8,11 @@ namespace FMS.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Document> document)
         {
+            //Document to Request
+            document.HasOne(d => d.Request)
+                .WithMany(r => r.Documents)
+                .HasForeignKey(r => r.RequestID);
+
             //Document with one DocumentType
             document.HasOne(d => d.DocumentType)
             .WithMany(d => d.Documents)

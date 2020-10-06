@@ -9,7 +9,8 @@ namespace FMS.Services
         void Create(string name, int countryID);
 
         IEnumerable<CityListingServiceModel> SearchByName(string name);
-
+        ICollection<int> GetAllIDsByCountry(int countryID);
         IEnumerable<PostcodeListingServiceModel> GetPostcodes(int cityID);
+        IEnumerable<CityListingServiceModel> GetAllByCountry(int countryID);
     }
 }

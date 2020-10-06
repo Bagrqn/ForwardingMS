@@ -59,5 +59,16 @@ namespace FMS.Services.Implementations
                 .ToList();
 
         }
+
+        public IEnumerable<CountryListingServiceModel> GetAll()
+        {
+            return data.Countries
+                .Select(c => new CountryListingServiceModel
+                {
+                    ID = c.ID,
+                    Name = c.Name
+                })
+                .ToList();
+        }
     }
 }

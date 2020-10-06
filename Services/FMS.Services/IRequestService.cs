@@ -2,7 +2,7 @@
 
 namespace FMS.Services
 {
-    public interface IRequest
+    public interface IRequestService
     {
         void Create(string number, int requestTypeID);
 

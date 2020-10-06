@@ -1,4 +1,7 @@
 using FMS.Data;
+using FMS.Services;
+using FMS.Services.Implementations;
+using FMS.Services.Implementations.Request;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -36,6 +39,11 @@ namespace FMS.WebClient
                 options.Password.RequiredLength = 3;
                 options.Password.RequiredUniqueChars = 1;
             });
+            //Register services for dependenci injection
+            services.AddTransient<IRequestService, RequestService>();
+            services.AddTransient<ICountryService, CountryService>();
+            services.AddTransient<ICityService, CityService>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

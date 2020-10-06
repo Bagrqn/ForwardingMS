@@ -1,8 +1,175 @@
-﻿
+﻿@model FMS.WebClient.Models.CustomerRequestViewModel;
 @{
     ViewData["Title"] = "NewCustomerRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>NewCustomerRequest</h1>
+<h1>New customer request</h1>
 
+<!-- Форма за създаване на Request-и от клиент. Без регистрация.-->
+<form asp-controller="Request" asp-action="Create" method="post">
+    <!-- Location from-->
+    <div>
+        <label asp-for="FromCountryID">From country</label>
+        <select id="FromCountryIdDropDown"
+                asp-for="FromCountryID"
+                asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
+            <option value="0">--Select country--</option>
+        </select>
+
+        <label asp-for="FromCityID">From city</label>
+        <select id="FromCityIdDropDown"
+                asp-for="FromCityID">
+            <option value="0">--Select city--</option>
+        </select>
+
+        <label asp-for="FromPostcodeID">From postcode</label>
+        <select id="FromPostcodeIDDropDown"
+                asp-for="FromPostcodeID">
+            <option value="0">--Select city--</option>
+        </select>
+    </div>
+    <!-- Location to-->
+    <div>
+        <label asp-for="ToCountryID">To country</label>
+        <select id="ToCountryIdDropDown"
+                asp-for="ToCountryID"
+                asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
+            <option value="0">--Select country--</option>
+        </select>
+
+        <label asp-for="ToCityID">To city</label>
+        <select id="ToCityIdDropDown"
+                asp-for="ToCityID">
+            <option value="0">--Select city--</option>
+        </select>
+
+        <label asp-for="ToPostcodeID">To postcode</label>
+        <select id="ToPostcodeIDDropDown"
+                asp-for="ToPostcodeID">
+            <option value="0">--Select city--</option>
+        </select>
+    </div>
+    <!-- Load info-->
+    <div>
+
+    </div>
+
+    <div>
+        <button type="submit">Create</button>
+    </div>
+</form>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            //From location
+
+            var fromCountryDDL = $("#FromCountryIdDropDown");
+            var fromCityDDL = $("#FromCityIdDropDown");
+            var fromPostcodeDDL = $("#FromPostcodeIDDropDown");
+
+            fromCityDDL.prop('disabled', true);
+            fromPostcodeDDL.prop('disabled', true);
+
+            //On From Country dropdown change
+            fromCountryDDL.change(function () {
+                if ($(this).val() == "0") {
+                    fromCityDDL.prop('disabled', true)
+                    fromCityDDL.val('0');
+                    fromPostcodeDDL.prop('disabled', true)
+                    fromPostcodeDDL.val('0');
+                }
+                else {
+                    fromCityDDL.prop('disabled', false)
+                    $.ajax({
+                        url: "/api/GetCities/" + $(this).val(),
+                        method: "GET",
+                        success: function (data) {
+                            fromCityDDL.empty();
+                            fromCityDDL.append($('<option/>', { value: '0', text: '--Select city--' }));
+                            $(data).each(function (index, item) {
+                                fromCityDDL.append($('<option/>', { value: item.id, text: item.name }));
+                            })
+                        }
+                    });
+                }
+            });
+
+            //On From City Dropdown change
+            fromCityDDL.change(function () {
+                if ($(this).val() == "0") {
+                    fromPostcodeDDL.prop('disabled', true)
+                    fromPostcodeDDL.val('0');
+                } else {
+                    fromPostcodeDDL.prop('disabled', false)
+                    $.ajax({
+                        url: "/api/GetPostcode/" + $(this).val(),
+                        method: "GET",
+                        success: function (data) {
+                            fromPostcodeDDL.empty();
+                            fromPostcodeDDL.append($('<option/>', { value: "0", text: '--Select postcode' }));
+                            $(data).each(function (index, item) {
+                                fromPostcodeDDL.append($('<option/>', { value: item.id, text: item.code }))
+                            });
+                        }
+                    })
+                }
+            });
+
+            //To location
+            var toCountryDDL = $("#ToCountryIdDropDown");
+            var toCityDDL = $("#ToCityIdDropDown");
+            var toPostcodeDDL = $("#ToPostcodeIDDropDown");
+
+            toCityDDL.prop('disabled', true);
+            toPostcodeDDL.prop('disabled', true);
+
+            //On country change!
+            toCountryDDL.change(function () {
+                if ($(this).val() == "0") {
+                    toCityDDL.prop('disabled', true);
+                    toCityDDL.val('0');
+                    toPostcodeDDL.prop('disabled', true);
+                    toPostcodeDDL.val('0');
+                } else {
+                    $.ajax({
+                        url: "/api/GetCities/" + $(this).val(),
+                        method: "GET",
+                        success: function (data) {
+                            toCityDDL.prop('disabled', false);
+                            toCityDDL.empty();
+                            toCityDDL.append($('<option/>', { value: '0', text: '--SelectCity--' }));
+                            $(data).each(function (index, item) {
+                                toCityDDL.append($('<option/>', { value: item.id, text: item.name }));
+                            })
+                        }
+                    })
+                }
+
+            });
+
+            //On city change!
+            toCityDDL.change(function () {
+                if ($(this).val() == "0") {
+                    toPostcodeDDL.prop('disable', true);
+                    toPostcodeDDL.val('0');
+                } else {
+                    $.ajax({
+                        url: "/api/GetPostcode/" + $(this).val(),
+                        method: "GET",
+                        success: function (data) {
+                            toPostcodeDDL.prop('disabled', false);
+                            toPostcodeDDL.empty();
+                            toPostcodeDDL.append($('<option/>', { value: '0', text: '--Select postcode--' }));
+                            $(data).each(function (index, item) {
+                                toPostcodeDDL.append($('<option/>', { value: item.id, text: item.code }));
+                            });
+                        }
+                    })
+                }
+            });
+
+        });
+    </script>
+}

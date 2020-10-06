@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace FMS.Services.Implementations.Request
 {
-    public class RequestService : IRequest
+    public class RequestService : IRequestService
     {
         private readonly FMSDBContext data;
 
