@@ -22,5 +22,8 @@ namespace FMS.Services
 
         RequestTypeServiceModel GetType(int requestID);
 
+        RequestListingServiceModel GetRequest(string number);
+
+        void NewCustomerRequest(FMS.Services.Models.Request.CurtomerRequestModel model);
     }
 }

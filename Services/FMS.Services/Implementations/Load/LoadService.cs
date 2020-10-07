@@ -1,7 +1,10 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Request;
+using FMS.Services.Models.Request;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FMS.Services.Implementations.Load
 {
@@ -92,6 +95,13 @@ namespace FMS.Services.Implementations.Load
             data.SaveChanges();
         }
 
-
+        public IEnumerable<PackageTypeListingServiceModel> GetAllTypes()
+        {
+            return data.PackageTypes.Select(p => new PackageTypeListingServiceModel
+            {
+                ID = p.ID,
+                Name = p.TypeName
+            }).ToList();
+        }
     }
 }

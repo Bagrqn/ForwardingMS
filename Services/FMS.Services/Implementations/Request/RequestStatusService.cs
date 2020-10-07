@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace FMS.Services.Implementations.Request
 {
-    public class RequestStatusService : IRequestStatus
+    public class RequestStatusService : IRequestStatusService
     {
         private readonly FMSDBContext data;
 
@@ -87,6 +87,11 @@ namespace FMS.Services.Implementations.Request
                 throw new InvalidOperationException($"Request status code {code} doesen't exist. ");
             }
             return data.RequestStatuses.FirstOrDefault(s => s.Code == code).ID;
+        }
+
+        public void LogStatusCganhe(int requestID, int oldStatusID, int newStatusID)
+        {
+            throw new NotImplementedException();
         }
 
         private void CreateDefaultStatus()

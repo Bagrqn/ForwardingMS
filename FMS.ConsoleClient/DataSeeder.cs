@@ -1,5 +1,6 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
+using FMS.Data.Models.Request;
 using FMS.Services.Implementations;
 using Newtonsoft.Json.Linq;
 using System;
@@ -29,6 +30,14 @@ namespace FMS.ConsoleClient
             GenderSeed(); //Done
             EmployeeSeed(); //Done
 
+            RequestType();
+
+        }
+
+        private void RequestType()
+        {
+            var a = new Services.Implementations.Request.RequestTypeService(data);
+            a.Create("Transport", "");
         }
 
         /// <summary>

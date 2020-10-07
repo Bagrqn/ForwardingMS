@@ -13,18 +13,21 @@ namespace FMS.Services.Models.Request
 
         public int FromPostcodeID { get; set; }
 
+        public string FromAddress { get; set; }
+
         public int ToCountryID { get; set; }
 
         public int ToCityID { get; set; }
 
         public int ToPostcodeID { get; set; }
 
+        public string ToAddress { get; set; }
         //Load main info
         public string LoadName { get; set; }
 
         public string LoadComment { get; set; } //Comment, short description, aditional info
 
-        public int PackageID { get; set; }
+        public int PackageTypeID { get; set; }
 
         public int PackageCount { get; set; }
 
@@ -43,6 +46,14 @@ namespace FMS.Services.Models.Request
 
         public string StockType { get; set; }
 
+        //Customer info
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string CompanyName { get; set; }
+
+
         public IEnumerable<CountryListingServiceModel> countryList { get; set; }
+
     }
 }

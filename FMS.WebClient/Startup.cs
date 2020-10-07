@@ -1,6 +1,8 @@
 using FMS.Data;
+using FMS.Data.Models.Request;
 using FMS.Services;
 using FMS.Services.Implementations;
+using FMS.Services.Implementations.Load;
 using FMS.Services.Implementations.Request;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +45,8 @@ namespace FMS.WebClient
             services.AddTransient<IRequestService, RequestService>();
             services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<ICityService, CityService>();
+            services.AddTransient<ILoadService, LoadService>();
+            services.AddTransient<IRequestTypeService, RequestTypeService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

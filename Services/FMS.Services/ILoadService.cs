@@ -1,4 +1,5 @@
-﻿using FMS.Data.Models.Request;
+﻿using FMS.Services.Models.Request;
+using System.Collections.Generic;
 
 namespace FMS.Services
 {
@@ -11,5 +12,7 @@ namespace FMS.Services
         void AddNumericProp(string name, double value, int loadID);
 
         void AddLUP(int loadID, int lupID);
+
+        IEnumerable<PackageTypeListingServiceModel> GetAllTypes();
     }
 }

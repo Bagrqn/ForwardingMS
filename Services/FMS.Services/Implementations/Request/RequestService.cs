@@ -1,4 +1,6 @@
 ﻿using FMS.Data;
+using FMS.Services.Factory;
+using FMS.Services.Factory.Request;
 using FMS.Services.Models.Request;
 using Newtonsoft.Json.Linq;
 using System;
@@ -212,5 +214,63 @@ namespace FMS.Services.Implementations.Request
             data.SaveChanges();
         }
 
+        public RequestListingServiceModel GetRequest(string number)
+        {
+            var request = data.Requests.FirstOrDefault(r => r.Number == number);
+            return new RequestListingServiceModel()
+            {
+                ID = request.ID,
+                Number = request.Number,
+                DateCreate = request.DateCreate,
+                IsDeleted = request.IsDeleted
+            };
+        }
+
+        public void NewCustomerRequest(CurtomerRequestModel model)
+        {
+            var requestTypeID = ServiceFactory.NewRequestTypeService(data).FindTypeByName("Transport").ID;
+            var request = RequestFactory.Create(DateTime.UtcNow.ToString(), requestTypeID);
+            request.RequestStatusID = ServiceFactory.NewRequestStatusService(data).GetDefaultStatusID();
+            //Create load
+            var load = LoadFactory.Create(model.LoadName, model.LoadComment, model.PackageTypeID, model.PackageCount);
+            //Add props if have value
+            if (model.Height != 0)
+            {
+                load.LoadNumericProps.Add(LoadFactory.NewNumericProps("Height", model.Height));
+            }
+            if (model.Width != 0)
+            {
+                load.LoadNumericProps.Add(LoadFactory.NewNumericProps("Width", model.Width));
+            }
+            if (model.WeightBrut != 0)
+            {
+                load.LoadNumericProps.Add(LoadFactory.NewNumericProps("WeightBrut", model.WeightBrut));
+            }
+            if (model.WeightNet != 0)
+            {
+                load.LoadNumericProps.Add(LoadFactory.NewNumericProps("WeightNet", model.WeightNet));
+            }
+            if (model.Lademeter != 0)
+            {
+                load.LoadNumericProps.Add(LoadFactory.NewNumericProps("Lademeter", model.Lademeter));
+            }
+            if (!string.IsNullOrEmpty(model.StockType))
+            {
+                load.LoadStringProps.Add(LoadFactory.NewStringProp("StockType", model.StockType));
+            }
+            //Add Load to Request
+            request.Loads.Add(load);
+            //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
+            request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Loading,
+                                                                    model.FromCityID, model.FromPostcodeID, model.FromAddress, 20));
+            //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
+            request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading,
+                                                                    model.ToCityID, model.ToPostcodeID, model.ToAddress, 20));
+            
+            
+            
+            data.Requests.Add(request);
+            data.SaveChanges();
+        }
     }
 }

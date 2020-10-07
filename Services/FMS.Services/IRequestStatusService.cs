@@ -2,7 +2,7 @@
 
 namespace FMS.Services
 {
-    public interface IRequestStatus
+    public interface IRequestStatusService
     {
         void Create(double code, string name, string description);
 
@@ -17,6 +17,7 @@ namespace FMS.Services
         RequestStatusServiceModel GetRequestStatus(int requestID);
 
         RequestStatusServiceModel GetStatus(double code);
-
+        
+        void LogStatusCganhe(int requestID, int oldStatusID, int newStatusID);
     }
 }

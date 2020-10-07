@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace FMS.Services.Implementations.Request
 {
-    public class RequestTypeService : IRequestType
+    public class RequestTypeService : IRequestTypeService
     {
         private readonly FMSDBContext data;
 
@@ -37,12 +37,21 @@ namespace FMS.Services.Implementations.Request
             data.RequestTypes.Add(requestType);
             data.SaveChanges();
         }
-
         public void Delete(int requestTypeID)
         {
             var requestType = data.RequestTypes.FirstOrDefault(r => r.ID == requestTypeID);
             requestType.IsDeleted = true;
             data.SaveChanges();
+        }
+        public Models.Request.RequestTypeServiceModel FindTypeByName(string typeName)
+        {
+            var type = data.RequestTypes.FirstOrDefault(t => t.Name == typeName);
+            return new Models.Request.RequestTypeServiceModel()
+            {
+                ID = type.ID,
+                Name = type.Name,
+                Description = type.Description
+            };
         }
     }
 }
