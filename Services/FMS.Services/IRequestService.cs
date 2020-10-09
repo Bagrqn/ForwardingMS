@@ -1,4 +1,5 @@
 ﻿using FMS.Services.Models.Request;
+using System.Collections.Generic;
 
 namespace FMS.Services
 {
@@ -24,6 +25,20 @@ namespace FMS.Services
 
         RequestListingServiceModel GetRequest(string number);
 
+        IEnumerable<BasicRequestsLintingServiceModel> GetAllByStatus(int statusID, int page = 1);
+
         void NewCustomerRequest(FMS.Services.Models.Request.CurtomerRequestModel model);
+
+        string GetFromCountry(int requestID);
+
+        string GetFromCity(int requestID);
+
+        string GetToCountry(int requestID);
+
+        string GetToCity(int requestID);
+
+        string GetLoadName(int requestID);
+
+        int CountByStatus(int statusID);
     }
 }

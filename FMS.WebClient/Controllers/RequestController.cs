@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FMS.WebClient.Controllers
 {
@@ -17,14 +18,16 @@ namespace FMS.WebClient.Controllers
         private ICityService cityService;
         private ILoadService loadService;
         private IRequestTypeService requestTypeService;
+        private IRequestStatusService requestStatusService;
 
-        public RequestController(IRequestService requestService, ICountryService countryService, ICityService cityService, ILoadService loadService, IRequestTypeService requestTypeService)
+        public RequestController(IRequestService requestService, ICountryService countryService, ICityService cityService, ILoadService loadService, IRequestTypeService requestTypeService, IRequestStatusService requestStatusService)
         {
             this.requestService = requestService;
             this.countryService = countryService;
             this.cityService = cityService;
             this.loadService = loadService;
             this.requestTypeService = requestTypeService;
+            this.requestStatusService = requestStatusService;
         }
         public IActionResult NewCustomerRequest(CurtomerRequestModel model)
         {
@@ -34,7 +37,21 @@ namespace FMS.WebClient.Controllers
         public IActionResult Create(CurtomerRequestModel model)
         {
             requestService.NewCustomerRequest(model);
-            return View();
+            return Redirect("/");
+        }
+        public IActionResult NewRequestsList(int page = 1)
+        {
+            int defaultStatusID = requestStatusService.GetDefaultStatusID(); //When customer create request, request is created with default status. Thats why here we get default status. 
+            var newRequests = requestService.GetAllByStatus(defaultStatusID, page);
+
+            var model = new RequestViewModel
+            {
+                list = newRequests,
+                CurrentPage = page,
+                CountByStatus = requestService.CountByStatus(defaultStatusID)
+            };
+            ;
+            return View(model); //return View(newRequests);  
         }
 
         //Web API

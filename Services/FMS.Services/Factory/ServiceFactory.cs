@@ -13,5 +13,9 @@ namespace FMS.Services.Factory
         {
             return new Implementations.Request.RequestStatusService(data);
         }
+        public static Implementations.Request.RequestService NewRequestService(FMSDBContext data)
+        {
+            return new Implementations.Request.RequestService(data);
+        }
     }
 }

@@ -4,6 +4,7 @@ using FMS.Services.Factory.Request;
 using FMS.Services.Models.Request;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -11,6 +12,8 @@ namespace FMS.Services.Implementations.Request
 {
     public class RequestService : IRequestService
     {
+        private const int pageSize = 20;
+
         private readonly FMSDBContext data;
 
         public RequestService(FMSDBContext data)
@@ -266,11 +269,114 @@ namespace FMS.Services.Implementations.Request
             //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
             request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading,
                                                                     model.ToCityID, model.ToPostcodeID, model.ToAddress, 20));
-            
-            
-            
+
+
+
             data.Requests.Add(request);
             data.SaveChanges();
+        }
+
+        public IEnumerable<BasicRequestsLintingServiceModel> GetAllByStatus(int statusID, int page = 1)
+        {
+            var a = data.Requests
+                .Where(r => r.RequestStatusID == statusID)
+                .Skip((page-1)*pageSize)
+                .Take(pageSize)
+                .Select(r => new BasicRequestsLintingServiceModel()
+                {
+                    ID = r.ID,
+                    Number = r.Number,
+                    DateCreate = r.DateCreate.ToString()
+                }).ToList();
+            foreach (var r in a)
+            {
+                r.FromCountryCity = GetFromCountry(r.ID).ToString() + " - " + GetFromCity(r.ID).ToString();
+                r.ToCountryCity = GetToCountry(r.ID) + " - " + GetToCity(r.ID);
+                r.LoadName = GetLoadName(r.ID);
+            }
+
+            return a;
+        }
+
+
+        public string GetFromCountry(int requestID)
+        {
+            var LUP = data.LoadingUnloadingPoints
+                .Where(lup => lup.RequestID == requestID
+                        && lup.Type == Data.Models.Request.LoadingUnloadingPointTypeEnum.Loading)
+                .FirstOrDefault();
+            if (LUP == null)
+            {
+                return " ";
+            }
+            var a = data.Cities
+                .Where(c => c.ID == LUP.CityID)
+                .Select(c => c.Country.Name)
+                .FirstOrDefault();
+            ;
+            return a;
+        }
+
+        public string GetFromCity(int requestID)
+        {
+            var cityName = data.LoadingUnloadingPoints
+                .Where(lup => lup.RequestID == requestID
+                        && lup.Type == Data.Models.Request.LoadingUnloadingPointTypeEnum.Loading)
+                .Select(lup => lup.City.Name)
+                .FirstOrDefault();
+            if (cityName == null)
+            {
+                return "";
+            }
+            ;
+            return cityName;
+        }
+
+        public string GetToCountry(int requestID)
+        {
+            var LUP = data.LoadingUnloadingPoints
+                .Where(lup => lup.RequestID == requestID
+                        && lup.Type == Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading)
+                .FirstOrDefault();
+            if (LUP == null)
+            {
+                return "";
+            }
+            var a = data.Cities
+                .Where(c => c.ID == LUP.CityID)
+                .Select(c => c.Country.Name)
+                .FirstOrDefault();
+            ;
+            return a;
+        }
+
+        public string GetToCity(int requestID)
+        {
+            var cityName = data.LoadingUnloadingPoints
+                .Where(lup => lup.RequestID == requestID
+                        && lup.Type == Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading)
+                .Select(lup => lup.City.Name)
+                .FirstOrDefault();
+            ;
+            return cityName;
+        }
+
+        public string GetLoadName(int requestID)
+        {
+            var load = data.Loads
+                .Where(l => l.RequestID == requestID)
+                .FirstOrDefault();
+            if (load == null)
+            {
+                return "-";
+            }
+            return load.Name;
+        }
+
+        public int CountByStatus(int statusID)
+        {
+            return data.Requests
+                .Where(r => r.RequestStatusID == statusID).Count();
         }
     }
 }
