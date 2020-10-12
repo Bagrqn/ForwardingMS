@@ -20,18 +20,28 @@ namespace FMS.ConsoleClient
 
         public void Seed()
         {
-            CountrySeeder(); //Done
-            CitySeeder(); //Take too much time - 84k rows // Done
-            PostCodeSeeder(); // From 5 to 10 rows foreach city //Done
+            CountrySeeder();
+            CitySeeder();
+            PostCodeSeeder();
 
-            CompanyTypeSeeder(); //Done
-            CompanySeeder(); //Done
+            CompanyTypeSeeder();
+            CompanySeeder();
 
-            GenderSeed(); //Done
-            EmployeeSeed(); //Done
+            GenderSeed();
+            EmployeeSeed();
 
             RequestType();
 
+            LoadPackageTypeSeeder();
+
+        }
+
+        private void LoadPackageTypeSeeder()
+        {
+            var service = new Services.Implementations.Load.LoadService(data);
+            service.CreatePackageType("Pallet");
+            service.CreatePackageType("Box");
+            service.CreatePackageType("Carton");
         }
 
         private void RequestType()
@@ -213,6 +223,7 @@ namespace FMS.ConsoleClient
             var service = new GenderService(data);
             try
             {
+                service.Create("Undefined");
                 service.Create("Male");
                 service.Create("Female");
             }
@@ -252,14 +263,14 @@ namespace FMS.ConsoleClient
                     LastNamesList[random.Next(0, LastNamesList.Count - 1)],
                     RandomNumericString(10),
                     RandomDay(),
-                    random.Next(1, 3)
+                    random.Next(2, 4)// this returns 2 or 3
                     );
                 }
                 catch (Exception)
                 {
                     continue;
                 }
-                
+
             }
 
         }

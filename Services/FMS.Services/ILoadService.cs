@@ -13,6 +13,8 @@ namespace FMS.Services
 
         void AddLUP(int loadID, int lupID);
 
+        void CreatePackageType(string name);
+
         IEnumerable<PackageTypeListingServiceModel> GetAllTypes();
     }
 }

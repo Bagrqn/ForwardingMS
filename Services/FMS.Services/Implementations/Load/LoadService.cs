@@ -95,6 +95,15 @@ namespace FMS.Services.Implementations.Load
             data.SaveChanges();
         }
 
+        public void CreatePackageType(string name)
+        {
+            data.PackageTypes.Add(new PackageType() 
+            { 
+                TypeName = name 
+            });
+            data.SaveChanges();
+        }
+
         public IEnumerable<PackageTypeListingServiceModel> GetAllTypes()
         {
             return data.PackageTypes.Select(p => new PackageTypeListingServiceModel
