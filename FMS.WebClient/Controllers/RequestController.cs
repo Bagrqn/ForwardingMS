@@ -1,5 +1,6 @@
 ﻿using FMS.Services;
 using FMS.Services.Models.City;
+using FMS.Services.Models.Company;
 using FMS.Services.Models.Postcode;
 using FMS.Services.Models.Request;
 using FMS.WebClient.Models;
@@ -19,8 +20,15 @@ namespace FMS.WebClient.Controllers
         private ILoadService loadService;
         private IRequestTypeService requestTypeService;
         private IRequestStatusService requestStatusService;
+        private ICompanyService companyService;
 
-        public RequestController(IRequestService requestService, ICountryService countryService, ICityService cityService, ILoadService loadService, IRequestTypeService requestTypeService, IRequestStatusService requestStatusService)
+        public RequestController(IRequestService requestService,
+            ICountryService countryService,
+            ICityService cityService,
+            ILoadService loadService,
+            IRequestTypeService requestTypeService,
+            IRequestStatusService requestStatusService,
+            ICompanyService companyService)
         {
             this.requestService = requestService;
             this.countryService = countryService;
@@ -28,6 +36,7 @@ namespace FMS.WebClient.Controllers
             this.loadService = loadService;
             this.requestTypeService = requestTypeService;
             this.requestStatusService = requestStatusService;
+            this.companyService = companyService;
         }
         public IActionResult NewCustomerRequest(CurtomerRequestModel model)
         {
@@ -44,7 +53,7 @@ namespace FMS.WebClient.Controllers
             int defaultStatusID = requestStatusService.GetDefaultStatusID(); //When customer create request, request is created with default status. Thats why here we get default status. 
             var newRequests = requestService.GetAllByStatus(defaultStatusID, page);
 
-            var model = new RequestViewModel
+            var model = new RequestListingViewModel
             {
                 list = newRequests,
                 CurrentPage = page,
@@ -54,6 +63,30 @@ namespace FMS.WebClient.Controllers
             return View(model); //return View(newRequests);  
         }
 
+        public IActionResult ProcessCurtomerRequest(int requestID)
+        {
+            //Open form to process request
+            var fullRequestInfo = requestService.GetRequest(requestID);
+            ;
+            return View(fullRequestInfo);
+        }
+
+        public IActionResult SaveChanges(FullInfoRequestServiceModel model)
+        {
+            requestService.SaveChanges(model);
+            ;
+            return Redirect("/");
+        }
+        public IActionResult Accept(FullInfoRequestServiceModel model)
+        {
+            ;
+            return Redirect("/");
+        }
+        public IActionResult Delete(FullInfoRequestServiceModel model)
+        {
+            ;
+            return Redirect("/");
+        }
         //Web API
         [AllowAnonymous]
         [HttpGet("api/GetCities/{countryID}")]
@@ -75,6 +108,18 @@ namespace FMS.WebClient.Controllers
         public IEnumerable<PackageTypeListingServiceModel> GetPackageTypes()
         {
             return loadService.GetAllTypes();
+        }
+
+
+        [HttpGet("api/GetCarrierCompany")]
+        public IEnumerable<CompanyListingServiceModel> GetCarrierCompanies()
+        {
+            return companyService.GetCarrierCompanies();
+        }
+        [HttpGet("api/GetPayerCompany")]
+        public IEnumerable<CompanyListingServiceModel> GetPayerCompany()
+        {
+            return companyService.GetPayerCompanies();
         }
     }
 }

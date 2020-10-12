@@ -759,6 +759,29 @@ namespace FMS.Data.Migrations
                     b.ToTable("Requests");
                 });
 
+            modelBuilder.Entity("FMS.Data.Models.Request.RequestNumericProp", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RequestID")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("RequestID");
+
+                    b.ToTable("RequestNumericProps");
+                });
+
             modelBuilder.Entity("FMS.Data.Models.Request.RequestStatus", b =>
                 {
                     b.Property<int>("ID")
@@ -812,6 +835,29 @@ namespace FMS.Data.Migrations
                     b.ToTable("RequestStatusHistories");
                 });
 
+            modelBuilder.Entity("FMS.Data.Models.Request.RequestStringProps", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RequestID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("RequestID");
+
+                    b.ToTable("RequestStringProps");
+                });
+
             modelBuilder.Entity("FMS.Data.Models.Request.RequestToCompany", b =>
                 {
                     b.Property<int>("RequestID")
@@ -823,7 +869,7 @@ namespace FMS.Data.Migrations
                     b.Property<int>("RequestToCompanyRelationTypeID")
                         .HasColumnType("int");
 
-                    b.HasKey("RequestID", "CompanyID");
+                    b.HasKey("RequestID", "CompanyID", "RequestToCompanyRelationTypeID");
 
                     b.HasIndex("CompanyID");
 
@@ -1408,6 +1454,15 @@ namespace FMS.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FMS.Data.Models.Request.RequestNumericProp", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Request.Request", "Request")
+                        .WithMany("RequestNumericProps")
+                        .HasForeignKey("RequestID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FMS.Data.Models.Request.RequestStatusHistory", b =>
                 {
                     b.HasOne("FMS.Data.Models.Request.RequestStatus", "NewRequestStatus")
@@ -1424,6 +1479,15 @@ namespace FMS.Data.Migrations
 
                     b.HasOne("FMS.Data.Models.Request.Request", "Request")
                         .WithMany("RequestStatusHistories")
+                        .HasForeignKey("RequestID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FMS.Data.Models.Request.RequestStringProps", b =>
+                {
+                    b.HasOne("FMS.Data.Models.Request.Request", "Request")
+                        .WithMany("requestStringProps")
                         .HasForeignKey("RequestID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

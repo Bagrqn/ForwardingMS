@@ -34,5 +34,9 @@ namespace FMS.Data.Models.Request
         public ICollection<Load> Loads { get; set; } = new HashSet<Load>();
 
         public ICollection<LoadingUnloadingPoint> LoadingUnloadingPoints { get; set; } = new HashSet<LoadingUnloadingPoint>();
+
+        public ICollection<RequestNumericProp> RequestNumericProps { get; set; } = new HashSet<RequestNumericProp>();
+
+        public ICollection<RequestStringProps> requestStringProps { get; set; } = new HashSet<RequestStringProps>();
     }
 }

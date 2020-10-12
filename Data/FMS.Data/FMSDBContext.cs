@@ -28,6 +28,8 @@ namespace FMS.Data
         public DbSet<LoadStringProp> LoadStringProps { get; set; }
         public DbSet<LoadingUnloadingPoint> LoadingUnloadingPoints { get; set; }
         public DbSet<LoadToLUPoint> LoadToLUPoints { get; set; }
+        public DbSet<RequestStringProps> RequestStringProps { get; set; }
+        public DbSet<RequestNumericProp> RequestNumericProps { get; set; }
 
         //Employee
         public DbSet<Employee> Employees { get; set; }

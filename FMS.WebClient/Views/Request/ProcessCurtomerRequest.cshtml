@@ -1,0 +1,215 @@
+﻿@model FMS.Services.Models.Request.FullInfoRequestServiceModel;
+@{
+    ViewData["Title"] = "ProcessCurtomerRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<h1>ProcessCurtomerRequest</h1>
+<form asp-controller="Request" asp-action="ProcessedCustomerRequest" method="post">
+    <input asp-for="ID" value="@Model.ID" style="display: none;" />
+    <h3>Request info</h3>
+    <table>
+        <tr>
+            <td>Number</td>
+            <td>@Model.Number</td>
+        </tr>
+        <tr>
+            <td>Date create</td>
+            <td>@Model.DateCreate</td>
+        </tr>
+        <tr>
+            <td>Info</td>
+            <td>@Model.LoadName</td>
+        </tr>
+        <tr>
+            <td>More info</td>
+            <td><textarea asp-for="LoadComment" data="@Model.LoadComment" type="text"></textarea></td>
+        </tr>
+        <tr>
+            <td>From: </td>
+            <td>@Model.FromInfo</td>
+        </tr>
+        <tr>
+            <td>To:  </td>
+            <td>@Model.ToInfo</td>
+        </tr>
+    </table>
+
+    <h3>Load info</h3>
+    <table>
+        <tr>
+            <td>Package type: </td>
+            <td>
+                <select id="PackageTypeDDL"
+                        asp-for="PackageTypeID">
+                    <option value="0">--Select package type--</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Package count: </td>
+            <td><input asp-for="PackageCount" value="@Model.PackageCount" /></td>
+        </tr>
+        <tr>
+            <td>Length: </td>
+            <td><input asp-for="Length" value="@Model.Length" /></td>
+        </tr>
+        <tr>
+            <td>Width: </td>
+            <td><input asp-for="Width" value="@Model.Width" /></td>
+        </tr>
+        <tr>
+            <td>Height: </td>
+            <td><input asp-for="Height" value="@Model.Height" /></td>
+        </tr>
+        <tr>
+            <td>WeightBrut: </td>
+            <td><input asp-for="WeightBrut" value="@Model.WeightBrut" /></td>
+        </tr>
+        <tr>
+            <td>WeightNet: </td>
+            <td><input asp-for="WeightNet" value="@Model.WeightNet" /></td>
+        </tr>
+        <tr>
+            <td>Lademeter: </td>
+            <td><input asp-for="Lademeter" value="@Model.Lademeter" /></td>
+        </tr>
+        <tr>
+            <td>StockType: </td>
+            <td><input asp-for="StockType" value="@Model.StockType" /></td>
+        </tr>
+    </table>
+
+    <h3>Assignor info</h3>
+    <table>
+        <tr>
+            <td>First name: </td>
+            <td>@Model.AssignorFirstName</td>
+        </tr>
+        <tr>
+            <td>Last name: </td>
+            <td>@Model.AssignorLastName</td>
+        </tr>
+        <tr>
+            <td>Phone number: </td>
+            <td>@Model.AssignorPhoneNumber</td>
+        </tr>
+        <tr>
+            <td>Company name: </td>
+            <td>@Model.AssignorCompanyName</td>
+        </tr>
+    </table>
+    <h3> Carrier company </h3>
+    <table>
+        <tr>
+            <td>Carrier company: </td>
+            <td>
+                <select id="CarrierCompanyDDL"
+                        asp-for="CarrierConpanyID">
+                    <option value="0">--Select carrier company--</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <h3> aaaa company </h3>
+    <table>
+        <tr>
+            <td>Payer company: </td>
+            <td>
+                <select id="PayerCompanyDDL"
+                        asp-for="PayerConpanyID">
+                    <option value="0">--Select payer company--</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <table>
+        <tr>
+            <td>Carrier price: </td>
+            <td><input asp-for="CarrierPrice" id="carrierPrice" /></td>
+            <td>Client price: </td>
+            <td><input asp-for="ClientPrice" id="clientPrice" /></td>
+            <td>Saldo: </td>
+            <td><input asp-for="Saldo" id="saldo" /></td>
+        </tr>
+    </table>
+    //Бутон за запазване на информацията
+    //Бутон за отхвърляне на заявка
+    //Бутон за приемане на поръчката
+    <div>
+        <button type="submit" asp-controller="Request" asp-action="SaveChanges"class="btn btn-primary">Save changes</button>
+        <button type="submit" asp-controller="Request" asp-action="Accept" class="btn btn-primary">Accept</button>
+        <button type="submit" asp-controller="Request" asp-action="Delete" class="btn btn-danger" >Delete</button>
+    </div>
+</form>
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            //PackageTypeDropDown
+            var packageTypeDDL = $("#PackageTypeDDL")
+            $.ajax({
+                url: "/api/GetPackageTypes",
+                method: "GET",
+                success: function (data) {
+                    packageTypeDDL.empty();
+                    packageTypeDDL.append($('<option/>', { value: '0', text: '--Select package type--' }));
+                    $(data).each(function (index, item) {
+                        packageTypeDDL.append($('<option/>', { value: item.id, text: item.name }));
+                    });
+                    packageTypeDDL.val('@Model.PackageTypeID');
+                }
+            });
+
+            var carrireDDL = $("#CarrierCompanyDDL");
+            $.ajax({
+                url: "/api/GetCarrierCompany",
+                method: "GET",
+                success: function (data) {
+                    carrireDDL.empty();
+                    carrireDDL.append($('<option/>', { value: '0', text: '>--Select carrier--' }));
+                    $(data).each(function (index, item) {
+                        carrireDDL.append($('<option/>', { value: item.id, text: (item.id + ' | ' + item.name + ' | ' + item.address) }));
+                    });
+                }
+            });
+
+            var payerDDL = $("#PayerCompanyDDL");
+            $.ajax({
+                url: "/api/GetPayerCompany",
+                method: "GET",
+                success: function (data) {
+                    payerDDL.empty();
+                    payerDDL.append($('<option/>', { value: '0', text: '>--Select payer--' }));
+                    $(data).each(function (index, item) {
+                        payerDDL.append($('<option/>', { value: item.id, text: (item.id + ' | ' + item.name + ' | ' + item.address) }));
+                    });
+                }
+            });
+
+            var saldo = $("#saldo");
+            var carierPrice = $("#carrierPrice");
+            var clientPrice = $("#clientPrice");
+            carierPrice.change(function () {
+                saldo.prop('value', (carierPrice.val() - clientPrice.val()));
+            });
+            clientPrice.change(function () {
+                saldo.prop('value', (carierPrice.val() - clientPrice.val()));
+            })
+        });
+    </script>
+}

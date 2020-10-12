@@ -1,8 +1,11 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Company;
+using FMS.Services.Models.Company;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FMS.Services.Implementations
@@ -66,6 +69,72 @@ namespace FMS.Services.Implementations
 
             company.CompanyBoolProps.Add(deletedProp);
             this.data.SaveChanges();
+        }
+
+        public IEnumerable<CompanyListingServiceModel> GetCarrierCompanies()
+        {
+            var list = data.Companies.Where(c => c.CompanyTypeID == GetTypeCarrierID()).Select(c => new CompanyListingServiceModel
+            {
+                ID = c.ID,
+                Name = c.Name,
+                Address = c.Address,
+                Bulstat = c.Bulstat,
+                TaxNumber = c.TaxNumber,
+                CountryID = c.CountryID,
+                CityID = c.CityID,
+                CompanyTypeID = c.CompanyTypeID
+            }).ToList();
+            ;
+            return list;
+        }
+
+        public IEnumerable<CompanyListingServiceModel> GetPayerCompanies()
+        {
+            var list = data.Companies.Where(c => c.CompanyTypeID == GetCompanyTypeID("Client")).Select(c => new CompanyListingServiceModel
+            {
+                ID = c.ID,
+                Name = c.Name,
+                Address = c.Address,
+                Bulstat = c.Bulstat,
+                TaxNumber = c.TaxNumber,
+                CountryID = c.CountryID,
+                CityID = c.CityID,
+                CompanyTypeID = c.CompanyTypeID
+            }).ToList();
+            ;
+            return list;
+        }
+
+        public int GetCompanyTypeID(string v)
+        {
+            var typeID = data.CompanyTypes.FirstOrDefault(t => t.Name == v);
+            if (typeID == null)
+            {
+                data.CompanyTypes.Add(new CompanyType()
+                {
+                    Name = v,
+                    Description = v
+                });
+            }
+            data.SaveChanges();
+            var a = data.CompanyTypes.FirstOrDefault(t => t.Name == v).ID;
+            return a;
+        }
+
+        public int GetTypeCarrierID()
+        {
+            var typeID = data.CompanyTypes.FirstOrDefault(t => t.Name == "Carrier");
+            if (typeID == null)
+            {
+                data.CompanyTypes.Add(new CompanyType()
+                {
+                    Name = "Carrier",
+                    Description = "Превозвач"
+                });
+            }
+            data.SaveChanges();
+            var a = data.CompanyTypes.FirstOrDefault(t => t.Name == "Carrier").ID;
+            return a;
         }
 
         //To do..

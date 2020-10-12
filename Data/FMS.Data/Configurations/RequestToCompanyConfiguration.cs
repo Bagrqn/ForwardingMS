@@ -11,7 +11,7 @@ namespace FMS.Data.Configurations
             //Request to Company is many to many relation table with additional ingformation Relation type.
             //Relation type explain business sense of the relationship.
             //In this case, we have Company who is a asignor and other or same who is payer. RelationType explane this relationships.
-            requestToCompany.HasKey(r => new { r.RequestID, r.CompanyID });
+            requestToCompany.HasKey(r => new { r.RequestID, r.CompanyID, r.RequestToCompanyRelationTypeID});
 
             requestToCompany.HasOne(rtcs => rtcs.Request)
             .WithMany(r => r.RequestToCompanies)

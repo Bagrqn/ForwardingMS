@@ -29,5 +29,19 @@ namespace FMS.Services.Implementations
             this.data.Genders.Add(gender);
             this.data.SaveChanges();
         }
+
+        public Gender GetDefaultGender()
+        {
+            var defaultGender = data.Genders.Any(g => g.Name == "Undefined");
+            if (!defaultGender)
+            {
+                data.Genders.Add(new Gender()
+                {
+                    Name = "Undefined"
+                });
+                data.SaveChanges();
+            }
+            return data.Genders.FirstOrDefault(g => g.Name == "Undefined");
+        }
     }
 }

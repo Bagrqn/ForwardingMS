@@ -79,12 +79,16 @@
             <label asp-for="LoadComment">Comment, short description, aditional info</label>
             <textarea asp-for="LoadComment" type="text"></textarea>
         </div>
-        <div class="d-inline">
+        <div>
             <label asp-for="PackageTypeID">Package type</label>
             <select id="PackageTypeDDL"
                     asp-for="PackageTypeID">
                 <option value="0">--Select city--</option>
             </select>
+        </div>
+        <div>
+            <label asp-for="PackageCount">Package count</label>
+            <input asp-for="PackageCount" />
         </div>
         <div class="d-inline">
             <label asp-for="Length">Length</label>

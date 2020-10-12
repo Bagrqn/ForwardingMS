@@ -1,4 +1,6 @@
 ﻿using FMS.Data;
+using FMS.Data.Models;
+using FMS.Data.Models.Request;
 using FMS.Services.Factory;
 using FMS.Services.Factory.Request;
 using FMS.Services.Models.Request;
@@ -41,6 +43,7 @@ namespace FMS.Services.Implementations.Request
         {
             var request = data.Requests.FirstOrDefault(r => r.ID == requestID);
             request.IsDeleted = true;
+            //set status to deleted!! 
             data.SaveChanges();
         }
 
@@ -139,6 +142,33 @@ namespace FMS.Services.Implementations.Request
             data.SaveChanges();
         }
 
+        public void AddCarrier(int requestID, int companyID)
+        {
+            if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Carrier"))
+            {
+                AddRequestToCompanyRelationType("Carrier", "Превозвач");
+            }
+            var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Carrier");
+
+            var relation = data.RequestToCompanies.FirstOrDefault(x => x.RequestID == requestID
+                                        && x.RequestToCompanyRelationTypeID == relationType.ID);
+            if (relation != null)
+            {
+                //update
+                relation.CompanyID = companyID;
+            }
+            else
+            {
+                data.RequestToCompanies.Add(new RequestToCompany
+                {
+                    RequestID = requestID,
+                    CompanyID = companyID,
+                    RequestToCompanyRelationTypeID = relationType.ID
+                });
+            }
+
+            data.SaveChanges();
+        }
         public void AddSupplyer(int requestID, int companyID)
         {
             if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Supplyer"))
@@ -229,6 +259,134 @@ namespace FMS.Services.Implementations.Request
             };
         }
 
+        public FullInfoRequestServiceModel GetRequest(int requestId)
+        {
+            //Request
+            var request = data.Requests.FirstOrDefault(r => r.ID == requestId);
+            //Loads
+            var load = data.Loads
+                .Where(l => l.RequestID == requestId)
+                .Select(l => new
+                {
+                    Name = l.Name,
+                    l.PackageCount,
+                    TypeName = l.PackageType.TypeName,
+                    TypeID = l.PackageType.ID,
+                    l.Comment,
+                    Lenght = l.LoadNumericProps.FirstOrDefault(x => x.Name == "Length").Value,
+                    Width = l.LoadNumericProps.FirstOrDefault(x => x.Name == "Width").Value,
+                    Height = l.LoadNumericProps.FirstOrDefault(x => x.Name == "Height").Value,
+                    WeightBrut = l.LoadNumericProps.FirstOrDefault(x => x.Name == "WeightBrut").Value,
+                    WeightNet = l.LoadNumericProps.FirstOrDefault(x => x.Name == "WeightNet").Value,
+                    Lademeter = l.LoadNumericProps.FirstOrDefault(x => x.Name == "Lademeter").Value,
+                    StockType = l.LoadStringProps.FirstOrDefault(x => x.Name == "StockType").Value
+                })
+                .FirstOrDefault();
+            //LUPs info From-To
+            var LUPFrom = data.LoadingUnloadingPoints
+                .Where(lup => lup.Type == Data.Models.Request.LoadingUnloadingPointTypeEnum.Loading && lup.RequestID == requestId)
+                .Select(lup => new
+                {
+                    ID = lup.ID,
+                    PostcodeCode = lup.Postcode.Code,
+                    Address = lup.Address,
+                    CityName = lup.City.Name,
+                    CountryName = lup.City.Country.Name
+                })
+                .FirstOrDefault();
+            string fromInfo = "";
+            if (LUPFrom != null)
+            {
+                fromInfo = $"{LUPFrom.CountryName} - {LUPFrom.CityName} - {LUPFrom.Address} ; Postcode: {LUPFrom.PostcodeCode}";
+            }
+            var LUPTo = data.LoadingUnloadingPoints
+               .Where(lup => lup.Type == Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading && lup.RequestID == requestId)
+               .Select(lup => new
+               {
+                   ID = lup.ID,
+                   PostcodeCode = lup.Postcode.Code,
+                   Address = lup.Address,
+                   CityName = lup.City.Name,
+                   CountryName = lup.City.Country.Name
+               })
+               .FirstOrDefault();
+            string toInfo = "";
+            if (LUPTo != null)
+            {
+                toInfo = $"{LUPTo.CountryName} - {LUPTo.CityName} - {LUPTo.Address} ; Postcode: {LUPTo.PostcodeCode}";
+            }
+
+
+            //Assignor info
+            var assignor = data.RequestToEmployees
+                .Where(x => x.RequestID == requestId
+                    && x.RequestToEmployeeRelationTypeID == GetRequestToEmployeeRelationTypeAssignor().ID)
+                .Select(x => new
+                {
+                    AssignorFirstName = x.Employee.FirstName,
+                    AssignorLastName = x.Employee.LastName,
+                    AssignorPhoneNumber = x.Employee.EmployeeStringProps.FirstOrDefault(p => p.Name == "Phone number").Value,
+                    AssignorCompanyName = x.Employee.EmployeeStringProps.FirstOrDefault(p => p.Name == "Company name").Value,
+                }).FirstOrDefault();
+            ;
+            if (request == null)
+            {
+                return null;
+            }
+            var fullRequestInfo = new FullInfoRequestServiceModel
+            {
+                ID = requestId,
+                Number = request.Number,
+                DateCreate = request.DateCreate.ToString(),
+                FromInfo = fromInfo,
+                ToInfo = toInfo,
+
+            };
+            if (assignor != null)
+            {
+                fullRequestInfo.AssignorFirstName = assignor.AssignorFirstName;
+                fullRequestInfo.AssignorLastName = assignor.AssignorLastName;
+                fullRequestInfo.AssignorPhoneNumber = assignor.AssignorPhoneNumber;
+                fullRequestInfo.AssignorCompanyName = assignor.AssignorCompanyName;
+
+            }
+            if (load != null)
+            {
+                fullRequestInfo.Length = load.Lenght;
+                fullRequestInfo.Width = load.Width;
+                fullRequestInfo.Height = load.Height;
+                fullRequestInfo.WeightBrut = load.WeightBrut;
+                fullRequestInfo.WeightNet = load.WeightNet;
+                fullRequestInfo.Lademeter = load.Lademeter;
+                fullRequestInfo.StockType = load.StockType;
+                fullRequestInfo.LoadName = load.Name;
+                fullRequestInfo.LoadComment = load.Comment;
+                fullRequestInfo.PackageCount = load.PackageCount;
+                fullRequestInfo.PackageTypeID = load.TypeID;
+
+            }
+            ;
+            //Chech carrier company
+            var carrierCompany = data.RequestToCompanies.FirstOrDefault(rtc => rtc.RequestID == requestId
+                                                                && rtc.RequestToCompanyRelationTypeID == Factory.ServiceFactory.NewCompanyService(data).GetTypeCarrierID()
+                                                                );
+            if (carrierCompany != null)
+            {
+                fullRequestInfo.CarrierConpanyID = carrierCompany.CompanyID;
+            }
+            //Chech payer company (Client)
+            var payerCompany = data.RequestToCompanies.FirstOrDefault(rtc => rtc.RequestID == requestId
+                                                                && rtc.RequestToCompanyRelationTypeID == ServiceFactory.NewCompanyService(data).GetCompanyTypeID("Client"));
+            if (payerCompany != null)
+            {
+                fullRequestInfo.PayerConpanyID = payerCompany.CompanyID;
+            }
+            ;
+            return fullRequestInfo;
+        }
+
+
+
         public void NewCustomerRequest(CurtomerRequestModel model)
         {
             var requestTypeID = ServiceFactory.NewRequestTypeService(data).FindTypeByName("Transport").ID;
@@ -236,7 +394,11 @@ namespace FMS.Services.Implementations.Request
             request.RequestStatusID = ServiceFactory.NewRequestStatusService(data).GetDefaultStatusID();
             //Create load
             var load = LoadFactory.Create(model.LoadName, model.LoadComment, model.PackageTypeID, model.PackageCount);
-            //Add props if have value
+            //Add props if have value Length
+            if (model.Length != 0)
+            {
+                load.LoadNumericProps.Add(LoadFactory.NewNumericProps("Length", model.Length));
+            }
             if (model.Height != 0)
             {
                 load.LoadNumericProps.Add(LoadFactory.NewNumericProps("Height", model.Height));
@@ -270,17 +432,57 @@ namespace FMS.Services.Implementations.Request
             request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading,
                                                                     model.ToCityID, model.ToPostcodeID, model.ToAddress, 20));
 
+            //Add assignor info.
+            var employeeAssignor = Factory.Employee.EmployeeFactory.NewEmployee();
+            employeeAssignor.GenderID = new GenderService(data).GetDefaultGender().ID;
+            employeeAssignor.FirstName = model.FirstName;
+            employeeAssignor.LastName = model.LastName;
+            employeeAssignor.MiddleName = "-";
+            employeeAssignor.EGN = "-";
+            employeeAssignor.BirthDate = DateTime.MinValue;
 
+            request.RequestToEmployees.Add(new Data.Models.Request.RequestToEmployee()
+            {
+                Employee = employeeAssignor,
+                Request = request,
+                RequestToEmployeeRelationType = GetRequestToEmployeeRelationTypeAssignor()
+            });
+            employeeAssignor.EmployeeStringProps.Add(new Data.Models.Employee.EmployeeStringProp()
+            {
+                Name = "Phone number",
+                Value = model.PhoneNumber
+            });
+            employeeAssignor.EmployeeStringProps.Add(new Data.Models.Employee.EmployeeStringProp()
+            {
+                Name = "Company name",
+                Value = model.CompanyName
+            });
 
+            ;//Компания за сега няма да се добавя! 
             data.Requests.Add(request);
             data.SaveChanges();
+        }
+
+        public RequestToEmployeeRelationType GetRequestToEmployeeRelationTypeAssignor()
+        {
+            var hasAssignor = data.RequestToEmployeeRelationTypes.Any(t => t.Name == "Assignor");
+            if (!hasAssignor)
+            {
+                data.RequestToEmployeeRelationTypes.Add(new Data.Models.Request.RequestToEmployeeRelationType
+                {
+                    Name = "Assignor",
+                    Description = "This person is creator of request. "
+                });
+                data.SaveChanges();
+            }
+            return data.RequestToEmployeeRelationTypes.FirstOrDefault(t => t.Name == "Assignor");
         }
 
         public IEnumerable<BasicRequestsLintingServiceModel> GetAllByStatus(int statusID, int page = 1)
         {
             var a = data.Requests
                 .Where(r => r.RequestStatusID == statusID)
-                .Skip((page-1)*pageSize)
+                .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(r => new BasicRequestsLintingServiceModel()
                 {
@@ -297,7 +499,6 @@ namespace FMS.Services.Implementations.Request
 
             return a;
         }
-
 
         public string GetFromCountry(int requestID)
         {
@@ -377,6 +578,53 @@ namespace FMS.Services.Implementations.Request
         {
             return data.Requests
                 .Where(r => r.RequestStatusID == statusID).Count();
+        }
+
+        public void SaveChanges(FullInfoRequestServiceModel model)
+        {
+            var load = data.Loads.Where(l => l.RequestID == model.ID).FirstOrDefault();
+
+            load.Comment = model.LoadComment;
+            load.PackageCount = model.PackageCount;
+            load.PackageTypeID = model.PackageTypeID;
+            LoadNumericPropertyUpdate("Length", model.Length, load.ID);
+            LoadNumericPropertyUpdate("Height", model.Height, load.ID);
+            LoadNumericPropertyUpdate("Width", model.Width, load.ID);
+            LoadNumericPropertyUpdate("WeightBrut", model.WeightBrut, load.ID);
+            LoadNumericPropertyUpdate("WeightNet", model.WeightNet, load.ID);
+            LoadNumericPropertyUpdate("Lademeter", model.Lademeter, load.ID);
+            LoadStringPropertyUpdate("StockType", model.StockType, load.ID);
+
+            AddCarrier(model.ID, model.CarrierConpanyID);
+            AddPayer(model.ID, model.PayerConpanyID);
+
+            //REQUEST NUMERIC PROPS!!!!!!!
+
+            data.SaveChanges();
+        }
+
+        private void LoadStringPropertyUpdate(string name, string value, int loadID)
+        {
+            bool hasProp = data.LoadStringProps.Any(p => p.Name == name && p.LoadID == loadID);
+            if (!hasProp)
+            {
+                ServiceFactory.NewLoadService(data).AddStringProp(name, value, loadID);
+            }
+            var prop = data.LoadStringProps.FirstOrDefault(p => p.LoadID == loadID && p.Name == name);
+            prop.Value = value;
+            data.SaveChanges();
+        }
+
+        private void LoadNumericPropertyUpdate(string name, double value, int loadID)
+        {
+            bool hasProp = data.LoadNumericProps.Any(p => p.Name == name && p.LoadID == loadID);
+            if (!hasProp)
+            {
+                ServiceFactory.NewLoadService(data).AddNumericProp(name, value, loadID);
+            }
+            var prop = data.LoadNumericProps.FirstOrDefault(p => p.LoadID == loadID && p.Name == name);
+            prop.Value = value;
+            data.SaveChanges();
         }
     }
 }

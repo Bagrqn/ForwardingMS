@@ -1,4 +1,4 @@
-﻿@model RequestViewModel;
+﻿@model RequestListingViewModel;
 @{
     ViewData["Title"] = "NewRequestsList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -27,7 +27,7 @@
             <td>@item.ToCountryCity</td>
             <td>@item.LoadName</td>
             <td>
-                <a href="/Request/ProcessRequest?requestID=@item.ID" class="btn btn-dark">See more</a>
+                <a href="/Request/ProcessCurtomerRequest?requestID=@item.ID" class="btn btn-dark">See more</a>
             </td>
         </tr>
     }

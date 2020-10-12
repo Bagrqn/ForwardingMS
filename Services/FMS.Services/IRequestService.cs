@@ -17,6 +17,8 @@ namespace FMS.Services
 
         void AddPayer(int requestID, int companyID);
 
+        void AddCarrier(int requestID, int companyID);
+
         void AddEmployee(int requestID, int employeeID, int relationTypeID);
 
         RequestStatusServiceModel GetStatus(int requestID);
@@ -24,6 +26,7 @@ namespace FMS.Services
         RequestTypeServiceModel GetType(int requestID);
 
         RequestListingServiceModel GetRequest(string number);
+        FullInfoRequestServiceModel GetRequest(int requestId);
 
         IEnumerable<BasicRequestsLintingServiceModel> GetAllByStatus(int statusID, int page = 1);
 
@@ -40,5 +43,6 @@ namespace FMS.Services
         string GetLoadName(int requestID);
 
         int CountByStatus(int statusID);
+        void SaveChanges(FullInfoRequestServiceModel model);
     }
 }

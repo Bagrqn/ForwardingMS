@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace FMS.WebClient.Models
 {
-    public class RequestViewModel
+    public class RequestListingViewModel
     {
         public IEnumerable<BasicRequestsLintingServiceModel> list { get; set; }
 

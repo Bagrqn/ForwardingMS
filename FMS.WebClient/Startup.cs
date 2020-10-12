@@ -48,6 +48,7 @@ namespace FMS.WebClient
             services.AddTransient<ILoadService, LoadService>();
             services.AddTransient<IRequestTypeService, RequestTypeService>();
             services.AddTransient<IRequestStatusService, RequestStatusService>();
+            services.AddTransient<ICompanyService, CompanyService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
