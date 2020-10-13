@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Company;
+using FMS.Services.Factory;
 using FMS.Services.Models.Company;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -123,7 +124,7 @@ namespace FMS.Services.Implementations
 
         public int GetTypeCarrierID()
         {
-            var typeID = data.CompanyTypes.FirstOrDefault(t => t.Name == "Carrier");
+            var typeID = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Carrier");
             if (typeID == null)
             {
                 data.CompanyTypes.Add(new CompanyType()
@@ -133,8 +134,46 @@ namespace FMS.Services.Implementations
                 });
             }
             data.SaveChanges();
-            var a = data.CompanyTypes.FirstOrDefault(t => t.Name == "Carrier").ID;
+            var a = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Carrier").ID;
             return a;
+        }
+
+        public Company GetUndefined()
+        {
+            var undefinedCompany = data.Companies.FirstOrDefault(c => c.Name == "Undefined");
+            if (undefinedCompany == null)
+            {
+                data.Companies.Add(new Company()
+                {
+                    Name = "Undefined",
+                    Address = "",
+                    Bulstat = "",
+                    TaxNumber = "",
+                    CountryID = new CountryService(data).GetUndefined().ID,
+                    CityID = new CityService(data).GetUndefined().ID,
+                    CompanyTypeID = GetUndefinedType()
+                });
+                data.SaveChanges();
+                return data.Companies.FirstOrDefault(c => c.Name == "Undefined");
+            }
+            return undefinedCompany;
+
+        }
+
+        private int GetUndefinedType()
+        {
+            var type = data.CompanyTypes.FirstOrDefault(t => t.Name == "Undefined");
+            if (type == null)
+            {
+                data.CompanyTypes.Add(new CompanyType()
+                {
+                    Name = "Undefined",
+                    Description = "Undefined"
+                });
+                data.SaveChanges();
+                return data.CompanyTypes.FirstOrDefault(t => t.Name == "Undefined").ID;
+            }
+            return type.ID;
         }
 
         //To do..

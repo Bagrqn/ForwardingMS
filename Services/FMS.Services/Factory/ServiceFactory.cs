@@ -2,6 +2,7 @@
 using FMS.Services.Implementations;
 using FMS.Services.Implementations.Load;
 using FMS.Services.Implementations.Request;
+using System;
 
 namespace FMS.Services.Factory
 {
@@ -21,7 +22,7 @@ namespace FMS.Services.Factory
         {
             return new RequestService(data);
         }
-        
+
         public static LoadService NewLoadService(FMSDBContext data)
         {
             return new LoadService(data);
@@ -30,6 +31,11 @@ namespace FMS.Services.Factory
         public static CompanyService NewCompanyService(FMSDBContext data)
         {
             return new CompanyService(data);
+        }
+
+        internal static CityService NewCityService(FMSDBContext data)
+        {
+            return new CityService(data);
         }
     }
 }

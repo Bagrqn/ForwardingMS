@@ -114,7 +114,7 @@
             </td>
         </tr>
     </table>
-    <h3> aaaa company </h3>
+    <h3> Payer company </h3>
     <table>
         <tr>
             <td>Payer company: </td>
@@ -188,6 +188,8 @@
                 }
             });
 
+
+
             var payerDDL = $("#PayerCompanyDDL");
             $.ajax({
                 url: "/api/GetPayerCompany",
@@ -201,6 +203,7 @@
                 }
             });
 
+            //Calculate saldo
             var saldo = $("#saldo");
             var carierPrice = $("#carrierPrice");
             var clientPrice = $("#clientPrice");
@@ -210,6 +213,8 @@
             clientPrice.change(function () {
                 saldo.prop('value', (carierPrice.val() - clientPrice.val()));
             })
+            //
+
         });
     </script>
 }

@@ -44,6 +44,19 @@ namespace FMS.Services.Implementations.Request
             var request = data.Requests.FirstOrDefault(r => r.ID == requestID);
             request.IsDeleted = true;
             //set status to deleted!! 
+            int delStatID = new RequestStatusService(data).GetDeleteStatus().ID;
+            var currentStatus = new RequestStatusService(data).GetRequestStatus(requestID);
+            //Log event in status history
+            data.RequestStatusHistories.Add(new Data.Models.Request.RequestStatusHistory
+            {
+                RequestID = requestID,
+                NewStatusID = delStatID,
+                OldStatusID = currentStatus.ID,
+                DateChange = DateTime.UtcNow
+            });
+
+            //Change status. 
+            request.RequestStatusID = delStatID;
             data.SaveChanges();
         }
 
@@ -155,20 +168,21 @@ namespace FMS.Services.Implementations.Request
             if (relation != null)
             {
                 //update
-                relation.CompanyID = companyID;
+                data.RequestToCompanies.Remove(relation);
+
             }
-            else
+
+            data.RequestToCompanies.Add(new RequestToCompany
             {
-                data.RequestToCompanies.Add(new RequestToCompany
-                {
-                    RequestID = requestID,
-                    CompanyID = companyID,
-                    RequestToCompanyRelationTypeID = relationType.ID
-                });
-            }
+                RequestID = requestID,
+                CompanyID = companyID,
+                RequestToCompanyRelationTypeID = relationType.ID
+            });
+
 
             data.SaveChanges();
         }
+
         public void AddSupplyer(int requestID, int companyID)
         {
             if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Supplyer"))
@@ -427,10 +441,12 @@ namespace FMS.Services.Implementations.Request
             request.Loads.Add(load);
             //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
             request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Loading,
-                                                                    model.FromCityID, model.FromPostcodeID, model.FromAddress, 20));
+                                                                    model.FromCityID, model.FromPostcodeID, model.FromAddress,
+                                                                    ServiceFactory.NewCompanyService(data).GetUndefined().ID));
             //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
             request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading,
-                                                                    model.ToCityID, model.ToPostcodeID, model.ToAddress, 20));
+                                                                    model.ToCityID, model.ToPostcodeID, model.ToAddress,
+                                                                    ServiceFactory.NewCompanyService(data).GetUndefined().ID));
 
             //Add assignor info.
             var employeeAssignor = Factory.Employee.EmployeeFactory.NewEmployee();

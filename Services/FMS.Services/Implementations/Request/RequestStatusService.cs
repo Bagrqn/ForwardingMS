@@ -51,6 +51,23 @@ namespace FMS.Services.Implementations.Request
             return data.RequestStatuses.FirstOrDefault(s => s.Code == 0).ID;
         }
 
+        public RequestStatus GetDeleteStatus()
+        {
+            var deleted = data.RequestStatuses.FirstOrDefault(s => s.Name == "Deleted");
+            if (deleted == null)
+            {
+                data.RequestStatuses.Add(new RequestStatus()
+                {
+                    Name = "Deleted",
+                    Code = 9,
+                    Description = ""
+                });
+                data.SaveChanges();
+                return data.RequestStatuses.FirstOrDefault(s => s.Name == "Deleted");
+            }
+            return deleted;
+        }
+
         public RequestStatusServiceModel GetRequestStatus(int requestID)
         {
             var request = data.Requests.FirstOrDefault(r => r.ID == requestID);

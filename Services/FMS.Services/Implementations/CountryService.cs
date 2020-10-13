@@ -47,6 +47,20 @@ namespace FMS.Services.Implementations
             return this.data.Countries.Count();
         }
 
+        public Country GetUndefined()
+        {
+            var country = data.Countries.FirstOrDefault(c => c.Name == "Undefined");
+            if (country == null)
+            {
+                data.Countries.Add(new Country()
+                {
+                    Name = "Undefined"
+                });
+                data.SaveChanges();
+                return data.Countries.FirstOrDefault(c => c.Name == "Undefined");
+            }
+            return country;
+        }
         public IEnumerable<CountryListingServiceModel> SearchByName(string name)
         {
             return data.Countries

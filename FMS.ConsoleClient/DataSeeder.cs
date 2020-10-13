@@ -2,6 +2,7 @@
 using FMS.Data.Models;
 using FMS.Data.Models.Request;
 using FMS.Services.Implementations;
+using FMS.Services.Implementations.Request;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -20,19 +21,69 @@ namespace FMS.ConsoleClient
 
         public void Seed()
         {
+            Console.WriteLine("SettingsSeeder...");
+            SettingsSeeder();
+            Console.WriteLine("Done! ");
+
+            Console.WriteLine("RequestTypeSeeder...");
+            RequestTypeSeeder();
+            Console.WriteLine("Done! ");
+
+            Console.WriteLine("RequestStatusesSeeder...");
+            RequestStatusesSeeder();
+            Console.WriteLine("Done! ");
+
+            Console.WriteLine("CountrySeeder...");
             CountrySeeder();
+            Console.WriteLine("Done! ");
+
+            Console.WriteLine("CitySeeder...");
             CitySeeder();
+            Console.WriteLine("Done! ");
+
+            Console.WriteLine("PostCodeSeeder...");
             PostCodeSeeder();
+            Console.WriteLine("Done! ");
 
+            Console.WriteLine("CompanyTypeSeeder...");
             CompanyTypeSeeder();
+            Console.WriteLine("Done! ");
+
+            Console.WriteLine("CompanySeeder...");
             CompanySeeder();
+            Console.WriteLine("Done! ");
 
+            Console.WriteLine("GenderSeed...");
             GenderSeed();
+            Console.WriteLine("Done! ");
+
+            Console.WriteLine("EmployeeSeed...");
             EmployeeSeed();
+            Console.WriteLine("Done! ");
 
-            RequestType();
-
+            Console.WriteLine("LoadPackageTypeSeeder...");
             LoadPackageTypeSeeder();
+            Console.WriteLine("Done! ");
+
+
+        }
+
+        private void SettingsSeeder()
+        {
+            
+            var s = new SettingService(data);
+            s.CreateSetting("RequestStatusSettingFilePath", @"C:\Users\Bagrqn\source\repos\FMS-Repo\Services\FMS.Services\Settings\RequestStatus\RequestStatusSetting.json", "");
+        }
+
+        private void RequestStatusesSeeder()
+        {
+            var service = new RequestStatusService(data);
+
+            service.Create(0d, "Default", "First status for every request.");
+            service.Create(1, "Acepted", "Клиента е потвърдил поръчката");
+            service.Create(2, "Invoiced", "Фактурирано, но не платено.");
+            service.Create(3, "Payed", "Платено");
+            service.Create(9, "Deleted", "Отхвърлена заявка");
 
         }
 
@@ -44,7 +95,7 @@ namespace FMS.ConsoleClient
             service.CreatePackageType("Carton");
         }
 
-        private void RequestType()
+        private void RequestTypeSeeder()
         {
             var a = new Services.Implementations.Request.RequestTypeService(data);
             a.Create("Transport", "");
@@ -81,7 +132,7 @@ namespace FMS.ConsoleClient
                 int cityIDPositionInList = random.Next(0, citiesIDListByCountry.Count - 1);
                 int cityID = citiesIDListByCountry[cityIDPositionInList];
 
-                int typePosition = random.Next(0, typeIDsList.Count - 1);
+                int typePosition = random.Next(0, typeIDsList.Count);
                 int typeID = typeIDsList[typePosition];
                 try
                 {
@@ -130,6 +181,8 @@ namespace FMS.ConsoleClient
                 .Select(cn => cn.Replace("'", "").Replace("[", "").Replace("]", "")).ToList();
 
             var service = new CountryService(data);
+            //Default
+            service.Create("Undefined");
 
             foreach (var country in countriesList)
             {

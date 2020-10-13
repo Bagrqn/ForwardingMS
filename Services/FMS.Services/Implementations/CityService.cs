@@ -65,6 +65,22 @@ namespace FMS.Services.Implementations
             return this.data.Cities.Select(city => city.ID).ToList();
         }
 
+        public City GetUndefined()
+        {
+            var undefined = data.Cities.FirstOrDefault(c => c.Name == "Undefined");
+            if (undefined == null)
+            {
+                data.Cities.Add(new City()
+                {
+                    Name = "Undefined",
+                    CountryID = new CountryService(data).GetUndefined().ID
+                });
+                data.SaveChanges();
+                return data.Cities.FirstOrDefault(c => c.Name == "Undefined");
+            }
+            return undefined;
+        }
+
         public IEnumerable<PostcodeListingServiceModel> GetPostcodes(int cityID)
         {
             return data.Postcodes
