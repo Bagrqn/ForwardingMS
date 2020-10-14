@@ -206,6 +206,13 @@ namespace FMS.Services.Implementations.Request
                 AddRequestToCompanyRelationType("Payer", "Платец на заявката");
             }
             var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Payer");
+
+            //If relation alredy exist.
+            var existingrelation = data.RequestToCompanies.FirstOrDefault(r => r.RequestID == requestID && r.CompanyID == companyID && r.RequestToCompanyRelationTypeID == relationType.ID);
+            if (existingrelation != null)
+            {
+                return;
+            }
             data.RequestToCompanies.Add(new Data.Models.Request.RequestToCompany
             {
                 RequestID = requestID,
@@ -213,6 +220,8 @@ namespace FMS.Services.Implementations.Request
                 RequestToCompanyRelationTypeID = relationType.ID
             });
             data.SaveChanges();
+
+
         }
 
         public void AddEmployee(int requestID, int employeeID, int relationTypeID)
@@ -395,11 +404,28 @@ namespace FMS.Services.Implementations.Request
             {
                 fullRequestInfo.PayerConpanyID = payerCompany.CompanyID;
             }
-            ;
+
+            //Loading prices from db if exist. Carrier price / Client price / Saldo
+            var carrierPriceProp = data.RequestNumericProps.FirstOrDefault(p => p.Name == "CarrierPrice" && p.RequestID == requestId);
+            if (carrierCompany != null)
+            {
+                fullRequestInfo.CarrierPrice = carrierPriceProp.Value;
+            }
+
+            var clientPriceProp = data.RequestNumericProps.FirstOrDefault(p => p.Name == "ClientPrice" && p.RequestID == requestId);
+            if (clientPriceProp != null)
+            {
+                fullRequestInfo.ClientPrice = clientPriceProp.Value;
+            }
+
+            var saldoProp = data.RequestNumericProps.FirstOrDefault(p => p.Name == "Saldo" && p.RequestID == requestId);
+            if (saldoProp != null)
+            {
+                fullRequestInfo.Saldo = saldoProp.Value;
+            }
+
             return fullRequestInfo;
         }
-
-
 
         public void NewCustomerRequest(CurtomerRequestModel model)
         {
@@ -596,6 +622,41 @@ namespace FMS.Services.Implementations.Request
                 .Where(r => r.RequestStatusID == statusID).Count();
         }
 
+        public void AddStringProp(int requestID, string name, string value)
+        {
+            var existingProp = data.RequestStringProps.FirstOrDefault(p => p.RequestID == requestID && p.Name == name);
+            if (existingProp == null)
+            {
+                data.RequestStringProps.Add(new RequestStringProps()
+                {
+                    Name = name,
+                    Value = value,
+                    RequestID = requestID
+                });
+                data.SaveChanges();
+                return;
+            }
+            existingProp.Value = value;
+            data.SaveChanges();
+        }
+        public void AddNumericProp(int requestID, string name, double value)
+        {
+            var existingProp = data.RequestNumericProps.FirstOrDefault(p => p.RequestID == requestID && p.Name == name);
+            if (existingProp == null)
+            {
+                data.RequestNumericProps.Add(new RequestNumericProp()
+                {
+                    Name = name,
+                    Value = value,
+                    RequestID = requestID
+                });
+                data.SaveChanges();
+                return;
+            }
+            existingProp.Value = value;
+            data.SaveChanges();
+        }
+
         public void SaveChanges(FullInfoRequestServiceModel model)
         {
             var load = data.Loads.Where(l => l.RequestID == model.ID).FirstOrDefault();
@@ -614,7 +675,11 @@ namespace FMS.Services.Implementations.Request
             AddCarrier(model.ID, model.CarrierConpanyID);
             AddPayer(model.ID, model.PayerConpanyID);
 
-            //REQUEST NUMERIC PROPS!!!!!!!
+            //REQUEST NUMERIC PROPS!!!!!!! Service!! 
+            AddNumericProp(model.ID, "ClientPrice", model.ClientPrice);
+            AddNumericProp(model.ID, "CarrierPrice", model.CarrierPrice);
+            AddNumericProp(model.ID, "Saldo", model.Saldo);
+
 
             data.SaveChanges();
         }

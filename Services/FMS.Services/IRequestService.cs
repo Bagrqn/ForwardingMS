@@ -21,6 +21,10 @@ namespace FMS.Services
 
         void AddEmployee(int requestID, int employeeID, int relationTypeID);
 
+        void AddStringProp(int requestID, string name, string value);
+
+        void AddNumericProp(int requestID, string name, double value);
+
         RequestStatusServiceModel GetStatus(int requestID);
 
         RequestTypeServiceModel GetType(int requestID);
@@ -43,6 +47,7 @@ namespace FMS.Services
         string GetLoadName(int requestID);
 
         int CountByStatus(int statusID);
+
         void SaveChanges(FullInfoRequestServiceModel model);
     }
 }

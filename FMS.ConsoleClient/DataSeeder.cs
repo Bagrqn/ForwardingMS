@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Request;
+using FMS.Services.Factory;
 using FMS.Services.Implementations;
 using FMS.Services.Implementations.Request;
 using Newtonsoft.Json.Linq;
@@ -21,6 +22,10 @@ namespace FMS.ConsoleClient
 
         public void Seed()
         {
+            Console.WriteLine("DocumentTypesSeed...");
+            DocumentTypesSeed();
+            Console.WriteLine("Done! ");
+
             Console.WriteLine("SettingsSeeder...");
             SettingsSeeder();
             Console.WriteLine("Done! ");
@@ -68,9 +73,16 @@ namespace FMS.ConsoleClient
 
         }
 
+        private void DocumentTypesSeed()
+        {
+            var s = ServiceFactory.NewDocumentTypeService(data);
+            s.CreateNewType("Invoice");
+            s.CreateNewType("CMR");
+        }
+
         private void SettingsSeeder()
         {
-            
+
             var s = new SettingService(data);
             s.CreateSetting("RequestStatusSettingFilePath", @"C:\Users\Bagrqn\source\repos\FMS-Repo\Services\FMS.Services\Settings\RequestStatus\RequestStatusSetting.json", "");
         }

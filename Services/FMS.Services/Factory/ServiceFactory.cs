@@ -1,5 +1,6 @@
 ﻿using FMS.Data;
 using FMS.Services.Implementations;
+using FMS.Services.Implementations.Document;
 using FMS.Services.Implementations.Load;
 using FMS.Services.Implementations.Request;
 using System;
@@ -33,9 +34,19 @@ namespace FMS.Services.Factory
             return new CompanyService(data);
         }
 
-        internal static CityService NewCityService(FMSDBContext data)
+        public static CityService NewCityService(FMSDBContext data)
         {
             return new CityService(data);
+        }
+
+        public static DocumentTypeService NewDocumentTypeService(FMSDBContext data)
+        {
+            return new DocumentTypeService(data);
+        }
+
+        public static DocumentService NewDocumentService(FMSDBContext data)
+        {
+            return new DocumentService(data);
         }
     }
 }

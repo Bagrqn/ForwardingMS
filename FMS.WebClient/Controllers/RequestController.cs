@@ -81,6 +81,12 @@ namespace FMS.WebClient.Controllers
             return View(model);
         }
 
+        public IActionResult CreateInvoice(int requestID)
+        {
+            ViewData.Model = 1256;
+            return View();
+        }
+
         public IActionResult ProcessCurtomerRequest(int requestID)
         {
             //Open form to process request

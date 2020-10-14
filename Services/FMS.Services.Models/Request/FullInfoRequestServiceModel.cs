@@ -36,9 +36,8 @@
 
         //Carrier company
         public int CarrierConpanyID { get; set; }
-
         public int PayerConpanyID { get; set; }
-        
+
         public double CarrierPrice { get; set; }
         public double ClientPrice { get; set; }
         public double Saldo { get; set; }
