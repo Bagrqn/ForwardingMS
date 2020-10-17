@@ -6,9 +6,7 @@ using FMS.Services.Models.Request;
 using FMS.WebClient.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FMS.WebClient.Controllers
 {
@@ -38,19 +36,19 @@ namespace FMS.WebClient.Controllers
             this.requestStatusService = requestStatusService;
             this.companyService = companyService;
         }
-        
+
         public IActionResult NewCustomerRequest(CurtomerRequestModel model)
         {
             model.countryList = countryService.GetAll();
             return View(model);
         }
-        
+
         public IActionResult Create(CurtomerRequestModel model)
         {
             requestService.NewCustomerRequest(model);
             return Redirect("/");
         }
-        
+
         public IActionResult NewRequestsList(int page = 1)
         {
             int defaultStatusID = requestStatusService.GetDefaultStatusID(); //When customer create request, request is created with default status. Thats why here we get default status. 
@@ -66,7 +64,7 @@ namespace FMS.WebClient.Controllers
             return View(model); //return View(newRequests);  
         }
 
-        public IActionResult AcceptedRequests(int page = 1) 
+        public IActionResult AcceptedRequests(int page = 1)
         {
             int acceptedStatusID = requestStatusService.GetStatus(1).ID; //When customer create request, request is created with default status. Thats why here we get default status. 
             var acceptedRequests = requestService.GetAllByStatus(acceptedStatusID, page);
@@ -79,12 +77,6 @@ namespace FMS.WebClient.Controllers
             };
             ;
             return View(model);
-        }
-
-        public IActionResult CreateInvoice(int requestID)
-        {
-            ViewData.Model = 1256;
-            return View();
         }
 
         public IActionResult ProcessCurtomerRequest(int requestID)
@@ -104,10 +96,13 @@ namespace FMS.WebClient.Controllers
 
         public IActionResult Accept(FullInfoRequestServiceModel model)
         {
+            //Проверки дали са въведени достатъчно данни. Цена превозвач, клиент, салдо
+            //фирма превозвач/ 
+            requestService.SaveChanges(model);
             requestService.NextStatus(model.ID);
             return Redirect("/");
         }
-        
+
         public IActionResult Delete(FullInfoRequestServiceModel model)
         {
             requestService.Delete(model.ID);
@@ -141,7 +136,7 @@ namespace FMS.WebClient.Controllers
         {
             return companyService.GetCarrierCompanies();
         }
-        
+
         [HttpGet("api/GetPayerCompany")]
         public IEnumerable<CompanyListingServiceModel> GetPayerCompany()
         {

@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\FMS.Data.Models\FMS.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>

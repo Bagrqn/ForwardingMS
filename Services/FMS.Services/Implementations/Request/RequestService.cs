@@ -185,11 +185,11 @@ namespace FMS.Services.Implementations.Request
 
         public void AddSupplyer(int requestID, int companyID)
         {
-            if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Supplyer"))
+            if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Supplier"))
             {
-                AddRequestToCompanyRelationType("Supplyer", "Изпълнител на заявката");
+                AddRequestToCompanyRelationType("Supplier", "Доставчин на услугата.");
             }
-            var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Supplyer");
+            var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Supplier");
             data.RequestToCompanies.Add(new Data.Models.Request.RequestToCompany
             {
                 RequestID = requestID,
@@ -670,10 +670,22 @@ namespace FMS.Services.Implementations.Request
             LoadNumericPropertyUpdate("WeightBrut", model.WeightBrut, load.ID);
             LoadNumericPropertyUpdate("WeightNet", model.WeightNet, load.ID);
             LoadNumericPropertyUpdate("Lademeter", model.Lademeter, load.ID);
-            LoadStringPropertyUpdate("StockType", model.StockType, load.ID);
+            if (!string.IsNullOrEmpty(model.StockType))
+            {
+                LoadStringPropertyUpdate("StockType", model.StockType, load.ID);
+            }
 
-            AddCarrier(model.ID, model.CarrierConpanyID);
-            AddPayer(model.ID, model.PayerConpanyID);
+            if (model.CarrierConpanyID != 0)
+            {
+                AddCarrier(model.ID, model.CarrierConpanyID);
+            }
+            if (model.PayerConpanyID != 0)
+            {
+                AddPayer(model.ID, model.PayerConpanyID);
+            }
+            //Add supplier
+            AddMainCompany(model.ID);
+
 
             //REQUEST NUMERIC PROPS!!!!!!! Service!! 
             AddNumericProp(model.ID, "ClientPrice", model.ClientPrice);
@@ -682,6 +694,27 @@ namespace FMS.Services.Implementations.Request
 
 
             data.SaveChanges();
+        }
+
+        private void AddMainCompany(int requestID)
+        {
+            if (!data.RequestToCompanyRelationTypes.Any(t => t.Name == "Main"))
+            {
+                AddRequestToCompanyRelationType("Main", "Основна компания.");
+            }
+            var relationType = data.RequestToCompanyRelationTypes.FirstOrDefault(t => t.Name == "Main");
+            var rel = data.RequestToCompanies.FirstOrDefault(x => x.RequestID == requestID && x.RequestToCompanyRelationTypeID == relationType.ID);
+            if (rel == null)
+            {
+                data.RequestToCompanies.Add(new Data.Models.Request.RequestToCompany
+                {
+                    RequestID = requestID,
+                    //To do... which is the main company
+                    CompanyID = data.Companies.FirstOrDefault(c => c.CompanyTypeID == (data.CompanyTypes.FirstOrDefault(ct => ct.Name == "Main").ID)).ID,
+                    RequestToCompanyRelationTypeID = relationType.ID
+                });
+                data.SaveChanges();
+            }
         }
 
         private void LoadStringPropertyUpdate(string name, string value, int loadID)

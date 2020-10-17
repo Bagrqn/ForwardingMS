@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Company;
+using FMS.Data.Models.Request;
 using FMS.Services.Factory;
 using FMS.Services.Models.Company;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -57,6 +58,11 @@ namespace FMS.Services.Implementations
             this.data.SaveChanges();
         }
 
+        public RequestToCompanyRelationType GetRequestToCompanyRelationType(string relTypeName)
+        {
+            return data.RequestToCompanyRelationTypes.FirstOrDefault(x => x.Name == relTypeName);
+        }
+
         public void Delete(int id)
         {
             if (!data.Companies.Any(c => c.ID == id))
@@ -70,6 +76,30 @@ namespace FMS.Services.Implementations
 
             company.CompanyBoolProps.Add(deletedProp);
             this.data.SaveChanges();
+        }
+
+        public CompanyListingServiceModel GetCompany(int id)
+        {
+            var company = data.Companies.FirstOrDefault(c => c.ID == id);
+            var stringProps = data.CompanyStringProps.Where(p => p.CompanyID == id).ToList();
+            var numericProps = data.CompanyNumericProps.Where(p => p.CompanyID == id).ToList();
+
+            var result = new CompanyListingServiceModel()
+            {
+                ID = company.ID,
+                Address = company.Address,
+                Bulstat = company.Bulstat,
+                Name = company.Name,
+                TaxNumber = company.TaxNumber,
+                CityID = company.CityID,
+                CountryID = company.CountryID,
+                CompanyTypeID = company.CompanyTypeID
+            };
+            result.NumericProps = numericProps;
+            result.StringProps = stringProps;
+
+            ;
+            return result;
         }
 
         public IEnumerable<CompanyListingServiceModel> GetCarrierCompanies()

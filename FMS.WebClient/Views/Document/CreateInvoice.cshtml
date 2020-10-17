@@ -1,0 +1,85 @@
+﻿@model FMS.Services.Models.Document.InvoiceDocumentServiceModel;
+@using System;
+@using System.Linq;
+@{
+    ViewData["Title"] = "CreateInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Invoice</h1>
+<div class="container">
+    <div class="row d-flex justify-content-between">
+        <div class="col-xl-3">
+
+            <div>Reciever: @Model.RecieverCompany.Name</div>
+            <div>Address: @Model.RecieverCompany.Address</div>
+            <div>Bulstat: @Model.RecieverCompany.Bulstat</div>
+            <div>Tax number:@Model.RecieverCompany.TaxNumber</div>
+
+            @{
+                var mol = Model.RecieverCompany.StringProps.FirstOrDefault(p => p.Name == "MOL");
+                if (mol != null)
+                {
+                    <p>MOL: @mol.Value</p>
+                }
+                else
+                {
+                    <p>MOL: </p>
+                }
+            }
+        </div>
+
+        <div class="col-xl-3">
+            <div>Supplier: @Model.SupplierCompany.Name</div>
+            <div>Address: @Model.SupplierCompany.Address</div>
+            <div>Bulstat: @Model.SupplierCompany.Bulstat</div>
+            <div>Tax number: @Model.SupplierCompany.TaxNumber</div>
+            @{
+                mol = Model.SupplierCompany.StringProps.FirstOrDefault(p => p.Name == "MOL");
+                if (mol != null)
+                {
+                    <div>MOL: @mol.Value</div>
+                }
+                else
+                {
+                    <div>MOL: </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center" style="margin-top: 30px">
+    <div class="d-sm-inline-flex" style="margin-right: 20px">
+        <span>Invoice №: @Model.InvoiceNumber</span>
+    </div>
+    <div class="d-sm-inline-flex">
+        <span>Date: @Model.DateTime</span>
+    </div>
+</div>
+<div>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th></th>
+            <th>Service</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+        </tr>
+        @foreach (var row in Model.Rows)
+        {
+            <tr>
+                <td>@row.RowNumber</td>
+                <td>@row.DocumentRowStringProps.FirstOrDefault(p => p.Name == "RowDescription").Value</td>
+                <td>@row.DocumentRowNumericProps.FirstOrDefault(p => p.Name == "Qty").Value</td>
+                <td>@row.DocumentRowNumericProps.FirstOrDefault(p => p.Name == "UnitPrice").Value</td>
+                <td>@row.DocumentRowNumericProps.FirstOrDefault(p => p.Name == "TotalPrice").Value</td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+<div>
+    <a href="/Document/ConfirmInvoice?requestID=@ViewData["requestID"]" class="btn btn-dark">Confirm invoice</a>
+    <a href="/Request/AcceptedRequests" class="btn btn-dark">Cancel</a>
+</div>

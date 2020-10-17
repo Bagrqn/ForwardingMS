@@ -118,6 +118,7 @@ namespace FMS.ConsoleClient
         /// </summary>
         private void CompanySeeder()
         {
+            
             string filePath = @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.ConsoleClient\DataFiles\Companies.json";
             string fileText = File.ReadAllText(filePath);
 
@@ -129,6 +130,21 @@ namespace FMS.ConsoleClient
             var countriesIDList = new CountryService(data).GetAllIDs().ToList();
 
             var typeIDsList = new CompanyTypeService(data).GetIDs().ToList();
+
+            var bulgariaID = data.Countries.FirstOrDefault(c => c.Name == "Bulgaria");
+            var sofiaID = data.Cities.FirstOrDefault(c => c.Name == "Sofia" && c.CountryID == bulgariaID.ID);
+           //Main Company
+            companyService.Create(
+                        "Scorpion-Shipping LTD"
+                        , "BG05046795445"
+                        , ""
+                        , bulgariaID.ID
+                        , sofiaID.ID
+                        , data.CompanyTypes.FirstOrDefault(t => t.Name == "Main").ID
+                        , RandomString(random.Next(15, 50))
+                        );
+            ////////////////////////////////////////////
+            
 
             foreach (var companyName in companiesList)
             {
@@ -170,11 +186,13 @@ namespace FMS.ConsoleClient
             var service = new CompanyTypeService(data);
             try
             {
+                service.Create("Undefined", "Undefined");
                 service.Create("Counterparty", "Контрагент: лице или дружество, което поема определени задължения по договор.");
                 service.Create("Client", "Клиент");
-                service.Create("Supplyer", "Доставчик");
+                service.Create("Supplyer", "Доставчик, изпълнител на услуга.");
                 service.Create("Distributor", "Дистрибутор");
                 service.Create("Carrier", "Превозвач");
+                service.Create("Main", "Основна компания");
             }
             catch (Exception)
             {

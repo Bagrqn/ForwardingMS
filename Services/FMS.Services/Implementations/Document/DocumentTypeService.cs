@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models.Document;
 using System;
+using System.Linq;
 
 namespace FMS.Services.Implementations.Document
 {
@@ -18,6 +19,11 @@ namespace FMS.Services.Implementations.Document
             }
             data.DocumentTypes.Add(new DocumentType() { Name = name });
             data.SaveChanges();
+        }
+
+        public DocumentType GetDocumentType (string name)
+        {
+            return data.DocumentTypes.FirstOrDefault(t => t.Name == name);
         }
     }
 }

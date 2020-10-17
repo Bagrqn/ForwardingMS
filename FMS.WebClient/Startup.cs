@@ -2,6 +2,7 @@ using FMS.Data;
 using FMS.Data.Models.Request;
 using FMS.Services;
 using FMS.Services.Implementations;
+using FMS.Services.Implementations.Document;
 using FMS.Services.Implementations.Load;
 using FMS.Services.Implementations.Request;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +50,7 @@ namespace FMS.WebClient
             services.AddTransient<IRequestTypeService, RequestTypeService>();
             services.AddTransient<IRequestStatusService, RequestStatusService>();
             services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<IDocumentService, DocumentService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
