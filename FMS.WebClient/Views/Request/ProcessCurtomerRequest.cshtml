@@ -139,13 +139,11 @@
             <td><input asp-for="Saldo" id="saldo" /></td>
         </tr>
     </table>
-    //Бутон за запазване на информацията
-    //Бутон за отхвърляне на заявка
-    //Бутон за приемане на поръчката
+
     <div>
-        <button type="submit" asp-controller="Request" asp-action="SaveChanges" class="btn btn-primary">Save changes</button>
-        <button type="submit" asp-controller="Request" asp-action="Accept" class="btn btn-primary">Accept</button>
-        <button type="submit" asp-controller="Request" asp-action="Delete" class="btn btn-danger">Delete</button>
+        <button type="submit" asp-controller="Request" asp-action="SaveChanges" class="btn bz-btn-info">Save changes</button>
+        <button type="submit" asp-controller="Request" asp-action="Accept" class="btn bz-btn-info">Accept</button>
+        <button type="submit" asp-controller="Request" asp-action="Delete" class="btn bz-btn-danger btn">Delete</button>
     </div>
 </form>
 <br />

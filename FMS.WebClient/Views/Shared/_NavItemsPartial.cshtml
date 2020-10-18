@@ -7,22 +7,22 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <a id="white" class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Request" asp-action="NewRequestsList">New Requests List</a>
+            <a id="white" class="nav-link" asp-area="" asp-controller="Request" asp-action="NewRequestsList">New Requests List</a>
         </li>
         <li>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Request" asp-action="AcceptedRequests">Accepted</a>
+            <a id="white" class="nav-link" asp-area="" asp-controller="Request" asp-action="AcceptedRequests">Accepted</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <a id="white" class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Request" asp-action="NewCustomerRequest">Send request</a>
+            <a id="white" class="nav-link" asp-area="" asp-controller="Request" asp-action="NewCustomerRequest">Send request</a>
         </li>
 
     }
