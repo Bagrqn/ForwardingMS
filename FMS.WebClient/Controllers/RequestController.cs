@@ -79,7 +79,7 @@ namespace FMS.WebClient.Controllers
             return View(model);
         }
 
-        public IActionResult ProcessCurtomerRequest(int requestID)
+        public IActionResult ProcessCustomerRequest(int requestID)
         {
             //Open form to process request
             var fullRequestInfo = requestService.GetRequest(requestID);

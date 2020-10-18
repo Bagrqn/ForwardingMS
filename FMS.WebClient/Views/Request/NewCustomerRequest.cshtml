@@ -12,7 +12,7 @@
     <div>
         <h3>From where</h3>
         <div class="d-inline">
-            <label asp-for="FromCountryID">From country</label>
+            <label asp-for="FromCountryID">From country: *</label>
             <select id="FromCountryIdDropDown"
                     asp-for="FromCountryID"
                     asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
@@ -20,21 +20,21 @@
             </select>
         </div>
         <div class="d-inline">
-            <label asp-for="FromCityID">From city</label>
+            <label asp-for="FromCityID">From city: *</label>
             <select id="FromCityIdDropDown"
                     asp-for="FromCityID">
                 <option value="0">--Select city--</option>
             </select>
         </div>
         <div class="d-inline">
-            <label asp-for="FromPostcodeID">From postcode</label>
+            <label asp-for="FromPostcodeID">From postcode: *</label>
             <select id="FromPostcodeIDDropDown"
                     asp-for="FromPostcodeID">
                 <option value="0">--Select city--</option>
             </select>
         </div>
         <div class="d-inline">
-            <label asp-for="FromAddress">FromAddress</label>
+            <label asp-for="FromAddress">FromAddress: *</label>
             <input asp-for="FromAddress" />
         </div>
     </div>
@@ -42,7 +42,7 @@
     <div>
         <h3>To where</h3>
         <div class="d-inline">
-            <label asp-for="ToCountryID">To country</label>
+            <label asp-for="ToCountryID">To country: *</label>
             <select id="ToCountryIdDropDown"
                     asp-for="ToCountryID"
                     asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
@@ -50,21 +50,21 @@
             </select>
         </div>
         <div class="d-inline">
-            <label asp-for="ToCityID">To city</label>
+            <label asp-for="ToCityID">To city: *</label>
             <select id="ToCityIdDropDown"
                     asp-for="ToCityID">
                 <option value="0">--Select city--</option>
             </select>
         </div>
         <div class="d-inline">
-            <label asp-for="ToPostcodeID">To postcode</label>
+            <label asp-for="ToPostcodeID">To postcode: *</label>
             <select id="ToPostcodeIDDropDown"
                     asp-for="ToPostcodeID">
                 <option value="0">--Select city--</option>
             </select>
         </div>
         <div class="d-inline">
-            <label asp-for="ToAddress">ToAddress</label>
+            <label asp-for="ToAddress">ToAddress: *</label>
             <input asp-for="ToAddress" />
         </div>
     </div>
@@ -72,7 +72,7 @@
     <div>
         <h3>Load info</h3>
         <div class="d-inline">
-            <label asp-for="LoadName">Load short description</label>
+            <label asp-for="LoadName">Load short description: *</label>
             <input asp-for="LoadName" />
         </div>
         <div class="d-inline">
@@ -80,62 +80,62 @@
             <textarea asp-for="LoadComment" type="text"></textarea>
         </div>
         <div>
-            <label asp-for="PackageTypeID">Package type</label>
+            <label asp-for="PackageTypeID">Package type: *</label>
             <select id="PackageTypeDDL"
                     asp-for="PackageTypeID">
-                <option value="0">--Select city--</option>
+                <option value="0">--Select packkage type--</option>
             </select>
         </div>
         <div>
-            <label asp-for="PackageCount">Package count</label>
+            <label asp-for="PackageCount">Package count: *</label>
             <input asp-for="PackageCount" />
         </div>
         <div class="d-inline">
-            <label asp-for="Length">Length</label>
+            <label asp-for="Length">Length: </label>
             <input asp-for="Length" />
         </div>
         <!--    PROPS   -->
         <div class="d-inline">
-            <label asp-for="Width">Width</label>
+            <label asp-for="Width">Width: </label>
             <input asp-for="Width" />
         </div>
         <div class="d-inline">
-            <label asp-for="Height">Height</label>
+            <label asp-for="Height">Height: </label>
             <input asp-for="Height" />
         </div>
         <div class="d-inline">
-            <label asp-for="WeightBrut">WeightBruto</label>
+            <label asp-for="WeightBrut">WeightBruto: </label>
             <input asp-for="WeightBrut" />
         </div>
         <div class="d-inline">
-            <label asp-for="WeightNet">WeightNet</label>
+            <label asp-for="WeightNet">WeightNet: </label>
             <input asp-for="WeightNet" />
         </div>
         <div class="d-inline">
-            <label asp-for="Lademeter">Lademeter</label>
+            <label asp-for="Lademeter">Lademeter: </label>
             <input asp-for="Lademeter" />
         </div>
         <div class="d-inline">
-            <label asp-for="StockType">StockType</label>
+            <label asp-for="StockType">StockType: </label>
             <input asp-for="StockType" />
         </div>
     </div>
     <!--    Customer info   -->
     <div class="d-inline">
         <div class="d-inline">
-            <label asp-for="FirstName">FirstName</label>
+            <label asp-for="FirstName">FirstName: *</label>
             <input asp-for="FirstName" />
         </div>
         <div class="d-inline">
-            <label asp-for="LastName">LastName</label>
+            <label asp-for="LastName">LastName: *</label>
             <input asp-for="LastName" />
         </div>
         <div class="d-inline">
-            <label asp-for="PhoneNumber">PhoneNumber</label>
+            <label asp-for="PhoneNumber">PhoneNumber: *</label>
             <input asp-for="PhoneNumber" />
         </div>
         <div class="d-inline">
-            <label asp-for="CompanyName">CompanyName</label>
+            <label asp-for="CompanyName">CompanyName: *</label>
             <input asp-for="CompanyName" />
         </div>
     </div>

@@ -1,31 +1,31 @@
 ﻿@model FMS.Services.Models.Request.FullInfoRequestServiceModel;
 @{
-    ViewData["Title"] = "ProcessCurtomerRequest";
+    ViewData["Title"] = "ProcessCustomerRequest";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 
 
-<h1>ProcessCurtomerRequest</h1>
+<h1>Process customer request</h1>
 <form asp-controller="Request" asp-action="ProcessedCustomerRequest" method="post">
     <input asp-for="ID" value="@Model.ID" style="display: none;" />
     <h3>Request info</h3>
     <table>
         <tr>
-            <td>Number</td>
+            <td>Number: </td>
             <td>@Model.Number</td>
         </tr>
         <tr>
-            <td>Date create</td>
+            <td>Date create: </td>
             <td>@Model.DateCreate</td>
         </tr>
         <tr>
-            <td>Info</td>
+            <td>Info: </td>
             <td>@Model.LoadName</td>
         </tr>
         <tr>
-            <td>More info</td>
+            <td>More info: </td>
             <td><textarea asp-for="LoadComment" data="@Model.LoadComment" type="text"></textarea></td>
         </tr>
         <tr>
@@ -41,7 +41,7 @@
     <h3>Load info</h3>
     <table>
         <tr>
-            <td>Package type: </td>
+            <td>Package type: *</td>
             <td>
                 <select id="PackageTypeDDL"
                         asp-for="PackageTypeID">
@@ -50,31 +50,31 @@
             </td>
         </tr>
         <tr>
-            <td>Package count: </td>
+            <td>Package count: *</td>
             <td><input asp-for="PackageCount" value="@Model.PackageCount" /></td>
         </tr>
         <tr>
-            <td>Length: </td>
+            <td>Length: *</td>
             <td><input asp-for="Length" value="@Model.Length" /></td>
         </tr>
         <tr>
-            <td>Width: </td>
+            <td>Width: *</td>
             <td><input asp-for="Width" value="@Model.Width" /></td>
         </tr>
         <tr>
-            <td>Height: </td>
+            <td>Height: *</td>
             <td><input asp-for="Height" value="@Model.Height" /></td>
         </tr>
         <tr>
-            <td>WeightBrut: </td>
+            <td>WeightBrut: *</td>
             <td><input asp-for="WeightBrut" value="@Model.WeightBrut" /></td>
         </tr>
         <tr>
-            <td>WeightNet: </td>
+            <td>WeightNet: *</td>
             <td><input asp-for="WeightNet" value="@Model.WeightNet" /></td>
         </tr>
         <tr>
-            <td>Lademeter: </td>
+            <td>Lademeter: *</td>
             <td><input asp-for="Lademeter" value="@Model.Lademeter" /></td>
         </tr>
         <tr>
@@ -105,7 +105,7 @@
     <h3> Carrier company </h3>
     <table>
         <tr>
-            <td>Carrier company: </td>
+            <td>Carrier company: *</td>
             <td>
                 <select id="CarrierCompanyDDL"
                         asp-for="CarrierConpanyID">
@@ -114,10 +114,10 @@
             </td>
         </tr>
     </table>
-    <h3> Payer company </h3>
+    <h3>Payer company </h3>
     <table>
         <tr>
-            <td>Payer company: </td>
+            <td>Payer company: *</td>
             <td>
                 <select id="PayerCompanyDDL"
                         asp-for="PayerConpanyID">
@@ -131,11 +131,11 @@
 
     <table>
         <tr>
-            <td>Carrier price: </td>
+            <td>Carrier price: *</td>
             <td><input asp-for="CarrierPrice" id="carrierPrice" /></td>
-            <td>Client price: </td>
+            <td>Client price: *</td>
             <td><input asp-for="ClientPrice" id="clientPrice" /></td>
-            <td>Saldo: </td>
+            <td>Saldo: *</td>
             <td><input asp-for="Saldo" id="saldo" /></td>
         </tr>
     </table>
