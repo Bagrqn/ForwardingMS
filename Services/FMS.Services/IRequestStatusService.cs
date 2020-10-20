@@ -1,4 +1,5 @@
-﻿using FMS.Services.Models.Request;
+﻿using FMS.Data.Models.Request;
+using FMS.Services.Models.Request;
 
 namespace FMS.Services
 {
@@ -14,10 +15,15 @@ namespace FMS.Services
 
         int GetStatusIDByCode(double code);
 
+        RequestStatusServiceModel GetCustomsProcessingStatus();
+
         RequestStatusServiceModel GetRequestStatus(int requestID);
 
         RequestStatusServiceModel GetStatus(double code);
         
+        RequestStatusServiceModel GetStatus(int statusID);
+
+
         void LogStatusCganhe(int requestID, int oldStatusID, int newStatusID);
     }
 }

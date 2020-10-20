@@ -1,0 +1,19 @@
+/* Тук ще пише на кой статус кое view отговаря*/
+
+{
+  "settings": 
+  [
+    {
+      "nextStatusCode": 1,
+      "view": "/Request/CustomsProcessingRequests",
+      "btnText":  "See more"
+    },
+    {
+      "nextStatusCode": 2,
+      "view": "/Document/CreateInvoice",
+      "btnText": "Invocie"
+    }
+  ]
+}
+
+

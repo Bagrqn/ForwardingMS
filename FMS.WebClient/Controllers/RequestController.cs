@@ -66,7 +66,8 @@ namespace FMS.WebClient.Controllers
 
         public IActionResult AcceptedRequests(int page = 1)
         {
-            int acceptedStatusID = requestStatusService.GetStatus(1).ID; //When customer create request, request is created with default status. Thats why here we get default status. 
+            int acceptedStatusID = requestStatusService.GetStatus(3).ID;
+
             var acceptedRequests = requestService.GetAllByStatus(acceptedStatusID, page);
 
             var model = new RequestListingViewModel
@@ -74,6 +75,21 @@ namespace FMS.WebClient.Controllers
                 list = acceptedRequests,
                 CurrentPage = page,
                 CountByStatus = requestService.CountByStatus(acceptedStatusID)
+            };
+            ;
+            return View(model);
+        }
+
+        public IActionResult CustomsProcessingRequests(int page = 1)
+        {
+            var customsProcessingStatus = requestStatusService.GetCustomsProcessingStatus();
+            var requests = requestService.GetAllByStatus(customsProcessingStatus.ID, page);
+
+            var model = new RequestListingViewModel
+            {
+                list = requests,
+                CurrentPage = page,
+                CountByStatus = requestService.CountByStatus(customsProcessingStatus.ID)
             };
             ;
             return View(model);
@@ -91,7 +107,7 @@ namespace FMS.WebClient.Controllers
         {
             requestService.SaveChanges(model);
             ;
-            return Redirect("/");
+            return Redirect("/Request/NewRequestsList");
         }
 
         public IActionResult Accept(FullInfoRequestServiceModel model)
@@ -99,7 +115,7 @@ namespace FMS.WebClient.Controllers
             //Проверки дали са въведени достатъчно данни. Цена превозвач, клиент, салдо
             //фирма превозвач/ 
             requestService.SaveChanges(model);
-            requestService.NextStatus(model.ID);
+            requestService.ProcessToNextStatus(model.ID);
             return Redirect("/");
         }
 

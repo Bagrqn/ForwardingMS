@@ -1,0 +1,7 @@
+﻿@model FMS.WebClient.Models.Partial._ButtonProcessPartialViewModel
+@*// Request ID *@
+
+@*
+    - Чете в json file сподер статуса кое view да зареди, какво е името на бутона.    
+*@
+<a href="@Model.NextView?requestID=@Model.RequestID" class="btn bz-btn-info">@Model.btnText</a>

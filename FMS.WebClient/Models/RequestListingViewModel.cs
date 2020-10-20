@@ -1,4 +1,6 @@
-﻿using FMS.Services.Models.Request;
+﻿using FMS.Data;
+using FMS.Services.Factory;
+using FMS.Services.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -24,7 +26,10 @@ namespace FMS.WebClient.Models
             get
             {
                 var maxPage = Math.Ceiling((double)CountByStatus / 20); //20 is page size. To do... expose to settings 
-
+                if (maxPage == 0)
+                {
+                    return true;
+                }
                 return CurrentPage == maxPage;
             }
         }

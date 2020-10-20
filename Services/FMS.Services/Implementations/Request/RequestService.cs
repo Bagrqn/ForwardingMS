@@ -60,12 +60,12 @@ namespace FMS.Services.Implementations.Request
             data.SaveChanges();
         }
 
-        public void NextStatus(int requestID)
+        public void ProcessToNextStatus(int requestID)
         {
 
             // Според типа на request-a чете в файл и гледа кой мy е следващия статус. 
             // През този файл се настройва процеса. 
-            // Като се каже NextStatus, трябва да пише в Status histori да има история кво е станало.
+            // Като се каже NextStatus, трябва да пише в Status histori да има история какво е станало.
 
             var requestType = GetType(requestID);
 
@@ -106,6 +106,41 @@ namespace FMS.Services.Implementations.Request
             });
 
             data.SaveChanges();
+        }
+
+        public int GetNextStatus(int requestID)
+        {
+
+            // Според типа на request-a чете в файл и гледа кой мy е следващия статус. 
+            // През този файл се настройва процеса. 
+            // Като се каже NextStatus, трябва да пише в Status histori да има история какво е станало.
+
+            var requestType = GetType(requestID);
+
+            //Read setting from file for this request type.
+            string filePath = new SettingService(data).GetSetting("RequestStatusSettingFilePath");
+            string fileText = File.ReadAllText(filePath);
+            var json = JObject.Parse(fileText);
+
+            var requestTypeObject = json["RequestTypes"].Children().Where(t => t["RequestType"].ToString() == requestType.ID.ToString()).First();
+            var statusCodeSequence = requestTypeObject["StatusSequence"].ToList().Select(s => s.ToString()).ToList();
+
+            //Find next status ID
+            var statusService = new RequestStatusService(data);
+            var currentstatus = statusService.GetRequestStatus(requestID);
+
+            int currentStatusListIndexPosition = statusCodeSequence.FindIndex(e => e == currentstatus.Code.ToString());
+            if (statusCodeSequence.Count - 1 == currentStatusListIndexPosition)
+            {
+                throw new InvalidOperationException("This is the last status from StatusSequence. ");
+            }
+
+            int nextStatusListIndexPosition = currentStatusListIndexPosition + 1;
+            double nextStatusCode = double.Parse(statusCodeSequence[nextStatusListIndexPosition]);
+
+            var nextStatus = statusService.GetStatus(nextStatusCode);
+            ;
+            return nextStatus.ID;
         }
 
         public RequestStatusServiceModel GetStatus(int requestID)

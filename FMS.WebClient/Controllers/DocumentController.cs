@@ -31,7 +31,7 @@ namespace FMS.WebClient.Controllers
         public IActionResult ConfirmInvoice(int requestID)
         {
             documentService.ConfirmInvoice(requestID);
-            requestService.NextStatus(requestID);
+            requestService.ProcessToNextStatus(requestID);
             return Redirect("/");
         }
     }

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>NewRequestsList</h1>
+<h1>New requests</h1>
 <div>
     <a href="/Request/NewRequestsList?page=@Model.PreviousPage" class="float-left btn bz-btn-info @(Model.PreviousDisabled?"disabled":"")">Prev</a>
     <a href="/Request/NewRequestsList?page=@Model.NextPage" class="float-right btn bz-btn-info @(Model.NextDisabled?"disabled":"")">Next</a>
@@ -27,7 +27,10 @@
             <td>@item.ToCountryCity</td>
             <td>@item.LoadName</td>
             <td>
-                <a href="/Request/ProcessCustomerRequest?requestID=@item.ID" class="btn bz-btn-info">See more</a>
+                @await Html.PartialAsync("_ButtonProcessPartial", new FMS.WebClient.Models.Partial._ButtonProcessPartialViewModel()
+                {
+                    RequestID = item.ID
+                })
             </td>
         </tr>
     }

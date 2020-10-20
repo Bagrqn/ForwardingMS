@@ -7,7 +7,9 @@ namespace FMS.Services
     {
         void Create(string number, int requestTypeID);
 
-        void NextStatus(int requestID);
+        void ProcessToNextStatus(int requestID);
+
+        int GetNextStatus(int requestID);
 
         void Delete(int requestID);
 

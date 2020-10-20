@@ -5,6 +5,7 @@ using FMS.Services.Models.Request;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace FMS.Services.Implementations.Request
 {
@@ -14,6 +15,7 @@ namespace FMS.Services.Implementations.Request
 
         public RequestStatusService(FMSDBContext data)
             => this.data = data;
+
         public void Create(double code, string name, string description)
         {
             if (string.IsNullOrEmpty(name))
@@ -40,32 +42,6 @@ namespace FMS.Services.Implementations.Request
             };
             data.RequestStatuses.Add(status);
             data.SaveChanges();
-        }
-
-        public int GetDefaultStatusID()
-        {
-            if (!data.RequestStatuses.Any(s => s.Code == 0))
-            {
-                CreateDefaultStatus();
-            }
-            return data.RequestStatuses.FirstOrDefault(s => s.Code == 0).ID;
-        }
-
-        public RequestStatus GetDeleteStatus()
-        {
-            var deleted = data.RequestStatuses.FirstOrDefault(s => s.Name == "Deleted");
-            if (deleted == null)
-            {
-                data.RequestStatuses.Add(new RequestStatus()
-                {
-                    Name = "Deleted",
-                    Code = 9,
-                    Description = ""
-                });
-                data.SaveChanges();
-                return data.RequestStatuses.FirstOrDefault(s => s.Name == "Deleted");
-            }
-            return deleted;
         }
 
         public RequestStatusServiceModel GetRequestStatus(int requestID)
@@ -97,6 +73,69 @@ namespace FMS.Services.Implementations.Request
             };
         }
 
+        public RequestStatusServiceModel GetStatus(int statusID)
+        {
+            var status = data.RequestStatuses.FirstOrDefault(s => s.ID == statusID);
+            return new RequestStatusServiceModel()
+            {
+                ID = status.ID,
+                Code = status.Code,
+                Name = status.Name,
+                Description = status.Description
+            };
+        }
+
+        public int GetDefaultStatusID()
+        {
+            if (!data.RequestStatuses.Any(s => s.Code == 0))
+            {
+                CreateDefaultStatus();
+            }
+            return data.RequestStatuses.FirstOrDefault(s => s.Code == 0).ID;
+        }
+
+        public RequestStatus GetDeleteStatus()
+        {
+            var deleted = data.RequestStatuses.FirstOrDefault(s => s.Name == "Deleted");
+            if (deleted == null)
+            {
+                data.RequestStatuses.Add(new RequestStatus()
+                {
+                    Name = "Deleted",
+                    Code = 9,
+                    Description = ""
+                });
+                data.SaveChanges();
+                return data.RequestStatuses.FirstOrDefault(s => s.Name == "Deleted");
+            }
+            return deleted;
+        }
+
+        public RequestStatusServiceModel GetCustomsProcessingStatus()
+        {
+            var status = data.RequestStatuses.FirstOrDefault(s => s.Name == "CustomsProcessing");
+            if (status == null)
+            {
+                double nextCode = Math.Ceiling(data.RequestStatuses.Select(r => r.Code).ToList().Max()) + 1;
+                Create(nextCode, "CustomsProcessing", "");
+                status = data.RequestStatuses.FirstOrDefault(s => s.Name == "CustomsProcessing");
+                return new RequestStatusServiceModel()
+                {
+                    Code = status.Code,
+                    ID = status.ID,
+                    Name = status.Name,
+                    Description = status.Description
+                };
+            }
+            return new RequestStatusServiceModel()
+            {
+                Code = status.Code,
+                ID = status.ID,
+                Name = status.Name,
+                Description = status.Description
+            };
+        }
+
         public int GetStatusIDByCode(double code)
         {
             if (!data.RequestStatuses.Any(s => s.Code == code))
@@ -121,5 +160,7 @@ namespace FMS.Services.Implementations.Request
             }); ;
             data.SaveChanges();
         }
+
+
     }
 }

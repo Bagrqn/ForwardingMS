@@ -2,11 +2,11 @@
   "RequestTypes": [
     {
       "RequestType": 1,
-      "StatusSequence": [ 0, 1, 2, 3 ]
+      "StatusSequence": [ 0, 1, 2, 3 ] /*status code*/
     },
     {
       "RequestType": 2,
-      "StatusSequence": [ 0, 3, 4 ]
+      "StatusSequence": [ 0, 3, 4 ] /*status code*/
     }
   ]
 }

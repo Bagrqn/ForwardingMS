@@ -85,6 +85,9 @@ namespace FMS.ConsoleClient
 
             var s = new SettingService(data);
             s.CreateSetting("RequestStatusSettingFilePath", @"C:\Users\Bagrqn\source\repos\FMS-Repo\Services\FMS.Services\Settings\RequestStatus\RequestStatusSetting.json", "");
+            s.CreateSetting("_buttonProcessPartialSettingsFilePath", @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.WebClient\Settings\_buttonProcessPartialSettings.json", "");
+
+
         }
 
         private void RequestStatusesSeeder()
@@ -118,7 +121,7 @@ namespace FMS.ConsoleClient
         /// </summary>
         private void CompanySeeder()
         {
-            
+
             string filePath = @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.ConsoleClient\DataFiles\Companies.json";
             string fileText = File.ReadAllText(filePath);
 
@@ -133,7 +136,7 @@ namespace FMS.ConsoleClient
 
             var bulgariaID = data.Countries.FirstOrDefault(c => c.Name == "Bulgaria");
             var sofiaID = data.Cities.FirstOrDefault(c => c.Name == "Sofia" && c.CountryID == bulgariaID.ID);
-           //Main Company
+            //Main Company
             companyService.Create(
                         "Scorpion-Shipping LTD"
                         , "BG05046795445"
@@ -144,7 +147,7 @@ namespace FMS.ConsoleClient
                         , RandomString(random.Next(15, 50))
                         );
             ////////////////////////////////////////////
-            
+
 
             foreach (var companyName in companiesList)
             {
@@ -174,7 +177,7 @@ namespace FMS.ConsoleClient
                         , RandomString(random.Next(15, 50))
                         );
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     continue;
                 }
@@ -261,13 +264,13 @@ namespace FMS.ConsoleClient
                         {
                             service.Create(city, countryID);
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             continue;
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     continue;
                 }
