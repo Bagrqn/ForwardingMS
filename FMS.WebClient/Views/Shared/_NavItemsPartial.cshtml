@@ -1,32 +1,52 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@model FMS.WebClient.Models.Partial._NavItemsPartialViewModel;
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
 
 <ul class="navbar-nav flex-grow-1">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a id="white" class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        </li>
-        <li class="nav-item">
-            <a id="white" class="nav-link" asp-area="" asp-controller="Request" asp-action="NewRequestsList">New</a>
-        </li>
-        <li>
-            <a id="white" class="nav-link" asp-area="" asp-controller="Request" asp-action="AcceptedRequests">Accepted</a>
-        </li>
-        <li>
-            <a id="white" class="nav-link" asp-area="" asp-controller="Request" asp-action="CustomsProcessingRequests">Customs processing</a>
-        </li>
+
+
+
+
+        // trqbva da napravq foreach na kolekciq ot _NavItemPartialViewModel.
+        // Ще е от този тип, за да може после леско като се добави поле в json да се добави и в класа и после да взеле и тук като параметър.
+        // ба ли го дали ще стане
+
+
+        var list = Model.loggedUserNavItems;
+        foreach (var item in list)
+        {
+            @await Html.PartialAsync("_NavItemPartial", new FMS.WebClient.Models.Partial._NavItemPartialViewModel()
+            {
+                View = item.View,
+                Text = item.Text
+            })
+        }
     }
     else
     {
+        //partial(logged false)
+
+        var list = Model.notLoggedUserNavItems;
+        foreach (var item in list)
+        {
+            @await Html.PartialAsync("_NavItemPartial", new FMS.WebClient.Models.Partial._NavItemPartialViewModel()
+            {
+                View = item.View,
+                Text = item.Text
+            })
+        }
+
+
+        /*
         <li class="nav-item">
             <a id="white" class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="nav-item">
             <a id="white" class="nav-link" asp-area="" asp-controller="Request" asp-action="NewCustomerRequest">Send request</a>
-        </li>
+        </li>*/
 
     }
 </ul>

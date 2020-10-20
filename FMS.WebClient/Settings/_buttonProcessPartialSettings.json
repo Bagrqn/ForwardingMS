@@ -1,12 +1,10 @@
 /* Тук ще пише на кой статус кое view отговаря*/
-
 {
-  "settings": 
-  [
+  "settings": [
     {
       "nextStatusCode": 1,
       "view": "/Request/CustomsProcessingRequests",
-      "btnText":  "See more"
+      "btnText": "See more"
     },
     {
       "nextStatusCode": 2,
@@ -15,5 +13,3 @@
     }
   ]
 }
-
-

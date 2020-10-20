@@ -1,0 +1,27 @@
+{
+  "NavItemsLoggedUser": [
+
+    {
+      "text": "New",
+      "view": "/Request/NewRequestsList"
+    },
+    {
+      "text": "Accepted",
+      "view": "/Request/AcceptedRequests"
+    },
+    {
+      "text": "Customer processing",
+      "view": "/Request/CustomsProcessingRequests"
+    }
+  ],
+  "NavItemsNotLogged": [
+    {
+      "text": "Home",
+      "view": "/"
+    },
+    {
+      "text": "Send request",
+      "view": "/Request/NewCustomerRequest"
+    }
+  ]
+}

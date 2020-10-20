@@ -11,12 +11,12 @@
 <body>
     <div class="backgroundMock">
         
-        <img src="~/images/black.png" />"
+        <img src="~/images/black.png" />
 
         <header class="border-bottom">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light ">
                 <div class="container">
-                    <a id="white" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FMS.WebClient</a>
+                    <a id="white" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FMS</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,8 @@
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <partial name="_LoginPartial" />
 
-                        <partial name="_NavItemsPartial" />
+                        @await Html.PartialAsync("_NavItemsPartial", new FMS.WebClient.Models.Partial._NavItemsPartialViewModel())
+
 
                     </div>
                 </div>

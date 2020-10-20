@@ -1,4 +1,5 @@
-﻿@model RequestListingViewModel;
+﻿@using FMS.WebClient.Models.Partial;
+@model RequestListingViewModel;
 
 @{
     ViewData["Title"] = "NewRequestsList";
@@ -28,7 +29,7 @@
             <td>@item.ToCountryCity</td>
             <td>@item.LoadName</td>
             <td>
-                @await Html.PartialAsync("_ButtonProcessPartial", new FMS.WebClient.Models.Partial._ButtonProcessPartialViewModel()
+                @await Html.PartialAsync("_ButtonProcessPartial", new _ButtonProcessPartialViewModel()
                 {
                     RequestID = item.ID
                 })

@@ -20,6 +20,7 @@ namespace FMS.WebClient.Models.Partial
                 return ServiceFactory.NewRequestService(db).GetNextStatus(RequestID);
             }
         }
+
         public RequestStatusServiceModel RequestNextStatus
         {
             get
@@ -28,6 +29,7 @@ namespace FMS.WebClient.Models.Partial
                 return ServiceFactory.NewRequestStatusService(db).GetStatus(RequestNextStatusID);
             }
         }
+        
         public string NextView
         {
             get
