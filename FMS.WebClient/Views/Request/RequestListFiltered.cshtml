@@ -1,0 +1,37 @@
+﻿@model RequestListingViewModel;
+
+@{
+    ViewData["Title"] = "Requests list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Requests list @Model.Status.Name</h1>
+<div>
+    <a href="/Request/NewRequestsList?page=@Model.PreviousPage" class="float-left btn bz-btn-info @(Model.PreviousDisabled?"disabled":"")">Prev</a>
+    <a href="/Request/NewRequestsList?page=@Model.NextPage" class="float-right btn bz-btn-info @(Model.NextDisabled?"disabled":"")">Next</a>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Number</th>
+        <th>Date create</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Info</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.list)
+    {
+        <tr>
+            <td>@item.Number</td>
+            <td>@item.DateCreate</td>
+            <td>@item.FromCountryCity</td>
+            <td>@item.ToCountryCity</td>
+            <td>@item.LoadName</td>
+            <td>
+                @await Html.PartialAsync("_ButtonProcessPartial", new FMS.WebClient.Models.Partial._ButtonProcessPartialViewModel()
+                {
+                    RequestID = item.ID
+                })
+            </td>
+        </tr>
+    }
+</table>

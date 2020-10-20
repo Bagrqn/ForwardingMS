@@ -3,13 +3,33 @@
   "settings": [
     {
       "nextStatusCode": 1,
-      "view": "/Request/CustomsProcessingRequests",
+      "view": "/Request/ProcessCustomerRequest",
       "btnText": "See more"
+    },
+    {
+      "nextStatusCode": 1.1,
+      "view": "/Request/NextStatus",
+      "btnText": "Go in transit! "
+    },
+    {
+      "nextStatusCode": 1.2,
+      "view": "/Request/NextStatus",
+      "btnText": "Go to customs processing! "
+    },
+    {
+      "nextStatusCode": 1.3,
+      "view": "/Request/NextStatus",
+      "btnText": "Processed!"
     },
     {
       "nextStatusCode": 2,
       "view": "/Document/CreateInvoice",
       "btnText": "Invocie"
+    },
+    {
+      "nextStatusCode": 3,
+      "view": "/Request/NextStatus",
+      "btnText": "Payed"
     }
   ]
 }

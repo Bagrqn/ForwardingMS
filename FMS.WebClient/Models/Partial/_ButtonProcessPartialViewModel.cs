@@ -29,7 +29,7 @@ namespace FMS.WebClient.Models.Partial
                 return ServiceFactory.NewRequestStatusService(db).GetStatus(RequestNextStatusID);
             }
         }
-        
+
         public string NextView
         {
             get
@@ -39,10 +39,22 @@ namespace FMS.WebClient.Models.Partial
                 string filePath = new SettingService(db).GetSetting("_buttonProcessPartialSettingsFilePath");
                 string fileText = File.ReadAllText(filePath);
                 var json = JObject.Parse(fileText);
-                var settings = json["settings"].Children().FirstOrDefault(x => (double)x["nextStatusCode"] == RequestNextStatus.Code);
-                string view = settings["view"].ToString();
 
-                return view;
+                try
+                {
+                    var settings = json["settings"].Children()
+                        .FirstOrDefault(x => (double)x["nextStatusCode"] == RequestNextStatus.Code);
+                    if (settings != null)
+                    {
+                        string view = settings["view"].ToString();
+                        return view;
+                    }
+                }
+                catch (System.Exception)
+                {
+                }
+
+                return "/";
             }
         }
 
@@ -55,10 +67,20 @@ namespace FMS.WebClient.Models.Partial
                 string filePath = new SettingService(db).GetSetting("_buttonProcessPartialSettingsFilePath");
                 string fileText = File.ReadAllText(filePath);
                 var json = JObject.Parse(fileText);
-                var settings = json["settings"].Children().FirstOrDefault(x => (double)x["nextStatusCode"] == RequestNextStatus.Code);
-                string btnText = settings["btnText"].ToString();
+                try
+                {
+                    var settings = json["settings"].Children().FirstOrDefault(x => (double)x["nextStatusCode"] == RequestNextStatus.Code);
+                    if (settings != null)
+                    {
+                        string btnText = settings["btnText"].ToString();
+                        return btnText;
+                    }
+                }
+                catch (System.Exception)
+                {
+                }
 
-                return btnText;
+                return "";
             }
         }
     }

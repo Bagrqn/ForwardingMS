@@ -2,16 +2,44 @@
   "NavItemsLoggedUser": [
 
     {
-      "text": "New",
-      "view": "/Request/NewRequestsList"
+      "text": "New", /*Име на полето в нав-бара*/
+      "view": "/Request/RequestListFiltered", /*път към формата*/
+      "requestStatusFilter": 0 /*статус който да се подаде като параметър на формата, по който да филтрира.*/
     },
     {
       "text": "Accepted",
-      "view": "/Request/AcceptedRequests"
+      "view": "/Request/RequestListFiltered",
+      "requestStatusFilter": 1
+    },
+    {
+      "text": "Transit",
+      "view": "/Request/RequestListFiltered",
+      "requestStatusFilter": 1.1
     },
     {
       "text": "Customer processing",
-      "view": "/Request/CustomsProcessingRequests"
+      "view": "/Request/RequestListFiltered",
+      "requestStatusFilter": 1.2
+    },
+    {
+      "text": "Ready to invoice",
+      "view": "/Request/RequestListFiltered",
+      "requestStatusFilter": 1.3
+    },
+    {
+      "text": "Invoiced",
+      "view": "/Request/RequestListFiltered",
+      "requestStatusFilter": 2
+    },
+    {
+      "text": "Payed",
+      "view": "/Request/RequestListFiltered",
+      "requestStatusFilter": 3
+    },
+    {
+      "text": "Deleted",
+      "view": "/Request/RequestListFiltered",
+      "requestStatusFilter": 9
     }
   ],
   "NavItemsNotLogged": [

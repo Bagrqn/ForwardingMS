@@ -21,7 +21,8 @@
             @await Html.PartialAsync("_NavItemPartial", new FMS.WebClient.Models.Partial._NavItemPartialViewModel()
             {
                 View = item.View,
-                Text = item.Text
+                Text = item.Text,
+                StatusCode = item.StatusCode
             })
         }
     }
@@ -35,9 +36,11 @@
             @await Html.PartialAsync("_NavItemPartial", new FMS.WebClient.Models.Partial._NavItemPartialViewModel()
             {
                 View = item.View,
-                Text = item.Text
+                Text = item.Text,
+                StatusCode = item.StatusCode
             })
         }
+
 
 
         /*

@@ -32,7 +32,7 @@ namespace FMS.WebClient.Controllers
         {
             documentService.ConfirmInvoice(requestID);
             requestService.ProcessToNextStatus(requestID);
-            return Redirect("/");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
     }
 }

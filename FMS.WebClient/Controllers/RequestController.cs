@@ -37,10 +37,29 @@ namespace FMS.WebClient.Controllers
             this.companyService = companyService;
         }
 
-        public IActionResult NewCustomerRequest(CurtomerRequestModel model)
+
+        //Main form
+        public IActionResult RequestListFiltered(double statusCode, int page = 1)
         {
-            model.countryList = countryService.GetAll();
+            int statusID = requestStatusService.GetStatusIDByCode(statusCode);
+            var status = requestStatusService.GetStatus(statusID);
+            var requestsList = requestService.GetAllByStatus(statusID, page);
+
+            var model = new RequestListingViewModel
+            {
+                list = requestsList,
+                CurrentPage = page,
+                StatusCode = statusCode,
+                Status = status,
+                CountByStatus = requestService.CountByStatus(statusID)
+            };
             return View(model);
+        }
+
+        public IActionResult NextStatus(int requestID)
+        {
+            requestService.ProcessToNextStatus(requestID);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public IActionResult Create(CurtomerRequestModel model)
@@ -49,8 +68,15 @@ namespace FMS.WebClient.Controllers
             return Redirect("/");
         }
 
+        public IActionResult NewCustomerRequest(CurtomerRequestModel model)
+        {
+            model.countryList = countryService.GetAll();
+            return View(model);
+        }
+
         public IActionResult NewRequestsList(int page = 1)
         {
+            //Deprecated
             int defaultStatusID = requestStatusService.GetDefaultStatusID(); //When customer create request, request is created with default status. Thats why here we get default status. 
             var newRequests = requestService.GetAllByStatus(defaultStatusID, page);
 
@@ -66,6 +92,7 @@ namespace FMS.WebClient.Controllers
 
         public IActionResult AcceptedRequests(int page = 1)
         {
+            //Deprecated
             int acceptedStatusID = requestStatusService.GetStatus(3).ID;
 
             var acceptedRequests = requestService.GetAllByStatus(acceptedStatusID, page);
@@ -82,6 +109,7 @@ namespace FMS.WebClient.Controllers
 
         public IActionResult CustomsProcessingRequests(int page = 1)
         {
+            //Deprecated
             var customsProcessingStatus = requestStatusService.GetCustomsProcessingStatus();
             var requests = requestService.GetAllByStatus(customsProcessingStatus.ID, page);
 

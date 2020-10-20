@@ -22,7 +22,8 @@ namespace FMS.WebClient.Models.Partial
                 var listItems = json["NavItemsLoggedUser"].Children().Select(li => new _NavItemPartialViewModel()
                 {
                     Text = li["text"].ToString(),
-                    View = li["view"].ToString()
+                    View = li["view"].ToString(),
+                    StatusCode = li["requestStatusFilter"].ToString()
                 }).ToList();
 
 

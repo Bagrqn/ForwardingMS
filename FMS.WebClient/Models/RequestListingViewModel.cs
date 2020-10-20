@@ -1,15 +1,16 @@
-﻿using FMS.Data;
-using FMS.Services.Factory;
-using FMS.Services.Models.Request;
+﻿using FMS.Services.Models.Request;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace FMS.WebClient.Models
 {
     public class RequestListingViewModel
     {
         public IEnumerable<BasicRequestsLintingServiceModel> list { get; set; }
+
+        public double? StatusCode { get; set; }
+
+        public RequestStatusServiceModel Status { get; set; }
 
         public int CountByStatus { get; set; }
 
