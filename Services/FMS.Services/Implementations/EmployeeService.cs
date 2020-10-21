@@ -1,8 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Employee;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using FMS.Services.Contracts;
 using System;
 
 namespace FMS.Services.Implementations

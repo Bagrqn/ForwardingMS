@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface IEmployeeService
     {

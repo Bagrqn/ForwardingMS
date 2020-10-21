@@ -1,4 +1,4 @@
-﻿namespace FMS.Services
+﻿namespace FMS.Services.Contracts
 {
     public interface ISettingService
     {

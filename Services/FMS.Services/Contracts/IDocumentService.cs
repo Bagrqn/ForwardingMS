@@ -1,7 +1,7 @@
 ﻿using FMS.Services.Models.Document;
 using System.Collections.Generic;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface IDocumentService
     {
@@ -10,6 +10,11 @@ namespace FMS.Services
         InvoiceDocumentServiceModel GetInvoice(int requetsID);
 
         List<DocumentRowListingServiceModel> GetDocumentRows(int DocumentID);
+
+        double GetDocumentNumericProp(int documentID, string propName);
+
         void ConfirmInvoice(int requestID);
+        
+        string GetDocumentDate(int documentID);
     }
 }

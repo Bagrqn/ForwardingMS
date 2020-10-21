@@ -1,6 +1,6 @@
 ﻿using FMS.Data.Models.Employee;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface IGenderService
     {

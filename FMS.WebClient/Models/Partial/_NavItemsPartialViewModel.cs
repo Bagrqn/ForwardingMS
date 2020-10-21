@@ -23,7 +23,7 @@ namespace FMS.WebClient.Models.Partial
                 {
                     Text = li["text"].ToString(),
                     View = li["view"].ToString(),
-                    StatusCode = li["requestStatusFilter"].ToString()
+                    StatusCode = li["requestStatusFilter"] == null?"": li["requestStatusFilter"].ToString()
                 }).ToList();
 
 

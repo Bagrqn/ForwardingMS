@@ -1,7 +1,7 @@
 ﻿using FMS.Services.Models.Request;
 using System.Collections.Generic;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface ILoadService
     {

@@ -1,7 +1,7 @@
 ﻿using FMS.Services.Models.Company;
 using System.Collections.Generic;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface ICompanyService
     {

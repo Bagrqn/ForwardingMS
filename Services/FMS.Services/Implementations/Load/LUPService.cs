@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Request;
+using FMS.Services.Contracts;
 using System;
 
 namespace FMS.Services.Implementations.Load

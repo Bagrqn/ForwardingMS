@@ -1,7 +1,5 @@
-﻿using FMS.Services;
-using FMS.Services.Implementations.Request;
+﻿using FMS.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FMS.WebClient.Controllers
 {
@@ -31,6 +29,13 @@ namespace FMS.WebClient.Controllers
         public IActionResult ConfirmInvoice(int requestID)
         {
             documentService.ConfirmInvoice(requestID);
+            requestService.ProcessToNextStatus(requestID);
+            return Redirect("/");
+        }
+
+        public IActionResult ProcessInvoiceToPayed(int requestID)
+        {
+            requestService.ProcessToPayed(requestID);
             requestService.ProcessToNextStatus(requestID);
             return Redirect(Request.Headers["Referer"].ToString());
         }

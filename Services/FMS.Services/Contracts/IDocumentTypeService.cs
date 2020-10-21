@@ -1,6 +1,6 @@
 ﻿using FMS.Data.Models.Document;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     interface IDocumentTypeService
     {

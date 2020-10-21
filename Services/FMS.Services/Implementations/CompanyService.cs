@@ -2,11 +2,10 @@
 using FMS.Data.Models;
 using FMS.Data.Models.Company;
 using FMS.Data.Models.Request;
-using FMS.Services.Factory;
+using FMS.Services.Contracts;
 using FMS.Services.Models.Company;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

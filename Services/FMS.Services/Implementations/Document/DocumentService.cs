@@ -1,10 +1,9 @@
 ﻿using FMS.Data;
 using FMS.Data.Models.Document;
+using FMS.Services.Contracts;
 using FMS.Services.Models.Document;
-using Microsoft.Data.SqlClient.DataClassification;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 
 namespace FMS.Services.Implementations.Document
@@ -14,8 +13,8 @@ namespace FMS.Services.Implementations.Document
         private FMSDBContext data;
         public DocumentService(FMSDBContext data)
             => this.data = data;
-        
-        
+
+
         public void CreateInvoice(int requestID)
         {
             var invoiceType = Factory.ServiceFactory.NewDocumentTypeService(data).GetDocumentType("Invoice");
@@ -126,14 +125,15 @@ namespace FMS.Services.Implementations.Document
         {
             var typeService = Factory.ServiceFactory.NewDocumentTypeService(data);
             var invoice = data.Documents.FirstOrDefault(d => d.RequestID == requestID && d.DocumentTypeID == typeService.GetDocumentType("Invoice").ID);
-            var confirmedProp = NewDocumentProp("IsConfirmed", true);
+
             //проверка дали няма такова проп, ако има само да го update;
-            invoice.DocumentBoolProps.Add(confirmedProp);
+            invoice.DocumentBoolProps.Add(NewDocumentProp("IsConfirmed", true));
             invoice.DocumentStringProps.Add(NewDocumentProp("DateConfirm", DateTime.UtcNow.ToString()));
+            invoice.DocumentBoolProps.Add(NewDocumentProp("IsPayed", false));
             data.SaveChanges();
         }
 
-        private DocumentStringProp NewDocumentProp(string name, string value)
+        public DocumentStringProp NewDocumentProp(string name, string value)
         {
             return new DocumentStringProp()
             {
@@ -141,7 +141,7 @@ namespace FMS.Services.Implementations.Document
                 Value = value
             };
         }
-        private DocumentNumericProp NewDocumentProp(string name, double value)
+        public DocumentNumericProp NewDocumentProp(string name, double value)
         {
             return new DocumentNumericProp()
             {
@@ -149,7 +149,7 @@ namespace FMS.Services.Implementations.Document
                 Value = value
             };
         }
-        private DocumentBoolProp NewDocumentProp(string name, bool value)
+        public DocumentBoolProp NewDocumentProp(string name, bool value)
         {
             return new DocumentBoolProp()
             {
@@ -184,7 +184,7 @@ namespace FMS.Services.Implementations.Document
         {
             return new DocumentRowNumericProp() { Name = propName, Value = propValue };
         }
-        private double GetDocumentNumericProp(int documentID, string propName)
+        public double GetDocumentNumericProp(int documentID, string propName)
         {
             var prop = data.DocumentNumericProps.FirstOrDefault(p => p.DocumentID == documentID && p.Name == propName);
             if (prop != null)
@@ -193,7 +193,7 @@ namespace FMS.Services.Implementations.Document
             }
             throw new InvalidOperationException("Property das not exist");
         }
-        private string GetDocumentDate(int documentID)
+        public string GetDocumentDate(int documentID)
         {
             return data.DocumentStringProps.FirstOrDefault(d => d.DocumentID == documentID && d.Name == "DateCreate").Value;
         }
@@ -208,7 +208,7 @@ namespace FMS.Services.Implementations.Document
             return num;
         }
 
-       
+
     }
 
 }

@@ -1,7 +1,7 @@
 ﻿using FMS.Data.Models.Request;
 using FMS.Services.Models.Request;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface IRequestStatusService
     {

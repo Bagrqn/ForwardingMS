@@ -28,7 +28,7 @@
     },
     {
       "nextStatusCode": 3,
-      "view": "/Request/NextStatus",
+      "view": "/Document/ProcessInvoiceToPayed",
       "btnText": "Payed"
     }
   ]

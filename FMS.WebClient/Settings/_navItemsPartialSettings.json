@@ -37,9 +37,8 @@
       "requestStatusFilter": 3
     },
     {
-      "text": "Deleted",
-      "view": "/Request/RequestListFiltered",
-      "requestStatusFilter": 9
+      "text": "Reports",
+      "view": "/Report/Reports"
     }
   ],
   "NavItemsNotLogged": [

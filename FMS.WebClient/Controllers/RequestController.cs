@@ -1,4 +1,4 @@
-﻿using FMS.Services;
+﻿using FMS.Services.Contracts;
 using FMS.Services.Models.City;
 using FMS.Services.Models.Company;
 using FMS.Services.Models.Postcode;

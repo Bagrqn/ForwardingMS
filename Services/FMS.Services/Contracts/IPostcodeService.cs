@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FMS.Services.Models.Postcode;
-namespace FMS.Services
+
+namespace FMS.Services.Contracts
 {
     public interface IPostcodeService
     {

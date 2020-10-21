@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Company;
+using FMS.Services.Contracts;
 using FMS.Services.Models.Company;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;

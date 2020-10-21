@@ -1,6 +1,6 @@
 ﻿using FMS.Data;
-using FMS.Data.Models;
 using FMS.Data.Models.Request;
+using FMS.Services.Contracts;
 using FMS.Services.Factory;
 using FMS.Services.Factory.Request;
 using FMS.Services.Models.Request;
@@ -105,6 +105,23 @@ namespace FMS.Services.Implementations.Request
                 DateChange = DateTime.UtcNow
             });
 
+            data.SaveChanges();
+        }
+
+        public void ProcessToPayed(int reqiestID)
+        {
+            var docType = Factory.ServiceFactory.NewDocumentTypeService(data).GetDocumentType("Invoice");
+            var invoice = data.Documents.FirstOrDefault(d => d.RequestID == reqiestID && d.DocumentTypeID == docType.ID);
+            var payedProp = data.DocumentBoolProps.FirstOrDefault(p => p.Name == "IsPayed" && p.DocumentID == invoice.ID);
+            if (payedProp != null)
+            {
+                payedProp.Value = true;
+            }
+            else
+            {
+                var service = Factory.ServiceFactory.NewDocumentService(data);
+                invoice.DocumentBoolProps.Add(service.NewDocumentProp("IsPayed", true));
+            }
             data.SaveChanges();
         }
 
@@ -465,11 +482,14 @@ namespace FMS.Services.Implementations.Request
         public void NewCustomerRequest(CurtomerRequestModel model)
         {
             var requestTypeID = ServiceFactory.NewRequestTypeService(data).FindTypeByName("Transport").ID;
-            var request = RequestFactory.Create(DateTime.UtcNow.ToString(), requestTypeID);
+            string requestNumber = NewRequestNumber();
+            var request = RequestFactory.Create(requestNumber, requestTypeID);
             request.RequestStatusID = ServiceFactory.NewRequestStatusService(data).GetDefaultStatusID();
             //Create load
             var load = LoadFactory.Create(model.LoadName, model.LoadComment, model.PackageTypeID, model.PackageCount);
-            //Add props if have value Length
+
+            //Add load props if have value  
+            #region Add props if have value 
             if (model.Length != 0)
             {
                 load.LoadNumericProps.Add(LoadFactory.NewNumericProps("Length", model.Length));
@@ -498,6 +518,7 @@ namespace FMS.Services.Implementations.Request
             {
                 load.LoadStringProps.Add(LoadFactory.NewStringProp("StockType", model.StockType));
             }
+            #endregion
             //Add Load to Request
             request.Loads.Add(load);
             //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
@@ -538,6 +559,18 @@ namespace FMS.Services.Implementations.Request
             ;//Компания за сега няма да се добавя! 
             data.Requests.Add(request);
             data.SaveChanges();
+        }
+
+        private string NewRequestNumber()
+        {
+            string result = ""
+                + DateTime.UtcNow.Year
+                + DateTime.UtcNow.Month
+                + DateTime.UtcNow.Day
+                + DateTime.UtcNow.Hour
+                + DateTime.UtcNow.Minute
+                + DateTime.UtcNow.Second;
+            return result;
         }
 
         public RequestToEmployeeRelationType GetRequestToEmployeeRelationTypeAssignor()

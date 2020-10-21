@@ -2,6 +2,7 @@ using FMS.Data;
 using FMS.Data.Models.Request;
 using FMS.Services;
 using FMS.Services.Implementations;
+using FMS.Services.Implementations.Report;
 using FMS.Services.Implementations.Document;
 using FMS.Services.Implementations.Load;
 using FMS.Services.Implementations.Request;
@@ -51,6 +52,7 @@ namespace FMS.WebClient
             services.AddTransient<IRequestStatusService, RequestStatusService>();
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<IDocumentService, DocumentService>();
+            services.AddTransient<IReportService, ReportService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Request;
+using FMS.Services.Contracts;
 using FMS.Services.Models.Request;
 using System;
 using System.Collections.Generic;
@@ -97,9 +98,9 @@ namespace FMS.Services.Implementations.Load
 
         public void CreatePackageType(string name)
         {
-            data.PackageTypes.Add(new PackageType() 
-            { 
-                TypeName = name 
+            data.PackageTypes.Add(new PackageType()
+            {
+                TypeName = name
             });
             data.SaveChanges();
         }

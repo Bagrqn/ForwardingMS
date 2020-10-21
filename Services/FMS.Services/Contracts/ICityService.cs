@@ -2,7 +2,7 @@
 using FMS.Services.Models.Postcode;
 using System.Collections.Generic;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface ICityService
     {

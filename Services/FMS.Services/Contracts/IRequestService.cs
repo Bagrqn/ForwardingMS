@@ -1,7 +1,7 @@
 ﻿using FMS.Services.Models.Request;
 using System.Collections.Generic;
 
-namespace FMS.Services
+namespace FMS.Services.Contracts
 {
     public interface IRequestService
     {
@@ -51,5 +51,7 @@ namespace FMS.Services
         int CountByStatus(int statusID);
 
         void SaveChanges(FullInfoRequestServiceModel model);
+
+        void ProcessToPayed(int reqiestID);
     }
 }
