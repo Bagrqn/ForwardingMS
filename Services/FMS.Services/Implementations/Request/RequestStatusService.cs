@@ -57,13 +57,22 @@ namespace FMS.Services.Implementations.Request
             };
         }
 
+        //Get status refactored
         public RequestStatusServiceModel GetStatus(double code)
         {
-            if (!data.RequestStatuses.Any(s => s.Code == code))
+            var status = data.RequestStatuses.FirstOrDefault(s => s.Code == code);
+
+            if (code == CommonValues.RequestDefaultStatusCode && status == null)
+            {
+                Create(CommonValues.RequestDefaultStatusCode, CommonValues.RequestDefaultStatusName, CommonValues.RequestDefaultStatusDescription);
+                status = data.RequestStatuses.FirstOrDefault(s => s.Code == code);
+            }
+
+            if (status == null)
             {
                 throw new InvalidOperationException($"Request status code {code} doesen't exist. ");
             }
-            var status = data.RequestStatuses.FirstOrDefault(s => s.Code == code);
+
             return new RequestStatusServiceModel()
             {
                 ID = status.ID,
@@ -72,10 +81,33 @@ namespace FMS.Services.Implementations.Request
                 Description = status.Description
             };
         }
+        public RequestStatusServiceModel GetStatus(string statusName)
+        {
+            var status = data.RequestStatuses.FirstOrDefault(s => s.Name == statusName);
 
+            if (statusName == CommonValues.RequestDefaultStatusName && status == null)
+            {
+                Create(CommonValues.RequestDefaultStatusCode, CommonValues.RequestDefaultStatusName, CommonValues.RequestDefaultStatusDescription);
+                status = data.RequestStatuses.FirstOrDefault(s => s.Name == statusName);
+            }
+
+            if (status == null)
+            {
+                throw new InvalidOperationException($"Request status name {statusName} doesen't exist. ");
+            }
+
+            return new RequestStatusServiceModel()
+            {
+                ID = status.ID,
+                Code = status.Code,
+                Name = status.Name,
+                Description = status.Description
+            };
+        }
         public RequestStatusServiceModel GetStatus(int statusID)
         {
             var status = data.RequestStatuses.FirstOrDefault(s => s.ID == statusID);
+
             return new RequestStatusServiceModel()
             {
                 ID = status.ID,
@@ -85,6 +117,10 @@ namespace FMS.Services.Implementations.Request
             };
         }
 
+
+
+        //Depricated
+        /*
         public int GetDefaultStatusID()
         {
             if (!data.RequestStatuses.Any(s => s.Code == 0))
@@ -93,7 +129,7 @@ namespace FMS.Services.Implementations.Request
             }
             return data.RequestStatuses.FirstOrDefault(s => s.Code == 0).ID;
         }
-
+        */
         public RequestStatus GetDeleteStatus()
         {
             var deleted = data.RequestStatuses.FirstOrDefault(s => s.Name == "Deleted");
@@ -136,14 +172,15 @@ namespace FMS.Services.Implementations.Request
             };
         }
 
-        public int GetStatusIDByCode(double code)
+        //Depricated
+        /*public int GetStatusIDByCode(double code)
         {
             if (!data.RequestStatuses.Any(s => s.Code == code))
             {
                 throw new InvalidOperationException($"Request status code {code} doesen't exist. ");
             }
             return data.RequestStatuses.FirstOrDefault(s => s.Code == code).ID;
-        }
+        }*/
 
         public void LogStatusCganhe(int requestID, int oldStatusID, int newStatusID)
         {

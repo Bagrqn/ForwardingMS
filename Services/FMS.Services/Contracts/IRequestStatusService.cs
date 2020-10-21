@@ -1,5 +1,4 @@
-﻿using FMS.Data.Models.Request;
-using FMS.Services.Models.Request;
+﻿using FMS.Services.Models.Request;
 
 namespace FMS.Services.Contracts
 {
@@ -7,20 +6,17 @@ namespace FMS.Services.Contracts
     {
         void Create(double code, string name, string description);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns> Status code ID </returns>
-        int GetDefaultStatusID();
-
-        int GetStatusIDByCode(double code);
+        //Depricated
+        //int GetStatusIDByCode(double code);
 
         RequestStatusServiceModel GetCustomsProcessingStatus();
 
         RequestStatusServiceModel GetRequestStatus(int requestID);
 
         RequestStatusServiceModel GetStatus(double code);
-        
+
+        RequestStatusServiceModel GetStatus(string statusName);
+
         RequestStatusServiceModel GetStatus(int statusID);
 
 

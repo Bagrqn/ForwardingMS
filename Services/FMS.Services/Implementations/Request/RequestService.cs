@@ -33,7 +33,7 @@ namespace FMS.Services.Implementations.Request
                 DateCreate = DateTime.UtcNow,
                 IsDeleted = false,
                 RequestTypeID = requestTypeID,
-                RequestStatusID = new RequestStatusService(data).GetDefaultStatusID()
+                RequestStatusID = new RequestStatusService(data).GetStatus(CommonValues.RequestDefaultStatusCode).ID
             };
             data.Requests.Add(request);
             data.SaveChanges();
@@ -393,17 +393,12 @@ namespace FMS.Services.Implementations.Request
 
 
             //Assignor info
-            var assignor = data.RequestToEmployees
-                .Where(x => x.RequestID == requestId
-                    && x.RequestToEmployeeRelationTypeID == GetRequestToEmployeeRelationTypeAssignor().ID)
-                .Select(x => new
-                {
-                    AssignorFirstName = x.Employee.FirstName,
-                    AssignorLastName = x.Employee.LastName,
-                    AssignorPhoneNumber = x.Employee.EmployeeStringProps.FirstOrDefault(p => p.Name == "Phone number").Value,
-                    AssignorCompanyName = x.Employee.EmployeeStringProps.FirstOrDefault(p => p.Name == "Company name").Value,
-                }).FirstOrDefault();
-            ;
+            var AssignorFirstName = data.RequestStringProps.FirstOrDefault(p => p.RequestID == requestId && p.Name == CommonValues.RequestAssignor_FirstNamePropName);
+            var AssignorLastName = data.RequestStringProps.FirstOrDefault(p => p.RequestID == requestId && p.Name == CommonValues.RequestAssignor_LastNamePropName);
+            var AssignorPhoneNumber = data.RequestStringProps.FirstOrDefault(p => p.RequestID == requestId && p.Name == CommonValues.RequestAssignor_PhoneNumberPropName);
+            var AssignorCompanyName = data.RequestStringProps.FirstOrDefault(p => p.RequestID == requestId && p.Name == CommonValues.RequestAssignor_CompanyPropName);
+
+
             if (request == null)
             {
                 return null;
@@ -415,16 +410,16 @@ namespace FMS.Services.Implementations.Request
                 DateCreate = request.DateCreate.ToString(),
                 FromInfo = fromInfo,
                 ToInfo = toInfo,
+                RequestTypeID = request.RequestTypeID
 
             };
-            if (assignor != null)
-            {
-                fullRequestInfo.AssignorFirstName = assignor.AssignorFirstName;
-                fullRequestInfo.AssignorLastName = assignor.AssignorLastName;
-                fullRequestInfo.AssignorPhoneNumber = assignor.AssignorPhoneNumber;
-                fullRequestInfo.AssignorCompanyName = assignor.AssignorCompanyName;
 
-            }
+            fullRequestInfo.AssignorFirstName = AssignorFirstName == null ? "" : AssignorFirstName.Value;
+            fullRequestInfo.AssignorLastName = AssignorLastName == null ? "" : AssignorLastName.Value;
+            fullRequestInfo.AssignorPhoneNumber = AssignorPhoneNumber == null ? "" : AssignorPhoneNumber.Value;
+            fullRequestInfo.AssignorCompanyName = AssignorCompanyName == null ? "" : AssignorCompanyName.Value;
+
+
             if (load != null)
             {
                 fullRequestInfo.Length = load.Lenght;
@@ -481,10 +476,16 @@ namespace FMS.Services.Implementations.Request
 
         public void NewCustomerRequest(CurtomerRequestModel model)
         {
-            var requestTypeID = ServiceFactory.NewRequestTypeService(data).FindTypeByName("Transport").ID;
+            var requestTypeService = Factory.ServiceFactory.NewRequestTypeService(data);
+            var requestType = requestTypeService.FindTypeByName(CommonValues.RequestDefaultTypeName);
             string requestNumber = NewRequestNumber();
-            var request = RequestFactory.Create(requestNumber, requestTypeID);
-            request.RequestStatusID = ServiceFactory.NewRequestStatusService(data).GetDefaultStatusID();
+
+            //Create request
+            var request = RequestFactory.Create(requestNumber, requestType.ID);
+            var defaultRequestStatus = ServiceFactory.NewRequestStatusService(data).GetStatus(CommonValues.RequestDefaultStatusCode);
+            request.RequestStatusID = defaultRequestStatus.ID;
+
+
             //Create load
             var load = LoadFactory.Create(model.LoadName, model.LoadComment, model.PackageTypeID, model.PackageCount);
 
@@ -521,42 +522,30 @@ namespace FMS.Services.Implementations.Request
             #endregion
             //Add Load to Request
             request.Loads.Add(load);
-            //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
-            request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Loading,
-                                                                    model.FromCityID, model.FromPostcodeID, model.FromAddress,
-                                                                    ServiceFactory.NewCompanyService(data).GetUndefined().ID));
-            //Sender/reciever missing reference / Hardcoded 20 - Not Defined Company (Test case)
-            request.LoadingUnloadingPoints.Add(LUPFactory.NewLUP(Data.Models.Request.LoadingUnloadingPointTypeEnum.Unloading,
-                                                                    model.ToCityID, model.ToPostcodeID, model.ToAddress,
-                                                                    ServiceFactory.NewCompanyService(data).GetUndefined().ID));
+
+            //Add Loading point
+            request.LoadingUnloadingPoints.Add(
+                LUPFactory.NewLUP(LoadingUnloadingPointTypeEnum.Loading, //LUP type
+                                    model.FromCityID,
+                                    model.FromPostcodeID,
+                                    model.FromAddress,
+                                    ServiceFactory.NewCompanyService(data).GetUndefined().ID)); // Set undefined company
+
+            //Add Unloading point
+            request.LoadingUnloadingPoints.Add(
+                LUPFactory.NewLUP(LoadingUnloadingPointTypeEnum.Unloading,
+                                    model.ToCityID,
+                                    model.ToPostcodeID,
+                                    model.ToAddress,
+                                    ServiceFactory.NewCompanyService(data).GetUndefined().ID)); // Set undefined company
 
             //Add assignor info.
-            var employeeAssignor = Factory.Employee.EmployeeFactory.NewEmployee();
-            employeeAssignor.GenderID = new GenderService(data).GetDefaultGender().ID;
-            employeeAssignor.FirstName = model.FirstName;
-            employeeAssignor.LastName = model.LastName;
-            employeeAssignor.MiddleName = "-";
-            employeeAssignor.EGN = "-";
-            employeeAssignor.BirthDate = DateTime.MinValue;
+            request.RequestStringProps.Add(RequestFactory.NewProp(CommonValues.RequestAssignor_FirstNamePropName, model.FirstName)); //first name
+            request.RequestStringProps.Add(RequestFactory.NewProp(CommonValues.RequestAssignor_LastNamePropName, model.LastName));  //last name
+            request.RequestStringProps.Add(RequestFactory.NewProp(CommonValues.RequestAssignor_PhoneNumberPropName, model.PhoneNumber)); //mobile phone
+            request.RequestStringProps.Add(RequestFactory.NewProp(CommonValues.RequestAssignor_CompanyPropName, model.CompanyName)); //company name
 
-            request.RequestToEmployees.Add(new Data.Models.Request.RequestToEmployee()
-            {
-                Employee = employeeAssignor,
-                Request = request,
-                RequestToEmployeeRelationType = GetRequestToEmployeeRelationTypeAssignor()
-            });
-            employeeAssignor.EmployeeStringProps.Add(new Data.Models.Employee.EmployeeStringProp()
-            {
-                Name = "Phone number",
-                Value = model.PhoneNumber
-            });
-            employeeAssignor.EmployeeStringProps.Add(new Data.Models.Employee.EmployeeStringProp()
-            {
-                Name = "Company name",
-                Value = model.CompanyName
-            });
-
-            ;//Компания за сега няма да се добавя! 
+            //Компания за сега няма да се добавя! 
             data.Requests.Add(request);
             data.SaveChanges();
         }
@@ -573,6 +562,8 @@ namespace FMS.Services.Implementations.Request
             return result;
         }
 
+
+        //Depricated soon, but not yet
         public RequestToEmployeeRelationType GetRequestToEmployeeRelationTypeAssignor()
         {
             var hasAssignor = data.RequestToEmployeeRelationTypes.Any(t => t.Name == "Assignor");
@@ -807,6 +798,16 @@ namespace FMS.Services.Implementations.Request
             var prop = data.LoadNumericProps.FirstOrDefault(p => p.LoadID == loadID && p.Name == name);
             prop.Value = value;
             data.SaveChanges();
+        }
+
+        public IEnumerable<RequestTypeServiceModel> GetAllRequestTypes()
+        {
+            return data.RequestTypes.Select(t => new RequestTypeServiceModel()
+            {
+                ID = t.ID,
+                Name = t.Name,
+                Description = t.Description
+            });
         }
     }
 }

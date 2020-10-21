@@ -46,13 +46,22 @@ namespace FMS.Services.Implementations.Request
         }
         public Models.Request.RequestTypeServiceModel FindTypeByName(string typeName)
         {
+
             var type = data.RequestTypes.FirstOrDefault(t => t.Name == typeName);
+
+            if (type == null)
+            {
+                Create(typeName, "No info. Created dinamic");
+                type = data.RequestTypes.FirstOrDefault(t => t.Name == typeName);
+            }
+
             return new Models.Request.RequestTypeServiceModel()
             {
                 ID = type.ID,
                 Name = type.Name,
                 Description = type.Description
             };
+
         }
     }
 }

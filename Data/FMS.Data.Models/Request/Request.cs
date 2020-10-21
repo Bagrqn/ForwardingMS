@@ -37,6 +37,6 @@ namespace FMS.Data.Models.Request
 
         public ICollection<RequestNumericProp> RequestNumericProps { get; set; } = new HashSet<RequestNumericProp>();
 
-        public ICollection<RequestStringProps> requestStringProps { get; set; } = new HashSet<RequestStringProps>();
+        public ICollection<RequestStringProps> RequestStringProps { get; set; } = new HashSet<RequestStringProps>();
     }
 }

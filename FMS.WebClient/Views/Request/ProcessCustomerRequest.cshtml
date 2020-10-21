@@ -36,6 +36,15 @@
             <td>To:  </td>
             <td>@Model.ToInfo</td>
         </tr>
+        <tr>
+            <td>Request type: *</td>
+            <td>
+                <select id="RequestTypeDDL"
+                        asp-for="RequestTypeID">
+                    <option value="0">--Select request type--</option>
+                </select>
+            </td>
+        </tr>
     </table>
 
     <h3>Load info</h3>
@@ -143,7 +152,7 @@
     <div>
         <button type="submit" asp-controller="Request" asp-action="SaveChanges" class="btn bz-btn-info">Save changes</button>
         <button type="submit" asp-controller="Request" asp-action="Accept" class="btn bz-btn-info">Accept</button>
-        <button type="submit" asp-controller="Request" asp-action="Delete" class="btn bz-btn-danger btn">Delete</button>
+        <button type="submit" asp-controller="Request" asp-action="Delete" class="btn bz-btn-danger btn float-right">Delete</button>
     </div>
 </form>
 <br />
@@ -158,7 +167,21 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            //PackageTypeDropDown
+            //Request type drop down list
+            var requestTypeDDL = $("#RequestTypeDDL")
+            $.ajax({
+                url: "/api/GetRequestTypes",
+                method: "GET",
+                success: function (data) {
+                    requestTypeDDL.empty();
+                    requestTypeDDL.append($('<option/>', { value: '0', text: '-- Select request type --' }));
+                    $(data).each(function (index, item) {
+                        requestTypeDDL.append($('<option/>', { value: item.id, text: (item.id +' | '+ item.name) }));
+                    });
+                    requestTypeDDL.val('@Model.RequestTypeID');
+                }
+            });
+            //Package type drop down list
             var packageTypeDDL = $("#PackageTypeDDL")
             $.ajax({
                 url: "/api/GetPackageTypes",
@@ -172,7 +195,7 @@
                     packageTypeDDL.val('@Model.PackageTypeID');
                 }
             });
-
+            //Carrire drop down list
             var carrireDDL = $("#CarrierCompanyDDL");
             $.ajax({
                 url: "/api/GetCarrierCompany",
@@ -186,9 +209,7 @@
                     carrireDDL.val('@Model.CarrierConpanyID');
                 }
             });
-
-
-
+            //Payer drop down list
             var payerDDL = $("#PayerCompanyDDL");
             $.ajax({
                 url: "/api/GetPayerCompany",
@@ -197,7 +218,7 @@
                     payerDDL.empty();
                     payerDDL.append($('<option/>', { value: '0', text: '>--Select payer--' }));
                     $(data).each(function (index, item) {
-                        payerDDL.append($('<option/>', { value: item.id, text: (item.id + ' | ' + item.name + ' | ' + item.address) }));
+                        payerDDL.append($('<option/>', { value: item.id, text:item.name }));
                     });
                     payerDDL.val('@Model.PayerConpanyID');
                 }

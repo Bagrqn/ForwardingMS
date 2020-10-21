@@ -53,5 +53,7 @@ namespace FMS.Services.Contracts
         void SaveChanges(FullInfoRequestServiceModel model);
 
         void ProcessToPayed(int reqiestID);
+
+        IEnumerable<RequestTypeServiceModel> GetAllRequestTypes();
     }
 }

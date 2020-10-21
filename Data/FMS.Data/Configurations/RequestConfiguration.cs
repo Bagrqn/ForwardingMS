@@ -28,7 +28,7 @@ namespace FMS.Data.Configurations
             .WithOne(r => r.Request)
             .HasForeignKey(r => r.RequestID);
 
-            request.HasMany(r => r.requestStringProps)
+            request.HasMany(r => r.RequestStringProps)
                 .WithOne(r => r.Request)
                 .HasForeignKey(r => r.RequestID);
 

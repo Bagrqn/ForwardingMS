@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FMS.Services.Models.Request
+﻿namespace FMS.Services.Models.Request
 {
     public class RequestTypeServiceModel
     {

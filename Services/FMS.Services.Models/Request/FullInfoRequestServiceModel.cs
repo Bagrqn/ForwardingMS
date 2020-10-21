@@ -13,6 +13,7 @@
         //Country + City + Address + postcode
         public string ToInfo { get; set; }
 
+        public int RequestTypeID { get; set; }
 
         //Load
         public string LoadComment { get; set; } //Comment, short description, aditional info

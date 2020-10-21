@@ -27,10 +27,17 @@
             <td>@item.ToCountryCity</td>
             <td>@item.LoadName</td>
             <td>
-                @await Html.PartialAsync("_ButtonProcessPartial", new FMS.WebClient.Models.Partial._ButtonProcessPartialViewModel()
+                @if (Model.Status.Code == FMS.Services.CommonValues.RequestDefaultStatusCode)
                 {
-                    RequestID = item.ID
-                })
+                    <a href="/Request/ProcessCustomerRequest?requestID=@item.ID" class="btn bz-btn-info">See more</a>
+                }
+                else
+                {
+                    @await Html.PartialAsync("_ButtonProcessPartial", new FMS.WebClient.Models.Partial._ButtonProcessPartialViewModel()
+                    {
+                        RequestID = item.ID
+                    })
+                }
             </td>
         </tr>
     }

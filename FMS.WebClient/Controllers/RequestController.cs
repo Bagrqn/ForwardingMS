@@ -41,8 +41,8 @@ namespace FMS.WebClient.Controllers
         //Main form
         public IActionResult RequestListFiltered(double statusCode, int page = 1)
         {
-            int statusID = requestStatusService.GetStatusIDByCode(statusCode);
-            var status = requestStatusService.GetStatus(statusID);
+            var status = requestStatusService.GetStatus(statusCode);
+            int statusID = status.ID;
             var requestsList = requestService.GetAllByStatus(statusID, page);
 
             var model = new RequestListingViewModel
@@ -74,9 +74,9 @@ namespace FMS.WebClient.Controllers
             return View(model);
         }
 
-        public IActionResult NewRequestsList(int page = 1)
+        //Deprecated
+        /*public IActionResult NewRequestsList(int page = 1)
         {
-            //Deprecated
             int defaultStatusID = requestStatusService.GetDefaultStatusID(); //When customer create request, request is created with default status. Thats why here we get default status. 
             var newRequests = requestService.GetAllByStatus(defaultStatusID, page);
 
@@ -88,7 +88,7 @@ namespace FMS.WebClient.Controllers
             };
             ;
             return View(model); //return View(newRequests);  
-        }
+        }*/
 
         public IActionResult AcceptedRequests(int page = 1)
         {
@@ -135,7 +135,7 @@ namespace FMS.WebClient.Controllers
         {
             requestService.SaveChanges(model);
             ;
-            return Redirect("/Request/NewRequestsList");
+            return Redirect("/Request/RequestListFiltered");
         }
 
         public IActionResult Accept(FullInfoRequestServiceModel model)
@@ -166,6 +166,12 @@ namespace FMS.WebClient.Controllers
         public IEnumerable<PostcodeListingServiceModel> GetPostcode(int cityID)
         {
             return cityService.GetPostcodes(cityID);
+        }
+
+        [HttpGet("api/GetRequestTypes")]
+        public IEnumerable<RequestTypeServiceModel> GetRequestTypes()
+        {
+            return requestService.GetAllRequestTypes();
         }
 
         [AllowAnonymous]
