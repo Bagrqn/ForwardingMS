@@ -1,14 +1,12 @@
-﻿using FMS.Services.Models.Document;
+﻿using FMS.Services.Models.Report;
 using System.Collections.Generic;
 
 namespace FMS.Services.Contracts
 {
     public interface IReportService
     {
-        List<InvoiceDocumentServiceModel> NotPayedInvoices();
+        List<InvoiceReportServiceModel> Invoices(bool isPayed);
 
-        List<InvoiceDocumentServiceModel> PayedInvoices();
-
-        //List<Model> RequestStatusDuration();
+        List<RequestStatudDurationServiceModel> RequestStatusDuration();
     }
 }

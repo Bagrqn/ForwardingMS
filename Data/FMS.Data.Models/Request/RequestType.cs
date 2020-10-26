@@ -15,6 +15,8 @@ namespace FMS.Data.Models.Request
 
         public bool IsDeleted { get; set; }
 
+        public bool IsAvailable { get; set; }
+
         public ICollection<Request> Requests { get; set; }
     }
 }

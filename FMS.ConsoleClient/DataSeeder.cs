@@ -1,6 +1,7 @@
 ﻿using FMS.Data;
 using FMS.Data.Models;
 using FMS.Data.Models.Request;
+using FMS.Services;
 using FMS.Services.Factory;
 using FMS.Services.Implementations;
 using FMS.Services.Implementations.Request;
@@ -70,7 +71,6 @@ namespace FMS.ConsoleClient
             LoadPackageTypeSeeder();
             Console.WriteLine("Done! ");
 
-
         }
 
         private void DocumentTypesSeed()
@@ -82,12 +82,15 @@ namespace FMS.ConsoleClient
 
         private void SettingsSeeder()
         {
-
             var s = new SettingService(data);
-            s.CreateSetting("RequestStatusSettingFilePath", @"C:\Users\Bagrqn\source\repos\FMS-Repo\Services\FMS.Services\Settings\RequestStatus\RequestStatusSetting.json", "");
+
+            s.CreateSetting(CommonValues.Settings_RequestStatusSequence_SettingName, @"C:\Users\Bagrqn\source\repos\FMS-Repo\Services\FMS.Services\Settings\RequestStatusSequenceSetting.json", "");
+
             s.CreateSetting("_buttonProcessPartialSettingsFilePath", @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.WebClient\Settings\_buttonProcessPartialSettings.json", "");
 
+            s.CreateSetting("_navItemsPartialSettingsFilePath", @"C:\Users\Bagrqn\source\repos\FMS-Repo\FMS.WebClient\Settings\_navItemsPartialSettings.json", "");
 
+            s.CreateSetting(CommonValues.Settings_RequestTypesList_SettingName, @"C:\Users\Bagrqn\source\repos\FMS-Repo\Services\FMS.Services\Settings\RequestTypesListSetting.json", "");
         }
 
         private void RequestStatusesSeeder()

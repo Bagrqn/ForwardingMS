@@ -1,0 +1,34 @@
+{
+  "RequestTypes": [
+    {
+      "Name": "Default",
+      "Description": ""
+    },
+    {
+      "Name": "EU IMPORT",
+      "Description": "Import from EU to EU country."
+    },
+    {
+      "Name": "Non-EU IMPORT",
+      "Description": "Import from non-EU to EU country."
+    },
+    {
+      "Name": "EU EXPORT",
+      "Description": "Export from EU to EU country."
+    },
+    {
+      "Name": "Non-EU EXPORT",
+      "Description": "Export from EU to non-EU country."
+    },
+    {
+      "Name": "Demo",
+      "Description": "Demo."
+    }
+    /*
+    {
+      "Name": "In country",
+      "Description": "Does not leave country"
+    }
+    */
+  ]
+}

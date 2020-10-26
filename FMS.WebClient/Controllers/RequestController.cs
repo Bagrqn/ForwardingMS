@@ -6,6 +6,7 @@ using FMS.Services.Models.Request;
 using FMS.WebClient.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace FMS.WebClient.Controllers
@@ -127,6 +128,7 @@ namespace FMS.WebClient.Controllers
         {
             //Open form to process request
             var fullRequestInfo = requestService.GetRequest(requestID);
+            requestTypeService.CheckForNewTypes();
             ;
             return View(fullRequestInfo);
         }
@@ -143,7 +145,14 @@ namespace FMS.WebClient.Controllers
             //Проверки дали са въведени достатъчно данни. Цена превозвач, клиент, салдо
             //фирма превозвач/ 
             requestService.SaveChanges(model);
-            requestService.ProcessToNextStatus(model.ID);
+            try
+            {
+                requestService.ProcessToNextStatus(model.ID);
+            }
+            catch (System.Exception)
+            {
+                throw new InvalidOperationException("Missing siquence in RequestStatusSequenceSetting.json ");
+            }
             return Redirect("/");
         }
 

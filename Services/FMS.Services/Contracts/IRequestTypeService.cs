@@ -7,5 +7,7 @@
         void Delete(int requestTypeID);
 
         public Models.Request.RequestTypeServiceModel FindTypeByName(string typeName);
+        
+        void CheckForNewTypes();
     }
 }

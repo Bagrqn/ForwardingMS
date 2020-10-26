@@ -1,10 +1,14 @@
 ﻿using FMS.Services.Models.Company;
+using FMS.Services.Models.Document;
+using FMS.Services.Models.Request;
 using System.Collections.Generic;
 
-namespace FMS.Services.Models.Document
+namespace FMS.Services.Models.Report
 {
-    public class InvoiceDocumentServiceModel
+    public class InvoiceReportServiceModel
     {
+        public FullInfoRequestServiceModel Request { get; set; }
+        
         public CompanyListingServiceModel RecieverCompany { get; set; }
 
         public CompanyListingServiceModel SupplierCompany { get; set; }

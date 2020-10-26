@@ -1,0 +1,20 @@
+{
+  "RequestTypes": [
+    {
+      "RequestType": 1,
+      "StatusSequence": [ 0, 1, 1.1, 1.2, 1.3, 2, 3 ] /*status code*/
+    },
+    {
+      "RequestType": 2, //Default
+      "StatusSequence": [ 0 ] /*status code*/
+    },
+    {
+      "RequestType": 5,
+      "StatusSequence": [ 0, 1, 1.1, 1.3, 2, 3 ] /*status code*/
+    },
+    {
+      "RequestType": 7,
+      "StatusSequence": [ 0, 1, 1.2, 1.1, 1.3, 2, 3 ] /*status code*/
+    }
+  ]
+}

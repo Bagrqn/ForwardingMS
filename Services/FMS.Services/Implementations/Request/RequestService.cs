@@ -70,7 +70,7 @@ namespace FMS.Services.Implementations.Request
             var requestType = GetType(requestID);
 
             //Read setting from file for this request type.
-            string filePath = new SettingService(data).GetSetting("RequestStatusSettingFilePath");
+            string filePath = new SettingService(data).GetSetting(CommonValues.Settings_RequestStatusSequence_SettingName);
             string fileText = File.ReadAllText(filePath);
             var json = JObject.Parse(fileText);
 
@@ -135,7 +135,7 @@ namespace FMS.Services.Implementations.Request
             var requestType = GetType(requestID);
 
             //Read setting from file for this request type.
-            string filePath = new SettingService(data).GetSetting("RequestStatusSettingFilePath");
+            string filePath = new SettingService(data).GetSetting(CommonValues.Settings_RequestStatusSequence_SettingName);
             string fileText = File.ReadAllText(filePath);
             var json = JObject.Parse(fileText);
 
@@ -304,6 +304,11 @@ namespace FMS.Services.Implementations.Request
             data.SaveChanges();
         }
 
+        /// <summary>
+        /// Depricated
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
         private void AddRequestToEmployeeRelationType(string name, string description)
         {
             if (string.IsNullOrEmpty(name))
@@ -718,8 +723,12 @@ namespace FMS.Services.Implementations.Request
 
         public void SaveChanges(FullInfoRequestServiceModel model)
         {
-            var load = data.Loads.Where(l => l.RequestID == model.ID).FirstOrDefault();
+            //update reuest type
+            var request = data.Requests.FirstOrDefault(r => r.ID == model.ID);
+            request.RequestTypeID = model.RequestTypeID;
 
+            //update load info
+            var load = data.Loads.Where(l => l.RequestID == model.ID).FirstOrDefault();
             load.Comment = model.LoadComment;
             load.PackageCount = model.PackageCount;
             load.PackageTypeID = model.PackageTypeID;
@@ -746,7 +755,7 @@ namespace FMS.Services.Implementations.Request
             AddMainCompany(model.ID);
 
 
-            //REQUEST NUMERIC PROPS!!!!!!! Service!! 
+            //REQUEST NUMERIC PROPS!!!!!!! RequestPropService!! 
             AddNumericProp(model.ID, "ClientPrice", model.ClientPrice);
             AddNumericProp(model.ID, "CarrierPrice", model.CarrierPrice);
             AddNumericProp(model.ID, "Saldo", model.Saldo);
@@ -802,12 +811,14 @@ namespace FMS.Services.Implementations.Request
 
         public IEnumerable<RequestTypeServiceModel> GetAllRequestTypes()
         {
-            return data.RequestTypes.Select(t => new RequestTypeServiceModel()
-            {
-                ID = t.ID,
-                Name = t.Name,
-                Description = t.Description
-            });
+            return data.RequestTypes
+                .Where(t => t.IsAvailable == true)
+                .Select(t => new RequestTypeServiceModel()
+                {
+                    ID = t.ID,
+                    Name = t.Name,
+                    Description = t.Description
+                });
         }
     }
 }

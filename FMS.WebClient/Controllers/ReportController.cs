@@ -19,18 +19,20 @@ namespace FMS.WebClient.Controllers
 
         public IActionResult NotPayedInvoices()
         {
-            var a = reportService.NotPayedInvoices();
+            var a = reportService.Invoices(false);
             return View(a);
         }
 
         public IActionResult PayedInvoices()
         {
-            return View();
+            var a = reportService.Invoices(true);
+            return View(a);
         }
 
         public IActionResult RequestStatusDuration()
         {
-            return View();
+            var a = reportService.RequestStatusDuration();
+            return View(a);
         }
     }
 }

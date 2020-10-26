@@ -1,8 +1,44 @@
-﻿
+﻿@model List<FMS.Services.Models.Report.InvoiceReportServiceModel>;
 @{
     ViewData["Title"] = "PayedInvoices";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>PayedInvoices</h1>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Request number</th>
+        <th>Info</th>
+        <th>Invoice number</th>
+        <th>Date create</th>
+        <th>Payer name</th>
+        <th>Value</th>
+    </tr>
 
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Request.Number</td>
+            <td>@item.Request.LoadName</td>
+            <td>@item.InvoiceNumber</td>
+            <td>@item.DateTime</td>
+            <td>@item.RecieverCompany.Name</td>
+            <td>
+                @item.Rows.Select(r => r.DocumentRowNumericProps
+                        .FirstOrDefault(predicate => predicate.Name == "TotalPrice").Value).Sum()
+            </td>
+        </tr>
+    }
+    <tr>
+        <td class="bg-dark"></td>
+        <td class="bg-dark"></td>
+        <td class="bg-dark"></td>
+        <td class="bg-dark"></td>
+        <td class="bg-dark"></td>
+        <td class="bg-dark">
+            SUM: @Model.Select(i => i.Rows.Select(r => r.DocumentRowNumericProps
+  .FirstOrDefault(predicate => predicate.Name == "TotalPrice").Value).Sum()).Sum()
+        </td>
+    </tr>
+
+</table>

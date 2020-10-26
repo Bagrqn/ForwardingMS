@@ -9,8 +9,10 @@ namespace FMS.Services.Implementations
     public class SettingService : ISettingService
     {
         private readonly FMSDBContext data;
+
         public SettingService(FMSDBContext data)
             => this.data = data;
+
         public void CreateSetting(string name, string value, string description)
         {
             if (string.IsNullOrEmpty(name))

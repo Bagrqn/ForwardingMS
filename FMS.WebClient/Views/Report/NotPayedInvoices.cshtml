@@ -1,4 +1,4 @@
-﻿@model List<FMS.Services.Models.Document.InvoiceDocumentServiceModel>;
+﻿@model List<FMS.Services.Models.Report.InvoiceReportServiceModel>;
 @{
     ViewData["Title"] = "NotPayedInvoices";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,7 +7,9 @@
 <h1>NotPayedInvoices</h1>
 <table class="table table-bordered table-striped">
     <tr>
-        <th>Number</th>
+        <th>Request number</th>
+        <th>Info</th>
+        <th>Invoice number</th>
         <th>Date create</th>
         <th>Payer name</th>
         <th>Value</th>
@@ -16,6 +18,8 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>@item.Request.Number</td>
+            <td>@item.Request.LoadName</td>
             <td>@item.InvoiceNumber</td>
             <td>@item.DateTime</td>
             <td>@item.RecieverCompany.Name</td>
@@ -24,6 +28,8 @@
         </tr>
     }
     <tr>
+        <td class="bg-dark"></td>
+        <td class="bg-dark"></td>
         <td class="bg-dark"></td>
         <td class="bg-dark"></td>
         <td class="bg-dark"></td>

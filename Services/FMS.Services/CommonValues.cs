@@ -13,5 +13,10 @@
         public const string RequestAssignor_PhoneNumberPropName = "Assignor phone number";
         public const string RequestAssignor_CompanyPropName = "Assignor company";
 
+        public const string Settings_RequestStatusSequence_SettingName = "RequestStatusSequenceSettingFilePath";
+        public const string Settings_RequestTypesList_SettingName = "RequestTypesListSettingFilePath";
+
+        public const string InvoiceProp_Document_PayerIDPropName = "Payer-ID";
+        public const string InvoiceProp_Document_SupplierIDPropName = "Supplier-ID";
     }
 }

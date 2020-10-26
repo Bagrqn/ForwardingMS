@@ -1,4 +1,4 @@
-﻿
+﻿@model List<FMS.Services.Models.Report.RequestStatudDurationServiceModel>;
 @{
     ViewData["Title"] = "RequestStatusDuration";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +6,22 @@
 
 <h1>RequestStatusDuration</h1>
 
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Request number</th>
+        <th>Status code</th>
+        <th>Status name</th>
+        <th>Duration</th>
+        
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> @item.Request.Number</td>
+            <td> @item.Status.Code </td>
+            <td> @item.Status.Name </td>
+            <td> @item.Duration.ToString() </td>
+        </tr>
+    }
+</table>
