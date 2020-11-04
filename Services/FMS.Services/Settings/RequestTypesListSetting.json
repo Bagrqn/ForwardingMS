@@ -19,11 +19,8 @@
     {
       "Name": "Non-EU EXPORT",
       "Description": "Export from EU to non-EU country."
-    },
-    {
-      "Name": "Demo",
-      "Description": "Demo."
     }
+  
     /*
     {
       "Name": "In country",

@@ -4,20 +4,29 @@
     ViewData["Title"] = "Requests list";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Requests list @Model.Status.Name</h1>
-<div>
-    <a href="/Request/NewRequestsList?page=@Model.PreviousPage" class="float-left btn bz-btn-info @(Model.PreviousDisabled?"disabled":"")">Prev</a>
-    <a href="/Request/NewRequestsList?page=@Model.NextPage" class="float-right btn bz-btn-info @(Model.NextDisabled?"disabled":"")">Next</a>
+
+<div class="container-fluid container-decor text-center">
+    <h1>Requests list @Model.Status.Name</h1>
 </div>
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>Number</th>
-        <th>Date create</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Info</th>
-        <th></th>
-    </tr>
+<br />
+
+<div class="btn-group btn-group-justified">
+    <a href="/Request/NewRequestsList?page=@Model.PreviousPage" class="float-left btn btn-primary @(Model.PreviousDisabled?"disabled":"")">Prev</a>
+    <a href="/Request/NewRequestsList?page=@Model.NextPage" class="float-right btn btn-primary @(Model.NextDisabled?"disabled":"")">Next</a>
+</div>
+<br />
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>Date create</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Info</th>
+            <th></th>
+        </tr>
+    </thead>
     @foreach (var item in Model.list)
     {
         <tr>
@@ -42,3 +51,4 @@
         </tr>
     }
 </table>
+

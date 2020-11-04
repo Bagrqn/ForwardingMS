@@ -1,18 +1,15 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Requests list";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Reports</h1>
 
-<ul>
-    <li class="">
-        <a id="white" class="" href="/Report/NotPayedInvoices">Not payed invoices</a>
-    </li>
-    <li class="">
-        <a id="white" class="" href="/Report/PayedInvoices">Payed invoices</a>
-    </li>
-    <li class="">
-        <a id="white" class="" href="/Report/RequestStatusDuration">Request status duration</a>
-    </li>
-</ul>
+<div class="container-fluid container-decor text-center">
+    <h1>Reports</h1>
+</div>
+<br />
+
+<div class="list-group">
+    <a class="list-group-item" href="/Report/NotPayedInvoices">Not payed invoices &nbsp;<span class="label label-danger">1</span></a>
+    <a class="list-group-item" href="/Report/PayedInvoices">Payed invoices &nbsp;<span class="label label-primary">15</span></a>
+    <a class="list-group-item" href="/Report/RequestStatusDuration">Request status duration &nbsp;<span class="label label-warning">3</span></a>
+</div> 

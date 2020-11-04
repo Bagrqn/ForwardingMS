@@ -19,7 +19,7 @@
     {
       "nextStatusCode": 1.3,
       "view": "/Request/NextStatus",
-      "btnText": "Processed!"
+      "btnText": "Request is ready to invoice!"
     },
     {
       "nextStatusCode": 2,

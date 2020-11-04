@@ -1,8 +1,83 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="text-center">
+
+<!-- container (Welcome Section) -->
+<div class="container-fluid container-decor text-center">
     <h1 class="display-4">Welcome to Forwarding Managament System</h1>
-    <p>Here will be added some pictures and text </a>.</p>
+    <p>Here will be added some pictures and text.</p>
 </div>
 
+<!-- container (About Section) -->
+<div class="container-fluid text-center">
+    <div class="row">
+        <div class="col">
+            <h2>About FMS</h2><br>
+            <h4>
+                <strong>MISSION:    </strong>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae lacus tempor, rhoncus tortor non, malesuada nisi. In ac auctor augue, posuere varius enim. Curabitur laoreet euismod massa et condimentum. Aenean leo ipsum, iaculis vel iaculis et, blandit ac erat. Proin consequat mauris id nunc venenatis commodo. Nam rhoncus sem eget felis fringilla efficitur. In vehicula dolor nunc, sed pretium mauris facilisis quis. Aenean faucibus iaculis elit sit amet aliquam. Nulla facilisi. Vestibulum at ipsum quis justo mollis dapibus. Curabitur sed ante eget mauris posuere ultricies id nec felis.
+            </h4><br>
+            <p>
+                <strong>VISION:     </strong>Proin ullamcorper erat euismod tellus ornare, eget faucibus diam cursus. Donec ut ex rutrum, porttitor urna quis, sodales ipsum. Morbi dignissim at mi at blandit. Maecenas fermentum velit dignissim varius mollis. Sed elementum lorem eget enim fermentum, ac mollis mauris interdum. Mauris venenatis, justo id aliquet sagittis, orci magna aliquam lorem, et euismod neque magna sed lacus. Etiam sit amet efficitur risus, sit amet semper odio. Nulla nisl sem, venenatis vitae ultrices sit amet, aliquet quis ligula. Mauris rutrum, ipsum ut tempus dapibus, nibh elit porta enim, eget feugiat velit sem a nunc. Praesent aliquet molestie lacus, ut ultricies nulla feugiat in. Aenean condimentum congue fringilla.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- container (Services Section) -->
+<div class="container-fluid text-center">
+    <h2>SERVICES</h2>
+    <h4>What we offer</h4>
+    <br>
+    <div class="row slideanim">
+        <div class="col-sm-4">
+            <span class="glyphicon glyphicon-off logo-small"></span>
+            <h4>POWER</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+        <div class="col-sm-4">
+            <span class="glyphicon glyphicon-heart logo-small"></span>
+            <h4>LOVE</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+        <div class="col-sm-4">
+            <span class="glyphicon glyphicon-lock logo-small"></span>
+            <h4>JOB DONE</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+    </div>
+    <br><br>
+    <div class="row slideanim">
+        <div class="col-sm-4">
+            <span class="glyphicon glyphicon-leaf logo-small"></span>
+            <h4>GREEN</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+        <div class="col-sm-4">
+            <span class="glyphicon glyphicon-certificate logo-small"></span>
+            <h4>CERTIFIED</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+        <div class="col-sm-4">
+            <span class="glyphicon glyphicon-wrench logo-small"></span>
+            <h4>HARD WORK</h4>
+            <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+    </div>
+</div>
+
+<!-- animation script (Services SlideIn) -->
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            $(".slideanim").each(function () {
+                var pos = $(this).offset().top;
+
+                var winTop = $(window).scrollTop();
+                if (pos < winTop + 3000) {
+                    $(this).addClass("slide");
+                }
+            });
+        });
+    })
+</script>

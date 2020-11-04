@@ -1,53 +1,51 @@
 ﻿<!DOCTYPE html>
+<meta charset="utf-8" />
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FMS.WebClient</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="~/css/bzstyle.css" />
 </head>
-<body>
-    <div class="backgroundMock">
+<body id="myPage">
 
-        <img src="~/images/black.png" />
-
-        <header class="border-bottom">
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light ">
-                <div class="container">
-                    <a id="white" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FMS</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <partial name="_LoginPartial" />
-
-                        @await Html.PartialAsync("_NavItemsPartial", new FMS.WebClient.Models.Partial._NavItemsPartialViewModel())
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <div class="backgroundimg">
-
-            <div class="container">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="glyphicon glyphicon-road" style="padding-right: 5px; color: #337ab7"></span>&#9;FMS
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    @await Html.PartialAsync("_NavItemsPartial", new FMS.WebClient.Models.Partial._NavItemsPartialViewModel())
+                    <partial name="_LoginPartial" />
+                </ul>
             </div>
         </div>
-        <div>
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; 2020 - FMS.WebClient - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>
-        </div>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @RenderSection("Scripts", required: false)
+    </nav>
+
+    <div class="container-fluid container bg-grey">
+        @RenderBody()
     </div>
+
+    <footer class="container-fluid text-center">
+        &copy; 2020 - FMS.WebClient - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

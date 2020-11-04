@@ -9,12 +9,33 @@
       "StatusSequence": [ 0 ] /*status code*/
     },
     {
-      "RequestType": 5,
+      "RequestType": 3, // EU IMPORT
+      "StatusSequence": [ 0, 1, 1.3, 2, 3 ] /*status code*/
+    },
+    {
+      "RequestType": 4, // NON-EU IMPORT
+      "StatusSequence": [ 0, 1, 1.1, 1.2, 1.3, 2, 3 ] /*status code*/
+    },
+    {
+      "RequestType": 5, // EU EXPORT
       "StatusSequence": [ 0, 1, 1.1, 1.3, 2, 3 ] /*status code*/
     },
     {
-      "RequestType": 7,
-      "StatusSequence": [ 0, 1, 1.2, 1.1, 1.3, 2, 3 ] /*status code*/
+      "RequestType": 6, // Non-EU EXPORT
+      "StatusSequence": [ 0, 1, 2, 3 ] /*status code*/
     }
   ]
 }
+
+/*
+ID	  Code	      Name	              Description
+1	     0	        Default	            First status for every request.
+3	     1	        Acepted	            Клиента е потвърдил поръчката
+7	     1,1	      Transit	            На път
+8	     1,2	      Customs processing	Митническа обработка
+9	     1,3	      Ready to invoice	  Готова за фактуриране
+4	     2	        Invoiced	          Фактурирано, но не платено.
+5	     3	        Payed	              Платено
+2	     9	        Deleted	            Отхвърлена заявка
+
+*/

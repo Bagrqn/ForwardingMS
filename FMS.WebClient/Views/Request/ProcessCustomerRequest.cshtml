@@ -1,170 +1,209 @@
 ﻿@model FMS.Services.Models.Request.FullInfoRequestServiceModel;
 @{
-    ViewData["Title"] = "ProcessCustomerRequest";
+    ViewData["Title"] = "Process Customer Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-
-<h1>Process customer request</h1>
-<form asp-controller="Request" asp-action="ProcessedCustomerRequest" method="post">
-    <input asp-for="ID" value="@Model.ID" style="display: none;" />
-    <h3>Request info</h3>
-    <table>
-        <tr>
-            <td>Number: </td>
-            <td>@Model.Number</td>
-        </tr>
-        <tr>
-            <td>Date create: </td>
-            <td>@Model.DateCreate</td>
-        </tr>
-        <tr>
-            <td>Info: </td>
-            <td>@Model.LoadName</td>
-        </tr>
-        <tr>
-            <td>More info: </td>
-            <td><textarea asp-for="LoadComment" data="@Model.LoadComment" type="text"></textarea></td>
-        </tr>
-        <tr>
-            <td>From: </td>
-            <td>@Model.FromInfo</td>
-        </tr>
-        <tr>
-            <td>To:  </td>
-            <td>@Model.ToInfo</td>
-        </tr>
-        <tr>
-            <td>Request type: *</td>
-            <td>
-                <select id="RequestTypeDDL"
-                        asp-for="RequestTypeID">
-                    <option value="0">--Select request type--</option>
-                </select>
-            </td>
-        </tr>
-    </table>
-
-    <h3>Load info</h3>
-    <table>
-        <tr>
-            <td>Package type: *</td>
-            <td>
-                <select id="PackageTypeDDL"
-                        asp-for="PackageTypeID">
-                    <option value="0">--Select package type--</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Package count: *</td>
-            <td><input asp-for="PackageCount" value="@Model.PackageCount" /></td>
-        </tr>
-        <tr>
-            <td>Length: *</td>
-            <td><input asp-for="Length" value="@Model.Length" /></td>
-        </tr>
-        <tr>
-            <td>Width: *</td>
-            <td><input asp-for="Width" value="@Model.Width" /></td>
-        </tr>
-        <tr>
-            <td>Height: *</td>
-            <td><input asp-for="Height" value="@Model.Height" /></td>
-        </tr>
-        <tr>
-            <td>WeightBrut: *</td>
-            <td><input asp-for="WeightBrut" value="@Model.WeightBrut" /></td>
-        </tr>
-        <tr>
-            <td>WeightNet: *</td>
-            <td><input asp-for="WeightNet" value="@Model.WeightNet" /></td>
-        </tr>
-        <tr>
-            <td>Lademeter: *</td>
-            <td><input asp-for="Lademeter" value="@Model.Lademeter" /></td>
-        </tr>
-        <tr>
-            <td>StockType: </td>
-            <td><input asp-for="StockType" value="@Model.StockType" /></td>
-        </tr>
-    </table>
-
-    <h3>Assignor info</h3>
-    <table>
-        <tr>
-            <td>First name: </td>
-            <td>@Model.AssignorFirstName</td>
-        </tr>
-        <tr>
-            <td>Last name: </td>
-            <td>@Model.AssignorLastName</td>
-        </tr>
-        <tr>
-            <td>Phone number: </td>
-            <td>@Model.AssignorPhoneNumber</td>
-        </tr>
-        <tr>
-            <td>Company name: </td>
-            <td>@Model.AssignorCompanyName</td>
-        </tr>
-    </table>
-    <h3> Carrier company </h3>
-    <table>
-        <tr>
-            <td>Carrier company: *</td>
-            <td>
-                <select id="CarrierCompanyDDL"
-                        asp-for="CarrierConpanyID">
-                    <option value="0">--Select carrier company--</option>
-                </select>
-            </td>
-        </tr>
-    </table>
-    <h3>Payer company </h3>
-    <table>
-        <tr>
-            <td>Payer company: *</td>
-            <td>
-                <select id="PayerCompanyDDL"
-                        asp-for="PayerConpanyID">
-                    <option value="0">--Select payer company--</option>
-                </select>
-            </td>
-        </tr>
-    </table>
-
-
-
-    <table>
-        <tr>
-            <td>Carrier price: *</td>
-            <td><input asp-for="CarrierPrice" id="carrierPrice" /></td>
-            <td>Client price: *</td>
-            <td><input asp-for="ClientPrice" id="clientPrice" /></td>
-            <td>Saldo: *</td>
-            <td><input asp-for="Saldo" id="saldo" /></td>
-        </tr>
-    </table>
-
-    <div>
-        <button type="submit" asp-controller="Request" asp-action="SaveChanges" class="btn bz-btn-info">Save changes</button>
-        <button type="submit" asp-controller="Request" asp-action="Accept" class="btn bz-btn-info">Accept</button>
-        <button type="submit" asp-controller="Request" asp-action="Delete" class="btn bz-btn-danger btn float-right">Delete</button>
-    </div>
-</form>
-<br />
-<br />
-<br />
-<br />
-<br />
-
-
-
+<main class="page request-page">
+    <section class="request-form dark bg-grey">
+        <div class="block-heading container-fluid container-decor">
+            <h2>Process customer request</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+        </div>
+        <form class="p-3 mb-2 bg-grey" asp-controller="Request" asp-action="ProcessedCustomerRequest" method="post">
+            <div class="card-details">
+                <input asp-for="ID" value="@Model.ID" style="display: none;" />
+                <div class="col-sm-12">
+                    <h3 class="title">Request info</h3>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Number: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.Number" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Date create: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.DateCreate" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Info: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.LoadName" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>More info: </label>
+                        <textarea class="form-control" asp-for="LoadComment" data="@Model.LoadComment" type="text"></textarea>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>From: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.FromInfo" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>To:  </label>
+                        <input class="form-control" readonly="readonly" value="@Model.ToInfo" />
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Request type: *</label>
+                        <select class="form-control" id="RequestTypeDDL"
+                                asp-for="RequestTypeID">
+                            <option value="0" selected disabled>--Select request type--</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="col-sm-12">
+                    <h3 class="title">Load info</h3>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Package type: *</label>
+                        <select class="form-control" id="PackageTypeDDL" required
+                                asp-for="PackageTypeID">
+                            <option value="" selected disabled>--Select package type--</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Package count: *</label>
+                        <input class="form-control" type="number" min="0" asp-for="PackageCount" value="@Model.PackageCount" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Length: *</label>
+                        <input class="form-control" min="0" asp-for="Length" value="@Model.Length" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Width: *</label>
+                        <input class="form-control" min="0" asp-for="Width" value="@Model.Width" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Height: *</label>
+                        <input class="form-control" min="0" asp-for="Height" value="@Model.Height" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>WeightBrut: *</label>
+                        <input class="form-control" min="0" asp-for="WeightBrut" value="@Model.WeightBrut" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>WeightNet: *</label>
+                        <input class="form-control" min="0" asp-for="WeightNet" value="@Model.WeightNet" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Lademeter: *</label>
+                        <input class="form-control" min="0" asp-for="Lademeter" value="@Model.Lademeter" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>StockType: </label>
+                        <input class="form-control" type="text" asp-for="StockType" value="@Model.StockType" />
+                    </div>
+                </div>
+                <br />
+                <div class="col-sm-12">
+                    <h3 class="title">Assignor info</h3>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>First name: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.AssignorFirstName" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Last name: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.AssignorLastName" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Phone number: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.AssignorPhoneNumber" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Company name: </label>
+                        <input class="form-control" readonly="readonly" value="@Model.AssignorCompanyName" />
+                    </div>
+                </div>
+                <br />
+                <div class="col-sm-12">
+                    <h3 class="title"> Carrier company </h3>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Carrier company: *</label>
+                        <select class="form-control" id="CarrierCompanyDDL"
+                                asp-for="CarrierConpanyID">
+                            <option value="" selected disabled>--Select carrier company--</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="col-sm-12">
+                    <h3 class="title">Payer company </h3>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Payer company: *</label>
+                        <select class="form-control" id="PayerCompanyDDL" required
+                                asp-for="PayerConpanyID">
+                            <option value="" selected disabled>--Select payer company--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Carrier price: *</label>
+                        <input class="form-control" type="number" min="1" asp-for="CarrierPrice" id="carrierPrice" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Client price: *</label>
+                        <input class="form-control" type="number" min="1" asp-for="ClientPrice" id="clientPrice" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Saldo: *</label>
+                        <input class="form-control" type="number" min="1" readonly="readonly" asp-for="Saldo" id="saldo" />
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <h3 class="title"></h3>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group" style="padding-right: 10px">
+                            <button type="submit" asp-controller="Request" asp-action="SaveChanges" formnovalidate class="btn btn-primary">Save changes</button>
+                        </div>
+                        <div class="btn-group" style="padding-right: 10px">
+                            <button type="submit" asp-controller="Request" asp-action="Accept" class="btn btn-primary">Accept</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete">Delete</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h4>
+                                    Are you sure you want to delete this?
+                                </h4>
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group" style="padding-right: 10px">
+                                        <button type="submit" asp-controller="Request" asp-action="Delete" class="btn btn-danger">Delete</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
 
 @section scripts {
+    <script>
+        $('#confirm-delete').on('show.bs.modal', function (e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        });
+    </script>
+
     <script>
         $(document).ready(function () {
             //Request type drop down list

@@ -1,155 +1,186 @@
 ﻿@model FMS.Services.Models.Request.CurtomerRequestModel;
 @{
-    ViewData["Title"] = "NewCustomerRequest";
+    ViewData["Title"] = "New Customer Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>New customer request</h1>
-
-<!-- Форма за създаване на Request-и от клиент. Без регистрация.-->
-<form asp-controller="Request" asp-action="Create" method="post">
-    <!-- Location from-->
-    <div>
-        <h3>From where</h3>
-        <div class="d-inline">
-            <label asp-for="FromCountryID">From country: *</label>
-            <select id="FromCountryIdDropDown"
-                    asp-for="FromCountryID"
-                    asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
-                <option value="0">--Select country--</option>
-            </select>
-        </div>
-        <div class="d-inline">
-            <label asp-for="FromCityID">From city: *</label>
-            <select id="FromCityIdDropDown"
-                    asp-for="FromCityID">
-                <option value="0">--Select city--</option>
-            </select>
-        </div>
-        <div class="d-inline">
-            <label asp-for="FromPostcodeID">From postcode: *</label>
-            <select id="FromPostcodeIDDropDown"
-                    asp-for="FromPostcodeID">
-                <option value="0">--Select city--</option>
-            </select>
-        </div>
-        <div class="d-inline">
-            <label asp-for="FromAddress">FromAddress: *</label>
-            <input asp-for="FromAddress" />
-        </div>
-    </div>
-    <!-- Location to-->
-    <div>
-        <h3>To where</h3>
-        <div class="d-inline">
-            <label asp-for="ToCountryID">To country: *</label>
-            <select id="ToCountryIdDropDown"
-                    asp-for="ToCountryID"
-                    asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
-                <option value="0">--Select country--</option>
-            </select>
-        </div>
-        <div class="d-inline">
-            <label asp-for="ToCityID">To city: *</label>
-            <select id="ToCityIdDropDown"
-                    asp-for="ToCityID">
-                <option value="0">--Select city--</option>
-            </select>
-        </div>
-        <div class="d-inline">
-            <label asp-for="ToPostcodeID">To postcode: *</label>
-            <select id="ToPostcodeIDDropDown"
-                    asp-for="ToPostcodeID">
-                <option value="0">--Select city--</option>
-            </select>
-        </div>
-        <div class="d-inline">
-            <label asp-for="ToAddress">ToAddress: *</label>
-            <input asp-for="ToAddress" />
-        </div>
-    </div>
-    <!-- Load info-->
-    <div>
-        <h3>Load info</h3>
-        <div class="d-inline">
-            <label asp-for="LoadName">Load short description: *</label>
-            <input asp-for="LoadName" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="LoadComment">Comment, short description, aditional info</label>
-            <textarea asp-for="LoadComment" type="text"></textarea>
-        </div>
-        <div>
-            <label asp-for="PackageTypeID">Package type: *</label>
-            <select id="PackageTypeDDL"
-                    asp-for="PackageTypeID">
-                <option value="0">--Select packkage type--</option>
-            </select>
-        </div>
-        <div>
-            <label asp-for="PackageCount">Package count: *</label>
-            <input asp-for="PackageCount" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="Length">Length: </label>
-            <input asp-for="Length" />
-        </div>
-        <!--    PROPS   -->
-        <div class="d-inline">
-            <label asp-for="Width">Width: </label>
-            <input asp-for="Width" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="Height">Height: </label>
-            <input asp-for="Height" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="WeightBrut">WeightBruto: </label>
-            <input asp-for="WeightBrut" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="WeightNet">WeightNet: </label>
-            <input asp-for="WeightNet" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="Lademeter">Lademeter: </label>
-            <input asp-for="Lademeter" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="StockType">StockType: </label>
-            <input asp-for="StockType" />
-        </div>
-    </div>
-    <!--    Customer info   -->
-    <div class="d-inline">
-        <div class="d-inline">
-            <label asp-for="FirstName">FirstName: *</label>
-            <input asp-for="FirstName" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="LastName">LastName: *</label>
-            <input asp-for="LastName" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="PhoneNumber">PhoneNumber: *</label>
-            <input asp-for="PhoneNumber" />
-        </div>
-        <div class="d-inline">
-            <label asp-for="CompanyName">CompanyName: *</label>
-            <input asp-for="CompanyName" />
-        </div>
-    </div>
-
-    <div>
-        <button type="submit" class="btn bz-btn-info">Create</button>
-    </div>
-</form>
+    <main class="page request-page">
+        <section class="request-form dark bg-grey">
+                <div class="block-heading container-fluid container-decor">
+                    <h2>New customer request</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+                </div>
+                <form class="p-3 mb-2 bg-grey" asp-controller="Request" asp-action="Create" method="post">
+                    <div class="card-details">
+                        <!-- Location from-->
+                        <div class="form-row">
+                            <div class="col-sm-12">
+                                <h3 class="title">From where</h3>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="FromCountryID">From country: *</label>
+                                <select class="form-control" id="FromCountryIdDropDown" required
+                                        asp-for="FromCountryID"
+                                        asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
+                                    <option value="" selected disabled>--Select country--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="FromCityID">From city: *</label>
+                                <select class="form-control" id="FromCityIdDropDown" required
+                                        asp-for="FromCityID">
+                                    <option value="" selected disabled>--Select city--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="FromPostcodeID">From postcode: *</label>
+                                <select class="form-control" id="FromPostcodeIDDropDown" required
+                                        asp-for="FromPostcodeID">
+                                    <option value="" selected disabled>--Select postcode--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="FromAddress">FromAddress: *</label>
+                                <input class="form-control" required asp-for="FromAddress" />
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Location to-->
+                        <div class="form-row">
+                            <div class="col-sm-12">
+                                <h3 class="title">To where</h3>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="ToCountryID">To country: *</label>
+                                <select class="form-control" id="ToCountryIdDropDown" required
+                                        asp-for="ToCountryID"
+                                        asp-items="@(new SelectList(Model.countryList,"ID", "Name"))">
+                                    <option value="" selected disabled>--Select country--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="ToCityID">To city: *</label>
+                                <select class="form-control" id="ToCityIdDropDown" required
+                                        asp-for="ToCityID">
+                                    <option value="" selected disabled>--Select city--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="ToPostcodeID">To postcode: *</label>
+                                <select class="form-control" id="ToPostcodeIDDropDown" required
+                                        asp-for="ToPostcodeID">
+                                    <option value="" selected disabled>--Select postcode--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="ToAddress">ToAddress: *</label>
+                                <input class="form-control" required asp-for="ToAddress" />
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Load info-->
+                        <div class="form-row">
+                            <div class="col-sm-12">
+                                <h3 class="title">Load info</h3>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="LoadName">Load short description: *</label>
+                                <input class="form-control" required asp-for="LoadName" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="PackageTypeID">Package type: *</label>
+                                <select class="form-control" id="PackageTypeDDL" required
+                                        asp-for="PackageTypeID">
+                                    <option value="" selected disabled>--Select packkage type--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="PackageCount">Package count: *</label>
+                                <input class="form-control"  type="number" min="0" asp-for="PackageCount" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label asp-for="LoadComment">Comment, short description, aditional info</label>
+                                <textarea class="form-control" asp-for="LoadComment" type="text"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <h3 class="title"></h3>
+                        </div>
+                        <br />
+                        <!--    PROPS   -->
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label asp-for="Length">Length: </label>
+                                <input class="form-control" asp-for="Length" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="Width">Width: </label>
+                                <input class="form-control" asp-for="Width" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="Height">Height: </label>
+                                <input class="form-control" asp-for="Height" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="WeightBrut">WeightBruto: </label>
+                                <input class="form-control" asp-for="WeightBrut" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="WeightNet">WeightNet: </label>
+                                <input class="form-control" asp-for="WeightNet" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="Lademeter">Lademeter: </label>
+                                <input class="form-control" asp-for="Lademeter" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="StockType">StockType: </label>
+                                <input class="form-control" asp-for="StockType" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <h3 class="title"></h3>
+                        </div>
+                        <br />
+                        <!--    Customer info   -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="FirstName">FirstName: *</label>
+                                <input class="form-control" required asp-for="FirstName" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="LastName">LastName: *</label>
+                                <input class="form-control" required asp-for="LastName" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="PhoneNumber">PhoneNumber: *</label>
+                                <input class="form-control" required asp-for="PhoneNumber" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="CompanyName">CompanyName: *</label>
+                                <input class="form-control" required asp-for="CompanyName" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <h3 class="title"></h3>
+                        </div>
+                        <br />
+                        <div class="form-row">
+                                <button type="submit" class="btn btn-primary" style="width: 100%">Create</button>
+                        </div>
+                    </div>
+                </form>
+        </section>
+    </main>
 
 @section scripts {
     <script>
         $(document).ready(function () {
             //From location
-
             var fromCountryDDL = $("#FromCountryIdDropDown");
             var fromCityDDL = $("#FromCityIdDropDown");
             var fromPostcodeDDL = $("#FromPostcodeIDDropDown");

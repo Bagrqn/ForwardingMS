@@ -7,13 +7,13 @@
     if (@Model.StatusCode != null)
     {
         <li class="nav-item">
-            <a id="white" class="nav-link" href="@Model.View?statusCode=@Model.StatusCode.Replace(",",".")">@Model.Text</a>
+            <a class="nav-link" href="@Model.View?statusCode=@Model.StatusCode.Replace(",",".")">@Model.Text</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a id="white" class="nav-link" href="@Model.View">@Model.Text</a>
+            <a class="nav-link" href="@Model.View">@Model.Text</a>
         </li>
     }
 }
